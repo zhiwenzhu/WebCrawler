@@ -18,7 +18,7 @@ public class GetUrls {
         try {
             parser = new Parser(url);
         }catch (ParserException e){
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println("Please enter a correct url");
 
         }

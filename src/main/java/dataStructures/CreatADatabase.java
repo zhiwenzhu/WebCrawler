@@ -17,7 +17,7 @@ public class CreatADatabase {
         return env;
     }
 
-    Database db;
+    public Database db;
     private EnvironmentConfig envConfig;
     private DatabaseConfig dbCongig;
     private String fileName;

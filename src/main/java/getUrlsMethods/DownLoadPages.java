@@ -16,6 +16,35 @@ import java.io.IOException;
  * Created by chu on 16-8-23.
  */
 public class DownLoadPages {
+    int i = 0;
+    File file;
+
+
+    public void makeNewFile(){
+        file = new File("file"+i);
+        if (!file.exists()){
+            file.mkdirs();
+            i++;
+        }
+    }
+
+    public long getDirSize(){
+        File file = new File("file"+i);
+        long size = 0;
+        if (file.exists() && file.isDirectory()){
+            size = file.length();
+            File[] files = file.listFiles();
+            for (int j = 0;j < files.length;j++){
+                if (files[j].isFile()){
+                    size += files[j].length();
+                }
+
+            }
+        }
+
+        return size;
+    }
+
     public String getPagename(String url,String contentTYpe){
         url = url.substring(7);
         if (contentTYpe.indexOf("html") != -1){
@@ -26,9 +55,12 @@ public class DownLoadPages {
         }
     }
 
-    public void saveToLocal(byte[] data,String pagePath){
+    public void saveToLocal(byte[] data,String pageName){
+        if (getDirSize() > 1000000000){
+            makeNewFile();
+        }
         try {
-            DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(new File(pagePath)));
+            DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(new File(file,pageName)));
 
             for (int i = 0; i < data.length; i++) {
                 outputStream.write(data[i]);
@@ -41,7 +73,7 @@ public class DownLoadPages {
     }
 
     public String downLoadPage(String url){
-        String pagePath = null;
+        String pageName = null;
         HttpClient httpClient = new HttpClient();
         httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(5000);
         GetMethod getMethod = new GetMethod(url);
@@ -53,14 +85,14 @@ public class DownLoadPages {
             int statusCode = httpClient.executeMethod(getMethod);
             if (statusCode != HttpStatus.SC_OK){
                 System.err.println("Method failed:" + getMethod.getStatusLine());
-                pagePath = null;
+                pageName = null;
             }
 
             byte[] responseBody = getMethod.getResponseBody();
 
-            pagePath = "temp\\" + getPagename(url,getMethod.getResponseHeader("Content-Type").getValue());
+            pageName = "temp\\" + getPagename(url,getMethod.getResponseHeader("Content-Type").getValue());
 
-            saveToLocal(responseBody,pagePath);
+            saveToLocal(responseBody,pageName);
 
         }catch (HttpException e){
             e.printStackTrace();
@@ -68,8 +100,7 @@ public class DownLoadPages {
             e.printStackTrace();
         }
 
-
-        return pagePath;
+        return pageName;
     }
 
 

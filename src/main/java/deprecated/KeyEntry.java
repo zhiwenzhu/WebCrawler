@@ -1,15 +1,20 @@
-package dataStructures;
+package deprecated;
 
 import com.sleepycat.bind.EntryBinding;
 import com.sleepycat.bind.serial.SerialBinding;
 import com.sleepycat.bind.serial.StoredClassCatalog;
 import com.sleepycat.bind.tuple.TupleBinding;
 import com.sleepycat.je.DatabaseEntry;
+import dataStructures.CreatADatabase;
 
 import java.net.URL;
 
 /**
  * Created by chu on 16-8-22.
+ */
+
+/**
+ * 该类被UrlBinding取代；
  */
 public class KeyEntry {
     static long value = 0;
