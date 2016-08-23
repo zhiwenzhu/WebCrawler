@@ -20,10 +20,8 @@ public class GetUrls {
         }catch (ParserException e){
             e.printStackTrace();
             System.out.println("Please enter a correct url");
+
         }
-
-
-
     }
 
 }

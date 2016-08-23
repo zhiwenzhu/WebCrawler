@@ -4,9 +4,7 @@ import com.sleepycat.bind.EntryBinding;
 import com.sleepycat.bind.serial.SerialBinding;
 import com.sleepycat.bind.serial.StoredClassCatalog;
 import com.sleepycat.bind.tuple.TupleBinding;
-import com.sleepycat.je.Database;
 import com.sleepycat.je.DatabaseEntry;
-import sun.util.cldr.CLDRLocaleProviderAdapter;
 
 import java.net.URL;
 
@@ -15,20 +13,20 @@ import java.net.URL;
  */
 public class KeyEntry {
     static long value = 0;
-    SavedData savedData;
-    DatabaseEntry theKey;
-    DatabaseEntry theData;
-    StoredClassCatalog classCatalog;
-    EntryBinding keyBinding;
+    private CreatADatabase creatADatabase;
+    private DatabaseEntry theKey;
+    private DatabaseEntry theData;
+    private StoredClassCatalog classCatalog;
+    private EntryBinding keyBinding;
 
     public KeyEntry(){
 
     }
 
     public DatabaseEntry urlToEntry(URL url,String fileName,String setName){
-        savedData = new SavedData(fileName,setName);
+        creatADatabase = new CreatADatabase(fileName,setName);
 
-        classCatalog = new StoredClassCatalog(savedData.db);
+        classCatalog = new StoredClassCatalog(creatADatabase.db);
         keyBinding = new SerialBinding(classCatalog,URL.class);
 
         theKey = new DatabaseEntry();

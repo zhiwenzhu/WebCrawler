@@ -10,17 +10,22 @@ import java.io.File;
 /**
  * Created by chu on 16-8-22.
  */
-public class SavedData {
+public class CreatADatabase {
     Environment env;
+
+    public Environment getEnv() {
+        return env;
+    }
+
     Database db;
-    EnvironmentConfig envConfig;
-    DatabaseConfig dbCongig;
+    private EnvironmentConfig envConfig;
+    private DatabaseConfig dbCongig;
     private String fileName;
     private File file;
-    private String setName;
+    private String dbName;
 
-    private void setSetName(String name){
-        setName = name;
+    private void setDbName(String name){
+        dbName = name;
     }
 
     private void setFile(String name){
@@ -33,9 +38,10 @@ public class SavedData {
 
 
 
-    public SavedData(String fileName,String setName){
+
+    public CreatADatabase(String fileName, String dbName){
         setFile(fileName);
-        setSetName(setName);
+        setDbName(dbName);
         try {
             envConfig = new EnvironmentConfig();
             envConfig.setAllowCreate(true);
@@ -46,7 +52,7 @@ public class SavedData {
             dbCongig.setAllowCreate(true);
             dbCongig.setTransactional(true);
 
-            db = env.openDatabase(null,setName,dbCongig);
+            db = env.openDatabase(null,dbName,dbCongig);
         }catch (Exception e){
             e.printStackTrace();
         }
