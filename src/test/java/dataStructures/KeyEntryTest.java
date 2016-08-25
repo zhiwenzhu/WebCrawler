@@ -8,16 +8,11 @@ import com.sleepycat.bind.tuple.TupleInput;
 import com.sleepycat.bind.tuple.TupleOutput;
 import com.sleepycat.je.*;
 //import com.sun.java.util.jar.pack.Package;
-import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
-import org.junit.Assert;
 import org.junit.Test;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by chu on 16-8-23.
