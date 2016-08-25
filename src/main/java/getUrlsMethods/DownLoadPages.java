@@ -133,23 +133,23 @@ public class DownLoadPages {
 //    }
 
 
-    public boolean pageExist(String url,String fileName,String dbName){
+    public boolean pageExist(String url,Environment env,Database db){
         boolean exist = false;
-        Environment env = null;
-        Database db = null;
-        Cursor cursor = null;
+//        Environment env = null;
+//        Database db = null;
+//        Cursor cursor = null;
 
-        try {
-            File file = new File(fileName);
-            if (file.exists()){
-                env = new Environment(new File(fileName),null);
-                db = env.openDatabase(null,dbName,null);
-                cursor = db.openCursor(null,null);
-            }
-
-        }catch (DatabaseException e){
-            e.printStackTrace();
-        }
+//        try {
+//            File file = new File(fileName);
+//            if (file.exists()){
+//                env = new Environment(new File(fileName),null);
+//                db = env.openDatabase(null,dbName,null);
+//                cursor = db.openCursor(null,null);
+//            }
+//
+//        }catch (DatabaseException e){
+//            e.printStackTrace();
+//        }
 
         HttpClient httpClient = new HttpClient();
         httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(5000);
@@ -185,6 +185,8 @@ public class DownLoadPages {
 
         EntryBinding keyBinding = TupleBinding.getPrimitiveBinding(String.class);
         keyBinding.objectToEntry(pageMd5Result,keyEntry);
+
+        Cursor cursor = db.openCursor(null,null);
 
         OperationStatus status = cursor.getSearchKey(keyEntry,dataEntry,LockMode.DEFAULT);
 

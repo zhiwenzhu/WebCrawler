@@ -11,13 +11,17 @@ import java.io.File;
  * Created by chu on 16-8-22.
  */
 public class CreatADatabase {
-    Environment env;
+    private Environment env;
+
+    public Database getDb() {
+        return db;
+    }
 
     public Environment getEnv() {
         return env;
     }
 
-    public Database db;
+    private Database db;
     private EnvironmentConfig envConfig;
     private DatabaseConfig dbCongig;
     private String fileName;

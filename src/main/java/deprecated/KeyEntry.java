@@ -31,7 +31,7 @@ public class KeyEntry {
     public DatabaseEntry urlToEntry(URL url,String fileName,String setName){
         creatADatabase = new CreatADatabase(fileName,setName);
 
-        classCatalog = new StoredClassCatalog(creatADatabase.db);
+        classCatalog = new StoredClassCatalog(creatADatabase.getDb());
         keyBinding = new SerialBinding(classCatalog,URL.class);
 
         theKey = new DatabaseEntry();

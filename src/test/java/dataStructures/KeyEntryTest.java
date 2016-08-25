@@ -34,13 +34,13 @@ public class KeyEntryTest {
             e.printStackTrace();
         }
 
-        StoredClassCatalog classCatalog = new StoredClassCatalog(adatabase.db);
+        StoredClassCatalog classCatalog = new StoredClassCatalog(adatabase.getDb());
         EntryBinding binding = new SerialBinding(classCatalog,URL.class);
         DatabaseEntry theData = new DatabaseEntry();
 
         binding.objectToEntry(url,theData);
 
-        System.out.println(adatabase.db.count());
+        System.out.println(adatabase.getDb().count());
         int i = 1;
         DatabaseEntry theData1 = new DatabaseEntry();
         EntryBinding binding1 = TupleBinding.getPrimitiveBinding(int.class);
@@ -49,13 +49,13 @@ public class KeyEntryTest {
 
 
 
-        adatabase.db.put(null,theData,theData1);
+        adatabase.getDb().put(null,theData,theData1);
 
-        System.out.println(adatabase.db.count());
+        System.out.println(adatabase.getDb().count());
 
         try {
-            if (adatabase.db != null){
-                adatabase.db.close();
+            if (adatabase.getDb() != null){
+                adatabase.getDb().close();
             }
 
             if (adatabase.getEnv() != null){
