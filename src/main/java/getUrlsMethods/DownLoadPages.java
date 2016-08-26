@@ -194,32 +194,40 @@ public class DownLoadPages {
             exist = true;
         }
 
-        try {
-            if (cursor != null){
-                cursor.close();
-            }
-            if (db != null){
-                db.close();
-            }
-
-            if (env != null){
-                env.close();
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        try {
+//            if (cursor != null){
+//                cursor.close();
+//            }
+//            if (db != null){
+//                db.close();
+//            }
+//
+//            if (env != null){
+//                env.close();
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
         return exist;
     }
 
 
-    public String downLoadPage(String url){
+    public boolean downLoadPage(String url,Environment env,Database db){
+        boolean success = false;
 
-        if (responseBody != null){
+//        if (responseBody != null){
+//            saveToLocal(responseBody,pageName);
+//        }
+//
+//        return pageName;
+
+        if (!pageExist(url,env,db) && responseBody != null){
             saveToLocal(responseBody,pageName);
+            success = true;
         }
 
-        return pageName;
+        return success;
 
     }
 

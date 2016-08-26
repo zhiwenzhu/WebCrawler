@@ -1,11 +1,12 @@
-package deprecated;
+package dataStructures;
 
 import com.sleepycat.bind.EntryBinding;
 import com.sleepycat.bind.serial.SerialBinding;
 import com.sleepycat.bind.serial.StoredClassCatalog;
 import com.sleepycat.bind.tuple.TupleBinding;
 import com.sleepycat.je.DatabaseEntry;
-import dataStructures.CreatADatabase;
+import dataStructure.CreatADatabase;
+
 
 import java.net.URL;
 
