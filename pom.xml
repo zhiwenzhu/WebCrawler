@@ -16,6 +16,7 @@
         <module>crawler-file-store</module>
         <module>crawler-url-store</module>
         <module>crawler-bootstrap</module>
+        <module>crawler-common</module>
     </modules>
 
     <dependencies>
