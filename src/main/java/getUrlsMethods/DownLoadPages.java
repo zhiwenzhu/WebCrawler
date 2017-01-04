@@ -9,7 +9,7 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.codehaus.groovy.vmplugin.v7.IndyInterface;
+//import org.codehaus.groovy.vmplugin.v7.IndyInterface;
 
 import java.io.DataOutputStream;
 import java.io.File;
