@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhiwen.crawler.file.store.dao.FileMessageDao">
+    <sql id="keys">
+        Title,
+        Keywords,
+        Description,
+        Url
+    </sql>
+
+
+    <insert id="addFileMessage" parameterType="com.zhiwen.crawler.file.store.model.FileMessage">
+        INSERT INTO PageMessage
+        (Title,
+        Keywords,
+        Description,
+        Url)
+        VALUES
+        (#{title},
+        #{keywords},
+        #{description},
+        #{url})
+    </insert>
+
+    <select id="getFileMessageById" parameterType="int" resultType="com.zhiwen.crawler.file.store.model.FileMessage">
+        SELECT
+        <include refid="keys"/>
+        FROM PageMessage
+        WHERE Id = #{id}
+    </select>
+
+    <select id="getFileMessageByUrl" parameterType="String" resultType="com.zhiwen.crawler.file.store.model.FileMessage">
+        SELECT
+        <include refid="keys"/>
+        FROM PageMessage
+        WHERE
+        Url = #{url}
+    </select>
+
+</mapper>

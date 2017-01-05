@@ -9,4 +9,6 @@ public interface FileMessageDao {
     int addFileMessage(FileMessage fm);
 
     FileMessage getFileMessageById(int id);
+
+    FileMessage getFileMessageByUrl(String url);
 }

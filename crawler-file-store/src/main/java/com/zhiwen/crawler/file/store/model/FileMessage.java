@@ -8,9 +8,11 @@ public class FileMessage {
 
     private String title;
 
-    private String keyWords;
+    private String keywords;
 
     private String description;
+
+    private String url;
 
     public int getId() {
         return id;
@@ -28,12 +30,12 @@ public class FileMessage {
         this.title = title;
     }
 
-    public String getKeyWords() {
-        return keyWords;
+    public String getKeywords() {
+        return keywords;
     }
 
-    public void setKeyWords(String keyWords) {
-        this.keyWords = keyWords;
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 
     public String getDescription() {
@@ -42,5 +44,13 @@ public class FileMessage {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

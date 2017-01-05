@@ -1,4 +1,4 @@
-package com.zhiwen.crawer.fetcher;
+package com.zhiwen.crawler.fetcher;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
