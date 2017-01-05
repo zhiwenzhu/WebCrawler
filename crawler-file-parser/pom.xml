@@ -40,6 +40,12 @@
             <artifactId>spring-context-support</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.zhiwen.crawler</groupId>
+            <artifactId>crawler-url-store</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 

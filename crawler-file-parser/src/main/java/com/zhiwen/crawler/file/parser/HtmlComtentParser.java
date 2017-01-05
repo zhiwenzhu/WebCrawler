@@ -4,13 +4,12 @@ import com.zhiwen.crawler.fetcher.FetcherPageContent;
 import com.zhiwen.crawler.file.store.dao.FileMessageDao;
 import com.zhiwen.crawler.file.store.model.FileMessage;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
+import com.zhiwen.crawler.url.store.model.Urls;
+import com.zhiwen.crawler.url.store.spi.UrlsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +21,8 @@ import java.util.regex.Pattern;
 public class HtmlComtentParser {
     @Autowired
     private FileMessageService fileMessageService;
+    @Autowired
+    private UrlsService urlsService;
 
 
     //调用FetcherPageContent的静态方法通过给定的url得到网页内容，以字符串形式返回；
@@ -118,9 +119,37 @@ public class HtmlComtentParser {
         System.out.println("2:" + fm.getUrl());
         System.out.println("3:" + fm.getKeywords());
         System.out.println("4:" + fm.getDescription());
-        fileMessageService.addFileMessage(fm);
+        //把页面提取出来的信息存入持久层；先判断书库库中是否有该页面信息
+        //多线程时，此处应该加锁
+        if (fileMessageService.getFileMessageByUrl(url) == null) {
+            fileMessageService.addFileMessage(fm);
+
+            List<Urls> urlss = genUrls(urlSet, url);
+            urlsService.addUrlss(urlss);
+        }
+
+    }
+
+    private List<Urls> genUrls(Set<String> urls, String parentUrl) {
+        List<Urls> urlss = new LinkedList<Urls>();
+        for (String url : urls) {
+
+            if (fileMessageService.getFileMessageByUrl(url) == null && urlsService.getUrlsByUrl(url) == null
+                    && urlsService.getUrlsByParentUrl(url) == null) {
+                Urls temp = new Urls();
+                temp.setUrl(url);
+                temp.setParentUrl(parentUrl);
+                urlss.add(temp);
+            }
+        }
+
+        return urlss;
+    }
 
 
+    private String outUslessCharOfUrl(String url) {
+        url = url.replaceAll("href=|\"|>.*|<.*", "");
+        return url;
     }
 
     public static void main(String[] args) {
@@ -131,12 +160,6 @@ public class HtmlComtentParser {
 //        hp.run("http://news.baidu.com/");
         hp.run("http://tool.oschina.net/apidocs/apidoc?api=jdk-zh");
 
-    }
-
-
-    private String outUslessCharOfUrl(String url) {
-        url = url.replaceAll("href=|\"|>.*|<.*", "");
-        return url;
     }
 
 }

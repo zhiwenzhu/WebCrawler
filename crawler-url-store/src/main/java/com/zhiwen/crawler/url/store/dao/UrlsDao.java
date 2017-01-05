@@ -15,4 +15,6 @@ public interface UrlsDao {
     Urls getUrlsById(int id);
 
     List<Urls> getUrlsByParentUrl(String parentUrl);
+
+    Urls getUrlsByUrl(String url);
 }

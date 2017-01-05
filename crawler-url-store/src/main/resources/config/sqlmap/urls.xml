@@ -42,4 +42,11 @@
         WHERE ParentUrl = #{parentUrl}
     </select>
 
+    <select id="getUrlsByUrl" parameterType="String" resultType="com.zhiwen.crawler.url.store.model.Urls">
+        SELECT
+        <include refid="keys"/>
+        FROM Urls
+        WHERE Url = #{url}
+    </select>
+
 </mapper>

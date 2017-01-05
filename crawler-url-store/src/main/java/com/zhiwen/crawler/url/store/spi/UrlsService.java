@@ -2,6 +2,7 @@ package com.zhiwen.crawler.url.store.spi;
 
 import com.zhiwen.crawler.url.store.model.Urls;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -15,4 +16,6 @@ public interface UrlsService {
     Urls getUrlsById(int id);
 
     List<Urls> getUrlsByParentUrl(String parentUrl);
+
+    Urls getUrlsByUrl(String url);
 }
