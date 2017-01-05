@@ -37,7 +37,8 @@ public class FetcherPageContent {
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
+//                    sb.append(line).append("\n");
+                    sb.append(line);
                 }
                 is.close();
                 result = sb.toString();
