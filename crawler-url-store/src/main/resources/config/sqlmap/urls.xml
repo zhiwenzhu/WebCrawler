@@ -14,7 +14,7 @@
         ParentUrl)
         VALUES
         (#{url},
-         #{parenturl}
+         #{parentUrl}
         )
     </insert>
 
@@ -28,14 +28,14 @@
         </foreach>
     </insert>
 
-    <select id="getUrlById" parameterType="int" resultType="com.zhiwen.crawler.url.store.model.Urls">
+    <select id="getUrlsById" parameterType="int" resultType="com.zhiwen.crawler.url.store.model.Urls">
         SELECT
         <include refid="keys"/>
         FROM Urls
         WHERE Id = #{id}
     </select>
 
-    <select id="getUrlByParentUrl" parameterType="String" resultType="com.zhiwen.crawler.url.store.model.Urls">
+    <select id="getUrlsByParentUrl" parameterType="String" resultType="com.zhiwen.crawler.url.store.model.Urls">
         SELECT
         <include refid="keys"/>
         FROM Urls

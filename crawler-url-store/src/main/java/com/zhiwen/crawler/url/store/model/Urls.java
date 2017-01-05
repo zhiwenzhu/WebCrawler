@@ -7,18 +7,18 @@ import java.util.Set;
  * Created by zhiwenzhu on 17/1/5.
  */
 public class Urls {
-    private String urls;
+    private String url;
 
     private String parentUrl;
 
     private int id;
 
-    public String getUrls() {
-        return urls;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUrls(String urls) {
-        this.urls = urls;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getParentUrl() {

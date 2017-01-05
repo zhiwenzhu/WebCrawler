@@ -12,7 +12,7 @@ public interface UrlsDao {
 
     int addUrlss(List<Urls> urlss);
 
-    String getUrlById(int id);
+    Urls getUrlsById(int id);
 
-    List<String> getUrlsByParentUrl(String parentUrl);
+    List<Urls> getUrlsByParentUrl(String parentUrl);
 }
