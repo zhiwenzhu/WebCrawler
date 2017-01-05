@@ -15,31 +15,45 @@ public class HtmlComtentParser {
         return FetcherPageContent.fetcherPage(url);
     }
 
+    private static final String TITLE_REGEX = "<title>.*</title>";
+    private static final String KEYWORDS_REGEX = "name=\"keywords\" content=\"[^>]*";
+    private static final String URLS_REGEX = "href=http://\\S+";
+    private static final String DESCRIPTION_REGEX = "";
+
+    private static final String HEAD_REGEX = "<head>.*</head>";
+
+    private static final String BODY_REGEX = "<body.*</body>";
+
     private void getUrlFromPageContent(String pageContent) {
         Set<String> urlSet = new HashSet<String>();
+        String head = preHandlePageContent(pageContent, HEAD_REGEX);
+        String body = preHandlePageContent(pageContent, BODY_REGEX);
 
-        String regex = "href=http://\\S+";
-        String regexTitle = "<title>.*</title>";
-//        String regex = "href=http://[^>]*";
+        Matcher matcher = getMatcher(body, URLS_REGEX);
+        Matcher titleMatcher = getMatcher(head, TITLE_REGEX);
+        Matcher keywordsMatcher = getMatcher(head, KEYWORDS_REGEX);
+        Matcher descriptionMatcher = getMatcher(head, DESCRIPTION_REGEX);
 
+
+        System.out.println(head);
+
+        System.out.println(body);
+
+    }
+
+    private Matcher getMatcher(String pageContent, String regex) {
         Pattern pattern = Pattern.compile(regex);
-        Pattern title = Pattern.compile(regexTitle);
-
         Matcher matcher = pattern.matcher(pageContent);
-        Matcher matcherTitle = title.matcher(pageContent);
+        return matcher;
+    }
 
-        if (matcher.find()) {
-            System.out.println(matcher.group());
-            System.out.println(matcher.groupCount());
-        }
+    //预处理pageContent，得到head部分或者body部分的字符串；
+    private String preHandlePageContent(String pageContent, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(pageContent);
 
-        if (matcherTitle.find()) {
-            System.out.println(matcherTitle.group());
-            System.out.println(matcherTitle.groupCount());
-            String s = matcherTitle.group();
-
-        }
-
+        String result = matcher.find()? matcher.group() : "";
+        return result;
     }
 
     public void run(String url) {

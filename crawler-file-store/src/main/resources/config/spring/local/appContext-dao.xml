@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    <import resource="appContext-mybatis.xml"/>
+
+    <!-- Config Dao below... -->
+
+    <bean id="fileMessageDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.zhiwen.crawler.file.store.dao.FileMessageDao"/>
+        <property name="sqlSessionFactory" ref="fileSqlSessionFactory"/>
+    </bean>
+
+</beans>
+
+
