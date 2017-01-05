@@ -6,7 +6,7 @@
 
     <!-- Config Dao below... -->
 
-    <bean id="fileMessageDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+    <bean id="urlsDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="com.zhiwen.crawler.url.store.dao.UrlsDao"/>
         <property name="sqlSessionFactory" ref="urlsSqlSessionFactory"/>
     </bean>

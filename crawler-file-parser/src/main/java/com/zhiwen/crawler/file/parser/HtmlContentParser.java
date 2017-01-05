@@ -1,15 +1,18 @@
 package com.zhiwen.crawler.file.parser;
 
 import com.zhiwen.crawler.fetcher.FetcherPageContent;
-import com.zhiwen.crawler.file.store.dao.FileMessageDao;
 import com.zhiwen.crawler.file.store.model.FileMessage;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
+import com.zhiwen.crawler.file.store.util.SpringBeanUtil;
 import com.zhiwen.crawler.url.store.model.Urls;
 import com.zhiwen.crawler.url.store.spi.UrlsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,11 +20,11 @@ import java.util.regex.Pattern;
  * Created by zhiwenzhu on 17/1/4.
  */
 
-@Component
-public class HtmlComtentParser {
-    @Autowired
+//@Component
+public class HtmlContentParser {
+//    @Autowired
     private FileMessageService fileMessageService;
-    @Autowired
+//    @Autowired
     private UrlsService urlsService;
 
 
@@ -121,6 +124,8 @@ public class HtmlComtentParser {
         System.out.println("4:" + fm.getDescription());
         //把页面提取出来的信息存入持久层；先判断书库库中是否有该页面信息
         //多线程时，此处应该加锁
+        fileMessageService = (FileMessageService) SpringBeanUtil.getBean("FileMessageService");
+
         if (fileMessageService.getFileMessageByUrl(url) == null) {
             fileMessageService.addFileMessage(fm);
 
@@ -153,7 +158,7 @@ public class HtmlComtentParser {
     }
 
     public static void main(String[] args) {
-        HtmlComtentParser hp = new HtmlComtentParser();
+        HtmlContentParser hp = new HtmlContentParser();
 
 //        hp.run("www.baidu.com");
 //        hp.run("www.163.com");
