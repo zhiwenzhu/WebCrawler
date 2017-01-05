@@ -3,6 +3,7 @@ package com.zhiwen.crawler.file.parser;
 import com.zhiwen.crawler.fetcher.FetcherPageContent;
 import com.zhiwen.crawler.file.store.dao.FileMessageDao;
 import com.zhiwen.crawler.file.store.model.FileMessage;
+import com.zhiwen.crawler.file.store.spi.FileMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ import java.util.regex.Pattern;
 @Component
 public class HtmlComtentParser {
     @Autowired
-    private FileMessageDao fileMessageDao;
+    private FileMessageService fileMessageService;
 
 
     //调用FetcherPageContent的静态方法通过给定的url得到网页内容，以字符串形式返回；
@@ -117,7 +118,7 @@ public class HtmlComtentParser {
         System.out.println("2:" + fm.getUrl());
         System.out.println("3:" + fm.getKeywords());
         System.out.println("4:" + fm.getDescription());
-//        fileMessageDao.addFileMessage(fm);
+        fileMessageService.addFileMessage(fm);
 
 
     }
@@ -127,7 +128,9 @@ public class HtmlComtentParser {
 
 //        hp.run("www.baidu.com");
 //        hp.run("www.163.com");
-        hp.run("http://news.baidu.com/");
+//        hp.run("http://news.baidu.com/");
+        hp.run("http://tool.oschina.net/apidocs/apidoc?api=jdk-zh");
+
     }
 
 

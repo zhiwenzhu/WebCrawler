@@ -26,12 +26,16 @@ public class FetcherPageContent {
             conn.setConnectTimeout(5 * 1000);
             if (conn.getResponseCode() == 200) {
                 InputStream is = conn.getInputStream();
-                String charset = "UTF-8";
+//                String charset = "UTF-8";
+                String charset = "gb2312";
                 Pattern pattern = Pattern.compile("charset=\\S*");
                 Matcher matcher = pattern.matcher(conn.getContentType());
+                String s = conn.getContentType();
+                System.out.println("编码方式：" + s);
                 if (matcher.find()) {
                     charset = matcher.group().replace("charset=", "");
                 }
+
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, charset));
 
                 StringBuilder sb = new StringBuilder();
