@@ -10,11 +10,15 @@ import java.util.regex.Pattern;
 
 /**
  * Created by zhiwenzhu on 17/1/4.
+ * 该类中方法主要用来获取指定url对应的html页面内容
  */
 public class FetcherPageContent {
+
     /**
-     *
-      */
+     * 通过指定url获取html页面内容；
+     * @param seedUrl
+     * @return
+     */
     public static String fetcherPage(String seedUrl) {
         seedUrl = preHandleUrl(seedUrl);
         String result = "";
@@ -26,7 +30,6 @@ public class FetcherPageContent {
             conn.setConnectTimeout(10 * 1000);
             if (conn.getResponseCode() == 200) {
                 InputStream is = conn.getInputStream();
-//                String charset = "UTF-8";
                 String charset = "gb2312";
                 Pattern pattern = Pattern.compile("charset=\\S*");
                 Matcher matcher = pattern.matcher(conn.getContentType());
@@ -41,7 +44,6 @@ public class FetcherPageContent {
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
-//                    sb.append(line).append("\n");
                     sb.append(line);
                 }
                 is.close();
@@ -51,32 +53,29 @@ public class FetcherPageContent {
             e.printStackTrace();
         }
 
-//        System.out.println(result);
-
         return result;
     }
 
+    //预处理url，处理掉部分不合法的url；
     private static String preHandleUrl(String url) {
+        url = url.trim();
         if (url.contains(" ")) {
             throw new IllegalArgumentException("不合法的url:" + url);
         }
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
-        }
 
+        }
         return url;
     }
 
 
 
+    //本方法测试；
     public static void main(String[] args) {
 
         String result = FetcherPageContent.fetcherPage("http://www.baidu.com");
         System.out.println(result);
 
     }
-
-
-
-
 }

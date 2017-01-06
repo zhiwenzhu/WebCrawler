@@ -1,7 +1,6 @@
 package com.zhiwen.crawler.bootstrap;
 
 import com.zhiwen.crawler.file.parser.HtmlContentParser;
-import com.zhiwen.crawler.file.store.model.FileMessage;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
 import com.zhiwen.crawler.file.util.SpringBeanUtil;
 import com.zhiwen.crawler.url.store.model.Urls;
@@ -50,7 +49,10 @@ public class StartCrawler {
         StartCrawler sc = new StartCrawler();
         sc.getLastCrawlerIndex();
 
-        sc.run();
+//        sc.run();
+        for (int i = 0; i < 10; i++) {
+            sc.run();
+        }
 
     }
 }
