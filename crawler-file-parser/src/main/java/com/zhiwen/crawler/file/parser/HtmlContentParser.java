@@ -3,11 +3,10 @@ package com.zhiwen.crawler.file.parser;
 import com.zhiwen.crawler.fetcher.FetcherPageContent;
 import com.zhiwen.crawler.file.store.model.FileMessage;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
-import com.zhiwen.crawler.file.store.util.SpringBeanUtil;
+import com.zhiwen.crawler.file.util.SpringBeanUtil;
 import com.zhiwen.crawler.url.store.model.Urls;
 import com.zhiwen.crawler.url.store.spi.UrlsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -21,16 +20,28 @@ import java.util.regex.Pattern;
  */
 
 //@Component
-public class HtmlContentParser {
-//    @Autowired
+public class HtmlContentParser extends Thread{
+    @Autowired
     private FileMessageService fileMessageService;
-//    @Autowired
+    @Autowired
     private UrlsService urlsService;
+
+    private String url;
 
 
     //调用FetcherPageContent的静态方法通过给定的url得到网页内容，以字符串形式返回；
-    private String fetcherPageContent(String url) {
+    private String fetcherPageContent() {
         return FetcherPageContent.fetcherPage(url);
+    }
+
+    public HtmlContentParser() {}
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     //筛选html页面标题的正则；
@@ -112,25 +123,36 @@ public class HtmlContentParser {
         return result;
     }
 
-    public void run(String url) {
-        String page = fetcherPageContent(url);
+    public void run() {
+        String page = fetcherPageContent();
         Set<String> urlSet = getUrlFromPageContent(page);
 
         FileMessage fm = getMessageFromPageContent(page);
         fm.setUrl(url);
-        System.out.println("1:" + fm.getTitle());
-        System.out.println("2:" + fm.getUrl());
-        System.out.println("3:" + fm.getKeywords());
-        System.out.println("4:" + fm.getDescription());
+//        System.out.println("1:" + fm.getTitle());
+//        System.out.println("2:" + fm.getUrl());
+//        System.out.println("3:" + fm.getKeywords());
+//        System.out.println("4:" + fm.getDescription());
+
         //把页面提取出来的信息存入持久层；先判断书库库中是否有该页面信息
         //多线程时，此处应该加锁
-        fileMessageService = (FileMessageService) SpringBeanUtil.getBean("FileMessageService");
+
+        fileMessageService = SpringBeanUtil.getFileMessageService();
+        urlsService = SpringBeanUtil.getUrlsService();
 
         if (fileMessageService.getFileMessageByUrl(url) == null) {
             fileMessageService.addFileMessage(fm);
 
-            List<Urls> urlss = genUrls(urlSet, url);
-            urlsService.addUrlss(urlss);
+            for (String item : urlSet) {
+                if (fileMessageService.getFileMessageByUrl(item) == null && urlsService.getUrlsByUrl(item) == null
+                        && urlsService.getUrlsByParentUrl(item).size() == 0) {
+                    Urls urls = new Urls();
+                    urls.setUrl(item);
+                    urls.setParentUrl(url);
+                    urlsService.addUrls(urls);
+                }
+            }
+
         }
 
     }
@@ -138,9 +160,8 @@ public class HtmlContentParser {
     private List<Urls> genUrls(Set<String> urls, String parentUrl) {
         List<Urls> urlss = new LinkedList<Urls>();
         for (String url : urls) {
-
             if (fileMessageService.getFileMessageByUrl(url) == null && urlsService.getUrlsByUrl(url) == null
-                    && urlsService.getUrlsByParentUrl(url) == null) {
+                    && urlsService.getUrlsByParentUrl(url).size() == 0) {
                 Urls temp = new Urls();
                 temp.setUrl(url);
                 temp.setParentUrl(parentUrl);
@@ -159,12 +180,9 @@ public class HtmlContentParser {
 
     public static void main(String[] args) {
         HtmlContentParser hp = new HtmlContentParser();
+        hp.setUrl("www.163.com");
 
-//        hp.run("www.baidu.com");
-//        hp.run("www.163.com");
-//        hp.run("http://news.baidu.com/");
-        hp.run("http://tool.oschina.net/apidocs/apidoc?api=jdk-zh");
-
+        hp.run();
     }
 
 }
