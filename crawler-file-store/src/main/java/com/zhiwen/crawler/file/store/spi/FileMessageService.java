@@ -12,4 +12,6 @@ public interface FileMessageService {
     FileMessage getFileMessageById(int id);
 
     FileMessage getFileMessageByUrl(String url);
+
+    int getMaxId();
 }

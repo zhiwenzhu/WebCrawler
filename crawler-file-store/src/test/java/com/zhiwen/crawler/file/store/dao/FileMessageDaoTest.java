@@ -53,4 +53,13 @@ public class FileMessageDaoTest extends TestBase{
 
     }
 
+    @Test
+    public void getMaxId() throws Exception {
+        int result = 0;
+        result = fileMessageDao.getMaxId();
+
+        Assert.assertTrue(result > 0);
+        System.out.println(result);
+    }
+
 }

@@ -38,4 +38,8 @@
         Url = #{url}
     </select>
 
+    <select id="getMaxId" resultType="int">
+        SELECT MAX(Id) FROM PageMessage
+    </select>
+
 </mapper>

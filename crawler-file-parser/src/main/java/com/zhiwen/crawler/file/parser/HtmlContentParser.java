@@ -21,9 +21,9 @@ import java.util.regex.Pattern;
 
 //@Component
 public class HtmlContentParser extends Thread{
-    @Autowired
+//    @Autowired
     private FileMessageService fileMessageService;
-    @Autowired
+//    @Autowired
     private UrlsService urlsService;
 
     private String url;
@@ -180,7 +180,8 @@ public class HtmlContentParser extends Thread{
 
     public static void main(String[] args) {
         HtmlContentParser hp = new HtmlContentParser();
-        hp.setUrl("www.163.com");
+//        hp.setUrl("www.163.com");
+        hp.setUrl("http://cosmetic.lady.163.com/trial/#f=endnav");
 
         hp.run();
     }

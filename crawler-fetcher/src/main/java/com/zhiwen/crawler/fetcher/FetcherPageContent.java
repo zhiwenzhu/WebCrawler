@@ -23,7 +23,7 @@ public class FetcherPageContent {
             URL url = new URL(seedUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setConnectTimeout(5 * 1000);
+            conn.setConnectTimeout(10 * 1000);
             if (conn.getResponseCode() == 200) {
                 InputStream is = conn.getInputStream();
 //                String charset = "UTF-8";
@@ -60,7 +60,7 @@ public class FetcherPageContent {
         if (url.contains(" ")) {
             throw new IllegalArgumentException("不合法的url:" + url);
         }
-        if (!url.startsWith("http://")) {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
         }
 

@@ -25,4 +25,8 @@ public class FileMessageServiceImpl implements FileMessageService{
     public FileMessage getFileMessageByUrl(String url) {
         return fileMessageDao.getFileMessageByUrl(url);
     }
+
+    public int getMaxId() {
+        return fileMessageDao.getMaxId();
+    }
 }

@@ -11,4 +11,6 @@ public interface FileMessageDao {
     FileMessage getFileMessageById(int id);
 
     FileMessage getFileMessageByUrl(String url);
+
+    int getMaxId();
 }
