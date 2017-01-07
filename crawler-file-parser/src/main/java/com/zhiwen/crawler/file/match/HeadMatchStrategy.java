@@ -56,7 +56,9 @@ public class HeadMatchStrategy {
             fm.setDescription(des);
         }
 
-
+        if (fm.getDescription() == null && fm.getKeywords() == null) {
+            return null;
+        }
 
         return fm;
 

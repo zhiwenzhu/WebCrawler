@@ -1,8 +1,6 @@
 package com.zhiwen.crawler.url.store.spi;
 
 import com.zhiwen.crawler.url.store.model.Urls;
-
-import java.net.URL;
 import java.util.List;
 
 /**

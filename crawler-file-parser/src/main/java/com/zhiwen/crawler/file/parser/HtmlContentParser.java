@@ -66,13 +66,12 @@ public class HtmlContentParser extends Thread{
 
         if (fm != null) {
             fm.setUrl(url);
+            //方便测试
+            System.out.println("1:" + fm.getTitle());
+            System.out.println("2:" + fm.getUrl());
+            System.out.println("3:" + fm.getKeywords());
+            System.out.println("4:" + fm.getDescription());
         }
-
-        //方便测试
-        System.out.println("1:" + fm.getTitle());
-        System.out.println("2:" + fm.getUrl());
-        System.out.println("3:" + fm.getKeywords());
-        System.out.println("4:" + fm.getDescription());
 
         //把页面提取出来的信息存入持久层；先判断数据库中是否有该页面信息
         //多线程时，此处应该加锁
@@ -83,13 +82,13 @@ public class HtmlContentParser extends Thread{
             fileMessageService.addFileMessage(fm);
 
             for (String item : urlSet) {
-                if (fileMessageService.getFileMessageByUrl(item) == null && urlsService.getUrlsByUrl(item) == null
-                        && urlsService.getUrlsByParentUrl(item).size() == 0) {
-                    Urls urls = new Urls();
-                    urls.setUrl(item);
-                    urls.setParentUrl(url);
-                    urlsService.addUrls(urls);
-                }
+//                if (fileMessageService.getFileMessageByUrl(item) == null && urlsService.getUrlsByUrl(item) == null
+//                        && urlsService.getUrlsByParentUrl(item).size() == 0) {
+                Urls urls = new Urls();
+                urls.setUrl(item);
+                urls.setParentUrl(url);
+                urlsService.addUrls(urls);
+//                }
             }
 
         }
@@ -114,6 +113,7 @@ public class HtmlContentParser extends Thread{
 
 
 
+    //测试给定url后，页面的爬取，解析和存储
     public static void main(String[] args) {
         HtmlContentParser hp = new HtmlContentParser();
         hp.setUrl("http://caipiao.163.com/award/qlc/#from=wzy");
