@@ -57,10 +57,16 @@ public class HtmlContentParser extends Thread{
      */
     public void run() {
         String page = fetcherPageContent();
+        if (page == null) {
+            return;
+        }
         Set<String> urlSet = BodyMatchStrategy.getUrlFromPageContent(page);
 
         FileMessage fm = HeadMatchStrategy.getMessageFromPageContent(page);
-        fm.setUrl(url);
+
+        if (fm != null) {
+            fm.setUrl(url);
+        }
 
         //方便测试
         System.out.println("1:" + fm.getTitle());
@@ -73,7 +79,7 @@ public class HtmlContentParser extends Thread{
         fileMessageService = SpringBeanUtil.getFileMessageService();
         urlsService = SpringBeanUtil.getUrlsService();
 
-        if (fileMessageService.getFileMessageByUrl(url) == null) {
+        if (fm != null && fileMessageService.getFileMessageByUrl(url) == null) {
             fileMessageService.addFileMessage(fm);
 
             for (String item : urlSet) {

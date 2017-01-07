@@ -31,13 +31,15 @@ public class HeadMatchStrategy {
 
         if (titleMatcher.find()) {
             String s = titleMatcher.group();
+            System.out.println("Title:" + s);
             String title = s.substring(7, s.length() - 8);
             fm.setTitle(title);
         }
 
         if (keywordsMatcher.find()) {
             String s = keywordsMatcher.group();
-            String keywords = s.substring(25, s.length() - 3);
+            System.out.println("Keywords:" + s);
+            String keywords = s.length() <= 28 ? null : s.substring(25, s.length() - 3);
             if (StringUtils.isNotBlank(keywords) && keywords.length() > 200) {
                 keywords = keywords.substring(0, 199);
             }
@@ -46,12 +48,15 @@ public class HeadMatchStrategy {
 
         if (descriptionMatcher.find()) {
             String s = descriptionMatcher.group();
-            String des = s.substring(28, s.length() - 3);
+            System.out.println("Description:" + s);
+            String des = s.length() <= 31 ? null : s.substring(28, s.length() - 3);
             if (StringUtils.isNotBlank(des) && des.length() > 200) {
                 des = des.substring(0, 199);
             }
             fm.setDescription(des);
         }
+
+
 
         return fm;
 

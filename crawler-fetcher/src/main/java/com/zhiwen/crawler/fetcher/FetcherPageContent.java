@@ -35,8 +35,10 @@ public class FetcherPageContent {
                 Matcher matcher = pattern.matcher(conn.getContentType());
                 String s = conn.getContentType();
                 System.out.println("编码方式：" + s);
-                if (matcher.find()) {
+                if (matcher.find() && matcher.group().startsWith("charset") ) {
                     charset = matcher.group().replace("charset=", "");
+                } else {
+                    return null;
                 }
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, charset));
