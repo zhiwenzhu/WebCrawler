@@ -6,7 +6,6 @@ import com.zhiwen.crawler.file.util.SpringBeanUtil;
 import com.zhiwen.crawler.url.store.model.Urls;
 import com.zhiwen.crawler.url.store.spi.UrlsService;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.runner.notification.RunListener;
 
 /**
  * Created by zhiwenzhu on 17/1/6.
@@ -49,11 +48,11 @@ public class StartCrawler extends Thread {
             hp.run();
 
             lastCrawlerIndex++;
-            try {
-                sleep(1000l);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                sleep(1000l);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
             System.out.println(Thread.currentThread().getName() + "线程执行完毕");
         }

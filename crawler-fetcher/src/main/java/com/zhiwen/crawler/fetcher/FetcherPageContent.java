@@ -21,6 +21,9 @@ public class FetcherPageContent {
      */
     public static String fetcherPage(String seedUrl) {
         seedUrl = preHandleUrl(seedUrl);
+        if (seedUrl == null) {
+            return null;
+        }
         String result = "";
 
         try {
@@ -53,6 +56,7 @@ public class FetcherPageContent {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
 
         return result;
@@ -62,12 +66,18 @@ public class FetcherPageContent {
     private static String preHandleUrl(String url) {
         url = url.trim();
         if (url.contains(" ")) {
-            throw new IllegalArgumentException("不合法的url:" + url);
+            try {
+                throw new IllegalArgumentException("不合法的url:" + url);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+
         }
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
-
         }
+
         return url;
     }
 

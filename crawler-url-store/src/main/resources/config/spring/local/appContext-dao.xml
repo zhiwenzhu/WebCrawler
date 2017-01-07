@@ -11,6 +11,11 @@
         <property name="sqlSessionFactory" ref="urlsSqlSessionFactory"/>
     </bean>
 
+    <bean id="DynamicUrlsDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.zhiwen.crawler.url.store.dao.DynamicUrlsDao"/>
+        <property name="sqlSessionFactory" ref="urlsSqlSessionFactory"/>
+    </bean>
+
 </beans>
 
 

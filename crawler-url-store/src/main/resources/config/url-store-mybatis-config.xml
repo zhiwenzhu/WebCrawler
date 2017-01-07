@@ -4,5 +4,6 @@
 <configuration>
     <mappers>
         <mapper resource="config/sqlmap/urls.xml"/>
+        <mapper resource="config/sqlmap/dynamicUrls.xml"/>
     </mappers>
 </configuration>
