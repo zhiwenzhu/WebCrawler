@@ -2,7 +2,7 @@ package com.zhiwen.crawler.bootstrap;
 
 import com.zhiwen.crawler.file.parser.HtmlContentParser;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
-import com.zhiwen.crawler.file.util.SpringBeanUtil;
+import com.zhiwen.crawler.file.parser.util.SpringBeanUtil;
 import com.zhiwen.crawler.url.store.dao.CrawlerIndexDao;
 import com.zhiwen.crawler.url.store.model.Urls;
 import com.zhiwen.crawler.url.store.spi.UrlsService;

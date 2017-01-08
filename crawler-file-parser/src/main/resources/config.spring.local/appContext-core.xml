@@ -10,7 +10,7 @@
     <!-- Scans the classpath of this application for @Components to deploy as
         beans -->
     <context:component-scan base-package="com.zhiwen.*"/>
-    <bean id="SringBeanUtil" class="com.zhiwen.crawler.file.util.SpringBeanUtil"/>
+    <bean id="SringBeanUtil" class="com.zhiwen.crawler.file.parser.util.SpringBeanUtil"/>
 
 
 </beans>

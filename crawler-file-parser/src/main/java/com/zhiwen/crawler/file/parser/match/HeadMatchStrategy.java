@@ -1,4 +1,4 @@
-package com.zhiwen.crawler.file.match;
+package com.zhiwen.crawler.file.parser.match;
 
 import com.zhiwen.crawler.file.store.model.FileMessage;
 import org.apache.commons.lang3.StringUtils;

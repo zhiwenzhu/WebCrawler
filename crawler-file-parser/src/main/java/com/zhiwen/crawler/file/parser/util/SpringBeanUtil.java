@@ -1,4 +1,4 @@
-package com.zhiwen.crawler.file.util;
+package com.zhiwen.crawler.file.parser.util;
 
 import com.zhiwen.crawler.file.parser.HtmlContentParser;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;

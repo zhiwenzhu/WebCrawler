@@ -1,11 +1,11 @@
 package com.zhiwen.crawler.file.parser;
 
 import com.zhiwen.crawler.fetcher.FetcherPageContent;
-import com.zhiwen.crawler.file.match.BodyMatchStrategy;
-import com.zhiwen.crawler.file.match.HeadMatchStrategy;
+import com.zhiwen.crawler.file.parser.match.BodyMatchStrategy;
+import com.zhiwen.crawler.file.parser.match.HeadMatchStrategy;
 import com.zhiwen.crawler.file.store.model.FileMessage;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
-import com.zhiwen.crawler.file.util.SpringBeanUtil;
+import com.zhiwen.crawler.file.parser.util.SpringBeanUtil;
 import com.zhiwen.crawler.url.store.model.Urls;
 import com.zhiwen.crawler.url.store.spi.UrlsService;
 
@@ -62,36 +62,36 @@ public class HtmlContentParser extends Thread{
         }
         Set<String> urlSet = BodyMatchStrategy.getUrlFromPageContent(page);
 
-        FileMessage fm = HeadMatchStrategy.getMessageFromPageContent(page);
-
-        if (fm != null) {
-            fm.setUrl(url);
-            //方便测试
-            System.out.println("1:" + fm.getTitle());
-            System.out.println("2:" + fm.getUrl());
-            System.out.println("3:" + fm.getKeywords());
-            System.out.println("4:" + fm.getDescription());
-        }
+//        FileMessage fm = HeadMatchStrategy.getMessageFromPageContent(page);
+//
+//        if (fm != null) {
+//            fm.setUrl(url);
+//            //方便测试
+//            System.out.println("1:" + fm.getTitle());
+//            System.out.println("2:" + fm.getUrl());
+//            System.out.println("3:" + fm.getKeywords());
+//            System.out.println("4:" + fm.getDescription());
+//        }
 
         //把页面提取出来的信息存入持久层；先判断数据库中是否有该页面信息
         //多线程时，此处应该加锁
-        fileMessageService = SpringBeanUtil.getFileMessageService();
-        urlsService = SpringBeanUtil.getUrlsService();
+//        fileMessageService = SpringBeanUtil.getFileMessageService();
+//        urlsService = SpringBeanUtil.getUrlsService();
 
-        if (fm != null && fileMessageService.getFileMessageByUrl(url) == null) {
-            fileMessageService.addFileMessage(fm);
-
-            for (String item : urlSet) {
-//                if (fileMessageService.getFileMessageByUrl(item) == null && urlsService.getUrlsByUrl(item) == null
-//                        && urlsService.getUrlsByParentUrl(item).size() == 0) {
-                Urls urls = new Urls();
-                urls.setUrl(item);
-                urls.setParentUrl(url);
-                urlsService.addUrls(urls);
-//                }
-            }
-
-        }
+//        if (fm != null && fileMessageService.getFileMessageByUrl(url) == null) {
+//            fileMessageService.addFileMessage(fm);
+//
+//            for (String item : urlSet) {
+////                if (fileMessageService.getFileMessageByUrl(item) == null && urlsService.getUrlsByUrl(item) == null
+////                        && urlsService.getUrlsByParentUrl(item).size() == 0) {
+//                Urls urls = new Urls();
+//                urls.setUrl(item);
+//                urls.setParentUrl(url);
+//                urlsService.addUrls(urls);
+////                }
+//            }
+//
+//        }
 
     }
 

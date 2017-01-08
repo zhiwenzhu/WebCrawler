@@ -1,5 +1,6 @@
 package com.zhiwen.crawler.fetcher;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,12 +45,15 @@ public class FetcherPageContent {
                     return null;
                 }
 
+//                BufferedInputStream bis = new BufferedInputStream(is);
+
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, charset));
 
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
+                    byte[] bytes = sb.toString().getBytes();
                 }
                 is.close();
                 result = sb.toString();
