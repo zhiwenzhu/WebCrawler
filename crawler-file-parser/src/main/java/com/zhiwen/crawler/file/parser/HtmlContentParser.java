@@ -3,9 +3,11 @@ package com.zhiwen.crawler.file.parser;
 import com.zhiwen.crawler.fetcher.FetcherPageContent;
 import com.zhiwen.crawler.file.parser.match.BodyMatchStrategy;
 import com.zhiwen.crawler.file.parser.match.HeadMatchStrategy;
+import com.zhiwen.crawler.file.store.file_format_store.FileStore;
 import com.zhiwen.crawler.file.store.model.FileMessage;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
 import com.zhiwen.crawler.file.parser.util.SpringBeanUtil;
+import com.zhiwen.crawler.url.store.file_format_store.UrlStore;
 import com.zhiwen.crawler.url.store.model.Urls;
 import com.zhiwen.crawler.url.store.spi.UrlsService;
 
@@ -61,6 +63,26 @@ public class HtmlContentParser extends Thread{
             return;
         }
         Set<String> urlSet = BodyMatchStrategy.getUrlFromPageContent(page);
+
+        StringBuffer sb = new StringBuffer();
+        for (String url : urlSet) {
+            sb.append(url).append("\n");
+        }
+
+        String urls = sb.toString();
+        byte[] urlsBytes = urls.getBytes();
+        byte[] fileBytes = page.getBytes();
+
+        String urlFileName = "one";
+        String pageFileName = url.replace("http://", "").replace("/", "_");
+
+        FileStore fs = new FileStore();
+        UrlStore us = new UrlStore();
+
+        fs.storeToFile(pageFileName, fileBytes);
+        us.storeToFile(urlFileName, urlsBytes);
+
+
 
 //        FileMessage fm = HeadMatchStrategy.getMessageFromPageContent(page);
 //

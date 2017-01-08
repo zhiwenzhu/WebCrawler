@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 public class DirectoryPath {
     public static final String FILE_STORE_PATH = "/crawler_file_store/";
 
-    public static final String URL_STORE_PATH = "/crawler_url_store";
+    public static final String URL_STORE_PATH = "/crawler_url_store/";
 
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 

@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
  * Created by zhiwenzhu on 17/1/6.
  * 该类用来匹配Html  <head></head> 标签中的有用的内容
  */
+@Deprecated
 public class HeadMatchStrategy {
     //匹配html页面标题的正则；
     private static final String TITLE_REGEX = "<title>.*</title>";

@@ -58,7 +58,7 @@ public class StartCrawler extends Thread {
         System.out.println(Thread.currentThread().getName() + "线程执行完毕");
 
         crawlerIndexDao.updateIndex(crawlerIndex);
-        run();
+//        run();
 
     }
 
