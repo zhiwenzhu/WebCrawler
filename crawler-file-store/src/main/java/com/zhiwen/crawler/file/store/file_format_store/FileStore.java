@@ -2,6 +2,7 @@ package com.zhiwen.crawler.file.store.file_format_store;
 
 import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.model.CrawlerStore;
+import com.zhiwen.crawler.common.util.FileWriteUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class FileStore implements CrawlerStore {
     public void storeToFile(String fileName, byte[] bytes) {
 
         Date currentDate = new Date();
-        String currentDateString = DirectoryPath.DATE_FORMAT.format(date);
+        String currentDateString = DirectoryPath.DATE_FORMAT.format(currentDate);
         if (!StringUtils.equals(dateString, currentDateString)) {
             dateString = currentDateString;
             today_dir = DirectoryPath.FILE_STORE_PATH + dateString;
@@ -41,18 +42,7 @@ public class FileStore implements CrawlerStore {
         }
 
         File file = new File(today_dir + "/" + fileName);
-
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            OutputStream ops = new FileOutputStream(file);
-            ops.write(bytes);
-            ops.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        FileWriteUtil.writeToFile(file, bytes);
 
     }
 
@@ -69,12 +59,11 @@ public class FileStore implements CrawlerStore {
 
     }
 
+
     public static void main(String[] args) {
         FileStore fileStore = new FileStore();
 
-//        fileStore.test();
-
-        byte[] bytes = new byte[] {'0', 'h', 'u'};
+        byte[] bytes = new byte[] {'z', 'h', 'u'};
 
         String fileName = "test.txt";
 

@@ -1,0 +1,47 @@
+package com.zhiwen.crawler.url.store.file_format_store;
+
+import com.sun.jdi.request.ClassUnloadRequest;
+import com.zhiwen.crawler.common.config.DirectoryPath;
+import com.zhiwen.crawler.common.model.CrawlerStore;
+import com.zhiwen.crawler.common.util.FileWriteUtil;
+import org.apache.commons.lang3.StringUtils;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.Date;
+
+/**
+ * Created by zhiwenzhu on 17/1/8.
+ */
+public class UrlStore implements CrawlerStore {
+    private static String dateString = DirectoryPath.DATE_FORMAT.format(new Date());
+
+    private static String today_dir = DirectoryPath.URL_STORE_PATH + dateString;
+
+    static {
+        File file = new File(today_dir);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+    }
+
+    public void storeToFile(String filename, byte[] bytes) {
+        Date currentDate = new Date();
+        String currentDateString = DirectoryPath.DATE_FORMAT.format(currentDate);
+        if (!StringUtils.equals(dateString, currentDateString)) {
+            dateString = currentDateString;
+            today_dir = DirectoryPath.URL_STORE_PATH + dateString;
+
+            File file = new File(today_dir);
+            if (!file.exists()) {
+                file.mkdir();
+            }
+        }
+
+        File file = new File(today_dir + "/" + filename);
+
+        FileWriteUtil.writeToFile(file, bytes);
+
+
+    }
+}
