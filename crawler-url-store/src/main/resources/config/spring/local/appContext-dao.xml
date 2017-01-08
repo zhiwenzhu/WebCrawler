@@ -16,6 +16,11 @@
         <property name="sqlSessionFactory" ref="urlsSqlSessionFactory"/>
     </bean>
 
+    <bean id="crawlerIndexDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.zhiwen.crawler.url.store.dao.CrawlerIndexDao"/>
+        <property name="sqlSessionFactory" ref="urlsSqlSessionFactory"/>
+    </bean>
+
 </beans>
 
 

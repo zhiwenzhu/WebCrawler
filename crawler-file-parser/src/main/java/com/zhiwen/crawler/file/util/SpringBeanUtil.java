@@ -2,6 +2,7 @@ package com.zhiwen.crawler.file.util;
 
 import com.zhiwen.crawler.file.parser.HtmlContentParser;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
+import com.zhiwen.crawler.url.store.dao.CrawlerIndexDao;
 import com.zhiwen.crawler.url.store.spi.UrlsService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -44,6 +45,14 @@ public class SpringBeanUtil implements ApplicationContextAware {
             applicationContext = new ClassPathXmlApplicationContext(args);
         }
         return applicationContext.getBean(HtmlContentParser.class);
+    }
+
+    public static CrawlerIndexDao getCrawlerIndexDao() {
+        if (applicationContext == null) {
+            applicationContext = new ClassPathXmlApplicationContext(args);
+        }
+
+        return applicationContext.getBean(CrawlerIndexDao.class);
     }
 
 
