@@ -73,14 +73,13 @@ public class HtmlContentParser extends Thread{
         byte[] urlsBytes = urls.getBytes();
         byte[] fileBytes = page.getBytes();
 
-        String urlFileName = "two";
-        String pageFileName = url.replace("http://", "").replace("/", "_");
+        String commonFileName = url.replace("http://", "").replace("/", "_");
 
         FileStore fs = new FileStore();
         UrlStore us = new UrlStore();
 
-        fs.storeToFile(pageFileName, fileBytes);
-        us.storeToFile(urlFileName, urlsBytes);
+        fs.storeToFile(commonFileName, fileBytes);
+        us.storeToFile(commonFileName, urlsBytes);
 
 
 
