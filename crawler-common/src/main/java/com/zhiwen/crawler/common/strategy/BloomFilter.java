@@ -2,13 +2,16 @@ package com.zhiwen.crawler.common.strategy;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.AbstractCollection;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.BitSet;
 
 /**
  * Created by zhiwenzhu on 17/1/9.
  */
-public class BloomFilter {
+public class BloomFilter implements Serializable {
     private static final int BIT_SIZE = 2 << 29;
 
     private static final int[] SEEDS = new int[] {3, 5, 7, 11, 13, 31, 37, 61};
@@ -44,7 +47,7 @@ public class BloomFilter {
     }
 
 
-    public static class Hash{
+    public static class Hash implements Serializable{
         private int size;//二进制向量数组大小
         private int seed;//随机数种子
 
@@ -69,14 +72,45 @@ public class BloomFilter {
 
 
     public static void main(String[] args) {
-        BloomFilter bloomFilter = new BloomFilter();
+//        BloomFilter bloomFilter = new BloomFilter();
+//
+//        bloomFilter.addUrl("www.baidu.com");
+//        bloomFilter.addUrl("wwww.163.com");
+//
+//        System.out.println(bloomFilter.contains("www.baidu.com"));
+//        System.out.println(bloomFilter.contains("wwww.163.com"));
+//        System.out.println(bloomFilter.contains("www.zhiwenzhu.com"));
+//
+//        try {
+//            File file = new File("/crawler_bloom_object/bloomFilter");
+//
+//            if (!file.exists()) {
+//                file.createNewFile();
+//            }
+//            OutputStream ops = new FileOutputStream(file);
+//
+//            ObjectOutputStream oops = new ObjectOutputStream(ops);
+//
+//            oops.writeObject(bloomFilter);
+//
+//            oops.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        bloomFilter.addUrl("www.baidu.com");
-        bloomFilter.addUrl("wwww.163.com");
+        File file = new File("/crawler_bloom_object/bloomFilter");
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            BloomFilter bloomFilter = (BloomFilter) ois.readObject();
 
-        System.out.println(bloomFilter.contains("www.baidu.com"));
-        System.out.println(bloomFilter.contains("wwww.163.com"));
-        System.out.println(bloomFilter.contains("www.zhiwenzhu.com"));
+            System.out.println(bloomFilter.contains("www.baidu.com"));
+            System.out.println(bloomFilter.contains("wwww.163.com"));
+            System.out.println(bloomFilter.contains("www.zhiwenzhu.com"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
