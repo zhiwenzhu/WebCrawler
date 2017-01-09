@@ -74,12 +74,12 @@ public class StartCrawler extends Thread {
 
         if (StringUtils.isNotBlank(toCrawlerUrlFile)) {
             GetSeedUrlsStrategy gsus = new GetSeedUrlsStrategy();
-            List<String> toCrawlerUrls = gsus.getToCrawlerUrl(toCrawlerUrlFile);
-            HtmlContentParser hp = new HtmlContentParser();
-            for (String url : toCrawlerUrls) {
-                hp.setUrl(url);
-                hp.run();
-            }
+//            List<String> toCrawlerUrls = gsus.getToCrawlerUrl(toCrawlerUrlFile);
+//            HtmlContentParser hp = new HtmlContentParser();
+//            for (String url : toCrawlerUrls) {
+//                hp.setUrl(url);
+//                hp.run();
+//            }
 
             String newPath = gsus.getToCrawlerMessage(toCrawlerUrlFile);
             if (StringUtils.isNotBlank(newPath)) {
