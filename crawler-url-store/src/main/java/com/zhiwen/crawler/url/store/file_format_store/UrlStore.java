@@ -40,8 +40,14 @@ public class UrlStore implements CrawlerStore {
 
         File file = new File(today_dir + "/" + filename);
 
-        FileWriteUtil.writeToFile(file, bytes);
+        FileWriteUtil.writeToFile(file, bytes, false);
 
+        UrlFileNameStore ufns = new UrlFileNameStore();
+        byte[] urlFileNameBytes = (filename + "\n").getBytes();
+        ufns.storeToFile(dateString, urlFileNameBytes);
 
+        UrlDateDirStore udds = new UrlDateDirStore();
+        byte[] urlDateDirBytes = (dateString + "\n").getBytes();
+        udds.storeToFile(DirectoryPath.URL_DATE_DIR_STORE_FILE, urlDateDirBytes);
     }
 }

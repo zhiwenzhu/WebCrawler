@@ -42,7 +42,7 @@ public class FileStore implements CrawlerStore {
         }
 
         File file = new File(today_dir + "/" + fileName);
-        FileWriteUtil.writeToFile(file, bytes);
+        FileWriteUtil.writeToFile(file, bytes, false);
 
     }
 
