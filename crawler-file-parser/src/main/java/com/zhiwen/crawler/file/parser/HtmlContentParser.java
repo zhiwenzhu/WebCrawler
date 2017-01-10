@@ -2,11 +2,8 @@ package com.zhiwen.crawler.file.parser;
 
 import com.zhiwen.crawler.fetcher.FetcherPageContent;
 import com.zhiwen.crawler.file.parser.match.BodyMatchStrategy;
-import com.zhiwen.crawler.file.parser.match.HeadMatchStrategy;
 import com.zhiwen.crawler.file.store.file_format_store.FileStore;
-import com.zhiwen.crawler.file.store.model.FileMessage;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
-import com.zhiwen.crawler.file.parser.util.SpringBeanUtil;
 import com.zhiwen.crawler.url.store.file_format_store.UrlStore;
 import com.zhiwen.crawler.url.store.model.Urls;
 import com.zhiwen.crawler.url.store.spi.UrlsService;

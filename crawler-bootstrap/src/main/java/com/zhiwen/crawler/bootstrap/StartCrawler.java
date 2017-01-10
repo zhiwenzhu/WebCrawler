@@ -5,22 +5,21 @@ import com.zhiwen.crawler.common.strategy.BloomFilter;
 import com.zhiwen.crawler.common.strategy.GetSeedUrlsStrategy;
 import com.zhiwen.crawler.common.strategy.StaticBloomFilter;
 import com.zhiwen.crawler.file.parser.HtmlContentParser;
-import com.zhiwen.crawler.file.store.spi.FileMessageService;
 import com.zhiwen.crawler.file.parser.util.SpringBeanUtil;
+import com.zhiwen.crawler.file.store.spi.FileMessageService;
 import com.zhiwen.crawler.url.store.dao.CrawlerIndexDao;
-import com.zhiwen.crawler.url.store.model.Urls;
 import com.zhiwen.crawler.url.store.spi.UrlsService;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
-import java.nio.Buffer;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by zhiwenzhu on 17/1/6.
  */
 public class StartCrawler extends Thread {
+    private int count = 0;
+
     public static int crawlerIndex = 0;
 
     private UrlsService urlsService = SpringBeanUtil.getUrlsService();

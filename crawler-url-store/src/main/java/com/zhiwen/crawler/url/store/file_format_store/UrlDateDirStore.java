@@ -1,6 +1,5 @@
 package com.zhiwen.crawler.url.store.file_format_store;
 
-import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.model.CrawlerStore;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
 

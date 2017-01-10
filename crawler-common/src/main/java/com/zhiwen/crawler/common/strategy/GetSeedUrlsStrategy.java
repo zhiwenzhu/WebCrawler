@@ -2,9 +2,10 @@ package com.zhiwen.crawler.common.strategy;
 
 import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.util.ResolveFilePathUtil;
-import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.LinkedList;
 import java.util.List;
 

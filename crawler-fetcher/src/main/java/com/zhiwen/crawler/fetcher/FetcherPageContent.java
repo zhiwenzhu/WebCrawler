@@ -1,6 +1,5 @@
 package com.zhiwen.crawler.fetcher;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,7 +30,7 @@ public class FetcherPageContent {
             URL url = new URL(seedUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setConnectTimeout(10 * 1000);
+            conn.setConnectTimeout(5 * 1000);
             if (conn.getResponseCode() == 200) {
                 InputStream is = conn.getInputStream();
                 String charset = "gb2312";
@@ -53,7 +52,6 @@ public class FetcherPageContent {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
-                    byte[] bytes = sb.toString().getBytes();
                 }
                 is.close();
                 result = sb.toString();

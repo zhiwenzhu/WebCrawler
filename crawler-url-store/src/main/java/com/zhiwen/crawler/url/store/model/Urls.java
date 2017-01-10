@@ -1,8 +1,5 @@
 package com.zhiwen.crawler.url.store.model;
 
-import java.util.List;
-import java.util.Set;
-
 /**
  * Created by zhiwenzhu on 17/1/5.
  */

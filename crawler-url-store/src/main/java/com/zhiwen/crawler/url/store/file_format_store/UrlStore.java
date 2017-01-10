@@ -1,13 +1,11 @@
 package com.zhiwen.crawler.url.store.file_format_store;
 
-import com.sun.jdi.request.ClassUnloadRequest;
 import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.model.CrawlerStore;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
 import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.Date;
 
 /**
