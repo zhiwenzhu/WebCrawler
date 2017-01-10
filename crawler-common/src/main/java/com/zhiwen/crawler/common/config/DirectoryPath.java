@@ -29,4 +29,6 @@ public class DirectoryPath {
     //每次当前程序里list中的url都爬完后，去读取该文件中的这条记录，然后解析该信息，再去找到接下来爬的url文件
     public static final String Next_CRAWLER_FILE_NAME = CONFIG_STORE_PATH + "to_crawler_file";
 
+    public static final String BLOOM_FILTER_FILE = "/crawler_bloom_object/bloomFilter";
+
 }
