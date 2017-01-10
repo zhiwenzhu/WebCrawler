@@ -74,17 +74,36 @@ public class StartCrawler extends Thread {
         BloomFilter bloomFilter = getBloomFilter();
 
         String toCrawlerUrlFile = "";
-        try {
-            File file = new File(DirectoryPath.Next_CRAWLER_FILE_NAME);
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            toCrawlerUrlFile = reader.readLine();
-            reader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        GetSeedUrlsStrategy gsus = new GetSeedUrlsStrategy();
+        synchronized (this) {
+            try {
+                File file = new File(DirectoryPath.Next_CRAWLER_FILE_NAME);
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                toCrawlerUrlFile = reader.readLine();
+                reader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (StringUtils.isNotBlank(toCrawlerUrlFile)) {
+                String newPath = gsus.getToCrawlerMessage(toCrawlerUrlFile);
+                if (StringUtils.isNotBlank(newPath)) {
+                    File file = new File(DirectoryPath.Next_CRAWLER_FILE_NAME);
+                    try {
+                        OutputStream ops = new FileOutputStream(file);
+                        ops.write(newPath.getBytes());
+                        ops.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    return;
+                }
+            }
         }
 
+
         if (StringUtils.isNotBlank(toCrawlerUrlFile)) {
-            GetSeedUrlsStrategy gsus = new GetSeedUrlsStrategy();
             List<String> toCrawlerUrls = gsus.getToCrawlerUrl(toCrawlerUrlFile);
             System.out.println(toCrawlerUrls.size() + "条url开始被爬取");
             HtmlContentParser hp = new HtmlContentParser();
@@ -95,7 +114,12 @@ public class StartCrawler extends Thread {
                     bloomFilter.addUrl(url);
                 }
                 count++;
-                System.out.println(count);
+                System.out.println(Thread.currentThread().getName() + ":" + count);
+                try {
+                    sleep(10);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 long currentTime = System.currentTimeMillis();
                 if ((currentTime -beginTime) >= 1000 * 60 * 5) {
                     StaticBloomFilter.writeToFile();
@@ -109,19 +133,6 @@ public class StartCrawler extends Thread {
 
             System.out.println("截止" + dateString + ": 已爬取" + count + "个页面");
 
-            String newPath = gsus.getToCrawlerMessage(toCrawlerUrlFile);
-            if (StringUtils.isNotBlank(newPath)) {
-                File file = new File(DirectoryPath.Next_CRAWLER_FILE_NAME);
-                try {
-                    OutputStream ops = new FileOutputStream(file);
-                    ops.write(newPath.getBytes());
-                    ops.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                return;
-            }
             System.out.println(Thread.currentThread().getName() + "线程执行完毕");
             run();
         }
@@ -143,7 +154,27 @@ public class StartCrawler extends Thread {
 
         StartCrawler sc = new StartCrawler();
 
-        sc.run();
+        Thread threadOne = new Thread(sc, "one");
+        Thread threadTwo = new Thread(sc, "two");
+        Thread threadThree = new Thread(sc, "three");
+        Thread threadFour = new Thread(sc, "four");
+        Thread threadFive = new Thread(sc, "five");
+        Thread threadSix = new Thread(sc, "six");
+        Thread threadSeven = new Thread(sc, "seven");
+        Thread threadEight = new Thread(sc, "eight");
+        Thread threadNine = new Thread(sc, "nine");
+
+//        sc.run();
+
+        threadOne.start();
+        threadTwo.start();
+        threadThree.start();
+        threadFour.start();
+        threadFive.start();
+        threadSix.start();
+        threadSeven.start();
+        threadEight.start();
+        threadNine.start();
 
     }
 }
