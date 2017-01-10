@@ -31,6 +31,8 @@ public class StartCrawler extends Thread {
 
     private static long beginTime = System.currentTimeMillis();
 
+    private static final int INTERVAL_OF_WRITE_BF = 1000 * 60 * 5;
+
 //    public void getLastCrawlerIndex() {
 //        int maxFileMessageId = fileMessageService.getMaxId();
 //        String lastCrawlerUrl = "";
@@ -67,10 +69,7 @@ public class StartCrawler extends Thread {
 //                crawlerIndexDao.updateIndex(crawlerIndex);
 //        run();
 
-        BloomFilter bloomFilter = StaticBloomFilter.bloomFilter;
-        if (bloomFilter == null) {
-            bloomFilter = StaticBloomFilter.getFromFile();
-        }
+        BloomFilter bloomFilter = getBloomFilter();
 
         String toCrawlerUrlFile = "";
         try {
@@ -116,6 +115,16 @@ public class StartCrawler extends Thread {
             run();
         }
 
+    }
+
+    private BloomFilter getBloomFilter() {
+        BloomFilter bloomFilter = StaticBloomFilter.bloomFilter;
+
+        if (bloomFilter == null) {
+            bloomFilter = StaticBloomFilter.getFromFile();
+        }
+
+        return bloomFilter;
     }
 
     public static void main(String[] args) {
