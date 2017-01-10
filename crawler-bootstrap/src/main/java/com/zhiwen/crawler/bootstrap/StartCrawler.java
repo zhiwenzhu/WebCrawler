@@ -1,7 +1,9 @@
 package com.zhiwen.crawler.bootstrap;
 
 import com.zhiwen.crawler.common.config.DirectoryPath;
+import com.zhiwen.crawler.common.strategy.BloomFilter;
 import com.zhiwen.crawler.common.strategy.GetSeedUrlsStrategy;
+import com.zhiwen.crawler.common.strategy.StaticBloomFilter;
 import com.zhiwen.crawler.file.parser.HtmlContentParser;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
 import com.zhiwen.crawler.file.parser.util.SpringBeanUtil;
@@ -12,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.nio.Buffer;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +28,8 @@ public class StartCrawler extends Thread {
     private FileMessageService fileMessageService = SpringBeanUtil.getFileMessageService();
 
     private CrawlerIndexDao crawlerIndexDao = SpringBeanUtil.getCrawlerIndexDao();
+
+    private static long beginTime = System.currentTimeMillis();
 
 //    public void getLastCrawlerIndex() {
 //        int maxFileMessageId = fileMessageService.getMaxId();
@@ -62,6 +67,11 @@ public class StartCrawler extends Thread {
 //                crawlerIndexDao.updateIndex(crawlerIndex);
 //        run();
 
+        BloomFilter bloomFilter = StaticBloomFilter.bloomFilter;
+        if (bloomFilter == null) {
+            bloomFilter = StaticBloomFilter.getFromFile();
+        }
+
         String toCrawlerUrlFile = "";
         try {
             File file = new File(DirectoryPath.Next_CRAWLER_FILE_NAME);
@@ -74,12 +84,20 @@ public class StartCrawler extends Thread {
 
         if (StringUtils.isNotBlank(toCrawlerUrlFile)) {
             GetSeedUrlsStrategy gsus = new GetSeedUrlsStrategy();
-//            List<String> toCrawlerUrls = gsus.getToCrawlerUrl(toCrawlerUrlFile);
-//            HtmlContentParser hp = new HtmlContentParser();
-//            for (String url : toCrawlerUrls) {
-//                hp.setUrl(url);
-//                hp.run();
-//            }
+            List<String> toCrawlerUrls = gsus.getToCrawlerUrl(toCrawlerUrlFile);
+            HtmlContentParser hp = new HtmlContentParser();
+            for (String url : toCrawlerUrls) {
+                if (!bloomFilter.contains(url)) {
+                    hp.setUrl(url);
+                    hp.run();
+                    bloomFilter.addUrl(url);
+                }
+                long currentTime = System.currentTimeMillis();
+                if ((currentTime -beginTime) >= 1000 * 60 * 5) {
+                    StaticBloomFilter.writeToFile();
+                    beginTime = currentTime;
+                }
+            }
 
             String newPath = gsus.getToCrawlerMessage(toCrawlerUrlFile);
             if (StringUtils.isNotBlank(newPath)) {
