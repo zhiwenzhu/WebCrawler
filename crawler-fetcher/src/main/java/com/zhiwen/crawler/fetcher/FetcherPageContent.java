@@ -37,7 +37,7 @@ public class FetcherPageContent {
                 Pattern pattern = Pattern.compile("charset=\\S*");
                 Matcher matcher = pattern.matcher(conn.getContentType());
                 String s = conn.getContentType();
-                System.out.println("编码方式：" + s);
+//                System.out.println("编码方式：" + s);
                 if (matcher.find() && matcher.group().startsWith("charset") ) {
                     charset = matcher.group().replace("charset=", "");
                 } else {

@@ -12,6 +12,9 @@ import com.zhiwen.crawler.url.store.spi.UrlsService;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -83,6 +86,7 @@ public class StartCrawler extends Thread {
         if (StringUtils.isNotBlank(toCrawlerUrlFile)) {
             GetSeedUrlsStrategy gsus = new GetSeedUrlsStrategy();
             List<String> toCrawlerUrls = gsus.getToCrawlerUrl(toCrawlerUrlFile);
+            System.out.println(toCrawlerUrls.size() + "条url开始被爬取");
             HtmlContentParser hp = new HtmlContentParser();
             for (String url : toCrawlerUrls) {
                 if (!bloomFilter.contains(url)) {
@@ -90,12 +94,20 @@ public class StartCrawler extends Thread {
                     hp.run();
                     bloomFilter.addUrl(url);
                 }
+                count++;
+                System.out.println(count);
                 long currentTime = System.currentTimeMillis();
                 if ((currentTime -beginTime) >= 1000 * 60 * 5) {
                     StaticBloomFilter.writeToFile();
                     beginTime = currentTime;
                 }
             }
+
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+            Date date = new Date();
+            String dateString = format.format(date);
+
+            System.out.println("截止" + dateString + ": 已爬取" + count + "个页面");
 
             String newPath = gsus.getToCrawlerMessage(toCrawlerUrlFile);
             if (StringUtils.isNotBlank(newPath)) {

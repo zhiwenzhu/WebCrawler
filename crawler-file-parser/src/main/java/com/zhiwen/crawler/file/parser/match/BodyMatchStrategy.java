@@ -39,7 +39,7 @@ public class BodyMatchStrategy {
             }
         }
 
-        System.out.println(urlSet.size() + "条url进入待爬取集合");
+//        System.out.println(urlSet.size() + "条url进入待爬取集合");
 
         //便于测试
 //        for (String url : urlSet) {
