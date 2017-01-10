@@ -108,12 +108,21 @@ public class StartCrawler extends Thread {
             System.out.println(toCrawlerUrls.size() + "条url开始被爬取");
             HtmlContentParser hp = new HtmlContentParser();
             for (String url : toCrawlerUrls) {
+                count++;
                 if (!bloomFilter.contains(url)) {
                     hp.setUrl(url);
                     hp.run();
+                    System.out.println(count + ":" + url + "是新爬取的");
                     bloomFilter.addUrl(url);
+
                 }
-                count++;
+                else {
+                    System.out.println(url + "已经爬取过");
+//                    System.out.println(count);
+//                    String s = url.replace("http://", "").replace("/", "_");
+//                    System.out.println(s);
+                }
+
                 System.out.println(Thread.currentThread().getName() + ":" + count);
                 try {
                     sleep(10);
