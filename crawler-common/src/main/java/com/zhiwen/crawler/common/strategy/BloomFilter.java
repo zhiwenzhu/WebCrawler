@@ -67,40 +67,7 @@ public class BloomFilter implements Serializable {
         }
     }
 
-//    public BitSet getBitSet() {
-//        return bitSet;
-//    }
-//
-//    public void setBitSet(BitSet bitSet) {
-//        this.bitSet = bitSet;
-//    }
-
     public static void main(String[] args) {
-//        BloomFilter bloomFilter = new BloomFilter();
-//
-//        bloomFilter.addUrl("www.baidu.com");
-////        bloomFilter.addUrl("wwww.163.com");
-//
-//        System.out.println(bloomFilter.contains("www.baidu.com"));
-//        System.out.println(bloomFilter.contains("wwww.163.com"));
-//        System.out.println(bloomFilter.contains("www.zhiwenzhu.com"));
-//
-//        try {
-//            File file = new File("/crawler_bloom_object/bloomFilter");
-//
-//            if (!file.exists()) {
-//                file.createNewFile();
-//            }
-//            OutputStream ops = new FileOutputStream(file);
-//
-//            ObjectOutputStream oops = new ObjectOutputStream(ops);
-//
-//            oops.writeObject(bloomFilter);
-//
-//            oops.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         File file = new File("/crawler_bloom_object/bloomFilter");
         try {
@@ -108,18 +75,8 @@ public class BloomFilter implements Serializable {
             ObjectInputStream ois = new ObjectInputStream(fis);
             BloomFilter bloomFilter = (BloomFilter) ois.readObject();
 
-//            BitSet bitSet = bloomFilter.getBitSet();
-//            int count = 0;
-//
-//            for (int i = 0; i < 2 << 29 ; i++) {
-//                if (bitSet.get(i) == true) {
-//                    count ++;
-//                }
-//            }
-
             System.out.println(bloomFilter.contains("www.baidu.com"));
 
-//            System.out.println(count);
 
 
         } catch (Exception e) {

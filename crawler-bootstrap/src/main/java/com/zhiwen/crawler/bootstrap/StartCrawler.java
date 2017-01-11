@@ -139,7 +139,7 @@ public class StartCrawler extends Thread {
         BloomFilter bloomFilter = StaticBloomFilter.bloomFilter;
 
         if (bloomFilter == null) {
-            bloomFilter = StaticBloomFilter.getFromFile();
+            bloomFilter = StaticBloomFilter.getFromFile(DirectoryPath.PAGE_BLOOM_OBJECT_PATH);
         }
 
         return bloomFilter;

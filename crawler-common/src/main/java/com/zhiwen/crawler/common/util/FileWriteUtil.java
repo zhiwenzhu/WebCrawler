@@ -21,6 +21,18 @@ public class FileWriteUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public static void writeToFileAvoidDuplicat(File file, byte[] bytes, boolean append) {
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+                OutputStream ops = new FileOutputStream(file, append);
+                ops.write(bytes);
+                ops.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

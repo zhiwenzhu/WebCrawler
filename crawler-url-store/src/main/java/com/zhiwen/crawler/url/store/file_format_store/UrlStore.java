@@ -42,7 +42,9 @@ public class UrlStore implements CrawlerStore {
 
         File file = new File(today_dir + "/" + filename);
 
-        FileWriteUtil.writeToFile(file, bytes, false);
+        FileWriteUtil.writeToFileAvoidDuplicat(file, bytes, false);
+
+        //// TODO: 17/1/11  加BloomFilter  判断
 
         UrlFileNameStore ufns = new UrlFileNameStore();
         byte[] urlFileNameBytes = (filename + "\n").getBytes();

@@ -9,13 +9,12 @@ import java.io.*;
  * Created by zhiwenzhu on 17/1/10.
  */
 public class StaticBloomFilter {
-    private static final String FILE_PATH = DirectoryPath.BLOOM_FILTER_FILE;
 
     public static BloomFilter bloomFilter;
 
-    public static void writeToFile() {
+    public static void writeToFile(String filePath) {
         try {
-            File file = new File(FILE_PATH);
+            File file = new File(filePath);
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -29,9 +28,9 @@ public class StaticBloomFilter {
         }
     }
 
-    public static BloomFilter getFromFile() {
+    public static BloomFilter getFromFile(String filePath) {
         try {
-            File file = new File(FILE_PATH);
+            File file = new File(filePath);
             InputStream ips = new FileInputStream(file);
 
             ObjectInputStream oips = new ObjectInputStream(ips);
@@ -45,11 +44,11 @@ public class StaticBloomFilter {
     }
 
     public static void main(String[] args) {
-        Assert.assertTrue(bloomFilter == null);
+//        Assert.assertTrue(bloomFilter == null);
 
-        getFromFile();
+//        getFromFile();
 
-        Assert.assertNotNull(bloomFilter);
+//        Assert.assertNotNull(bloomFilter);
     }
 
 }

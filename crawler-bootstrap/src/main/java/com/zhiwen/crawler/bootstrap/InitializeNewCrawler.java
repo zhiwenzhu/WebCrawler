@@ -17,17 +17,15 @@ import java.util.Date;
  */
 public class InitializeNewCrawler {
     private static final String FIRST_URL = "www.163.com";
-    private static final String START_FILE = "startup.txt\nwww.163.com";
+    private static final String START_FILE = "startup.txt";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private static final String DATE_STRING = DATE_FORMAT.format(new Date());
 
-    private static final String BLOOM_OBJECT_PATH = DirectoryPath.BLOOM_FILTER_FILE;
-
     private void writeToCrawlerFile() {
         String filePath = DirectoryPath.Next_CRAWLER_FILE_NAME;
-        String fileContent = DirectoryPath.URL_STORE_PATH + DATE_STRING + "/" + FIRST_URL;
+        String fileContent = DirectoryPath.URL_STORE_PATH + DATE_STRING + "/" + START_FILE;
 
         File file = new File(filePath);
         FileWriteUtil.writeToFile(file, fileContent.getBytes(), false);
@@ -49,23 +47,37 @@ public class InitializeNewCrawler {
         FileWriteUtil.writeToFile(file, fileContent.getBytes(), false);
     }
 
-    private void writeToBloomFilter() {
 
+    /**
+     * 创建两个BloomFilter对象（写进两个文件），
+     * pageBloomFilter用来判断是否重复爬取某个页面；
+     * urlBloomFilter用来判断页面解析后url的集合是否有重复存储
+     */
+    private void writeNewBloomFilter() {
+        BloomFilter pageBloomFilter = new BloomFilter();
+        BloomFilter urlBloomFilter = new BloomFilter();
+
+        pageBloomFilter.addUrl(FIRST_URL);
+        urlBloomFilter.addUrl(START_FILE);
+        urlBloomFilter.addUrl(FIRST_URL);
+
+        writeNewObjectFile(DirectoryPath.PAGE_BLOOM_OBJECT_PATH, pageBloomFilter);
+
+        writeNewObjectFile(DirectoryPath.URL_BLOOM_OBJECT_PATH, urlBloomFilter);
+
+    }
+
+    private void writeNewObjectFile(String filePath, Object o) {
+        File file = new File(filePath);
         try {
-            BloomFilter bloomFilter = new BloomFilter();
-
-            bloomFilter.addUrl(FIRST_URL);
-            File file = new File(BLOOM_OBJECT_PATH);
-
             if (!file.exists()) {
                 file.createNewFile();
             }
-            OutputStream ops = new FileOutputStream(file);
 
+            OutputStream ops = new FileOutputStream(file);
             ObjectOutputStream oops = new ObjectOutputStream(ops);
 
-            oops.writeObject(bloomFilter);
-
+            oops.writeObject(o);
             oops.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,8 +90,8 @@ public class InitializeNewCrawler {
         writeToUrlDateDirFile();
         HtmlContentParser hp = new HtmlContentParser();
         hp.setUrl(FIRST_URL);
-        hp.start();
-        writeToBloomFilter();
+        hp.run();
+        writeNewBloomFilter();
     }
 
     public static void main(String[] args) {

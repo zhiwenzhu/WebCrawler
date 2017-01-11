@@ -40,7 +40,9 @@ public class FileStore implements CrawlerStore {
         }
 
         File file = new File(today_dir + "/" + fileName);
-        FileWriteUtil.writeToFile(file, bytes, false);
+        FileWriteUtil.writeToFileAvoidDuplicat(file, bytes, false);
+
+        //// TODO: 17/1/11 把在StartCrawler中的 BloomFilter.add(url) 转到该处，更精确
 
     }
 
