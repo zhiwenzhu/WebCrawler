@@ -15,7 +15,9 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by zhiwenzhu on 17/1/6.
@@ -23,11 +25,13 @@ import java.util.List;
 public class StartCrawler extends Thread {
     private int count = 0;
 
+    private int newPage = 0;
+
     public static int crawlerIndex = 0;
 
-    private UrlsService urlsService = SpringBeanUtil.getUrlsService();
+//    private UrlsService urlsService = SpringBeanUtil.getUrlsService();
 
-    private FileMessageService fileMessageService = SpringBeanUtil.getFileMessageService();
+//    private FileMessageService fileMessageService = SpringBeanUtil.getFileMessageService();
 
     private CrawlerIndexDao crawlerIndexDao = SpringBeanUtil.getCrawlerIndexDao();
 
@@ -35,17 +39,7 @@ public class StartCrawler extends Thread {
 
     private static final int INTERVAL_OF_WRITE_BF = 1000 * 60 * 5;
 
-//    public void getLastCrawlerIndex() {
-//        int maxFileMessageId = fileMessageService.getMaxId();
-//        String lastCrawlerUrl = "";
-//
-//        if (maxFileMessageId > 0) {
-//            lastCrawlerUrl = fileMessageService.getFileMessageById(maxFileMessageId).getUrl();
-//            if (StringUtils.isNotBlank(lastCrawlerUrl)) {
-//                lastCrawlerIndex = urlsService.getUrlsByUrl(lastCrawlerUrl).getId();
-//            }
-//        }
-//    }
+    private Set<String> urlSet = new HashSet<String>();
 
     private void getCrawlerIndex() {
         crawlerIndex = crawlerIndexDao.getCrawlerIndex();
@@ -53,25 +47,9 @@ public class StartCrawler extends Thread {
 
     public void run() {
         System.out.println(Thread.currentThread().getName() + "线程开始执行");
-//        if (crawlerIndex == 0) {
-//            getCrawlerIndex();
-//        }
-//        String toCrawlerUrl = "";
-//        for ( ; ; ) {
-//            Urls urls = urlsService.getUrlsById(crawlerIndex);
-//            if (urls != null && StringUtils.isNotBlank(urls.getUrl())) {
-//                toCrawlerUrl = urls.getUrl();
-//                break;
-//            }
-//        }
-//        HtmlContentParser hp = new HtmlContentParser();
-//        hp.setUrl(toCrawlerUrl);
-//        hp.run();
-//                crawlerIndex++;
-//                crawlerIndexDao.updateIndex(crawlerIndex);
-//        run();
 
-        BloomFilter bloomFilter = getBloomFilter();
+
+//        BloomFilter bloomFilter = getBloomFilter();
 
         String toCrawlerUrlFile = "";
         GetSeedUrlsStrategy gsus = new GetSeedUrlsStrategy();
@@ -109,31 +87,40 @@ public class StartCrawler extends Thread {
             HtmlContentParser hp = new HtmlContentParser();
             for (String url : toCrawlerUrls) {
                 count++;
-                if (!bloomFilter.contains(url)) {
+                if (!urlSet.contains(url)) {
                     hp.setUrl(url);
                     hp.run();
-                    System.out.println(count + ":" + url + "是新爬取的");
-                    bloomFilter.addUrl(url);
+                    newPage ++;
+                    System.out.println(Thread.currentThread().getName() + ":" + count + ":" + url + "是新爬取的"
+                                       + "（" + newPage +"）");
 
+                    urlSet.add(url);
                 }
+
+
+//                if (!bloomFilter.contains(url)) {
+//                    hp.setUrl(url);
+//                    hp.run();
+//                    newPage ++;
+//                    System.out.println(Thread.currentThread().getName() + ":" + count + ":" + url + "是新爬取的"
+//                                       + "（" + newPage +"）");
+//                    bloomFilter.addUrl(url);
+//
+//                }
                 else {
-                    System.out.println(url + "已经爬取过");
-//                    System.out.println(count);
-//                    String s = url.replace("http://", "").replace("/", "_");
-//                    System.out.println(s);
+                    System.out.println(Thread.currentThread().getName() + ":" + count + url + "已经爬取过");
                 }
 
-                System.out.println(Thread.currentThread().getName() + ":" + count);
                 try {
                     sleep(10);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                long currentTime = System.currentTimeMillis();
-                if ((currentTime -beginTime) >= 1000 * 60 * 5) {
-                    StaticBloomFilter.writeToFile();
-                    beginTime = currentTime;
-                }
+//                long currentTime = System.currentTimeMillis();
+//                if ((currentTime -beginTime) >= 1000 * 60 * 5) {
+//                    StaticBloomFilter.writeToFile();
+//                    beginTime = currentTime;
+//                }
             }
 
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
@@ -167,11 +154,11 @@ public class StartCrawler extends Thread {
         Thread threadTwo = new Thread(sc, "two");
         Thread threadThree = new Thread(sc, "three");
         Thread threadFour = new Thread(sc, "four");
-//        Thread threadFive = new Thread(sc, "five");
-//        Thread threadSix = new Thread(sc, "six");
-//        Thread threadSeven = new Thread(sc, "seven");
-//        Thread threadEight = new Thread(sc, "eight");
-//        Thread threadNine = new Thread(sc, "nine");
+        Thread threadFive = new Thread(sc, "five");
+        Thread threadSix = new Thread(sc, "six");
+        Thread threadSeven = new Thread(sc, "seven");
+        Thread threadEight = new Thread(sc, "eight");
+        Thread threadNine = new Thread(sc, "nine");
 
 //        sc.run();
 
@@ -179,11 +166,11 @@ public class StartCrawler extends Thread {
         threadTwo.start();
         threadThree.start();
         threadFour.start();
-//        threadFive.start();
-//        threadSix.start();
-//        threadSeven.start();
-//        threadEight.start();
-//        threadNine.start();
+        threadFive.start();
+        threadSix.start();
+        threadSeven.start();
+        threadEight.start();
+        threadNine.start();
 
     }
 }

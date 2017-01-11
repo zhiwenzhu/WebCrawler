@@ -67,47 +67,65 @@ public class BloomFilter implements Serializable {
         }
     }
 
+//    public BitSet getBitSet() {
+//        return bitSet;
+//    }
+//
+//    public void setBitSet(BitSet bitSet) {
+//        this.bitSet = bitSet;
+//    }
 
     public static void main(String[] args) {
-        BloomFilter bloomFilter = new BloomFilter();
+//        BloomFilter bloomFilter = new BloomFilter();
+//
+//        bloomFilter.addUrl("www.baidu.com");
+////        bloomFilter.addUrl("wwww.163.com");
+//
+//        System.out.println(bloomFilter.contains("www.baidu.com"));
+//        System.out.println(bloomFilter.contains("wwww.163.com"));
+//        System.out.println(bloomFilter.contains("www.zhiwenzhu.com"));
+//
+//        try {
+//            File file = new File("/crawler_bloom_object/bloomFilter");
+//
+//            if (!file.exists()) {
+//                file.createNewFile();
+//            }
+//            OutputStream ops = new FileOutputStream(file);
+//
+//            ObjectOutputStream oops = new ObjectOutputStream(ops);
+//
+//            oops.writeObject(bloomFilter);
+//
+//            oops.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        bloomFilter.addUrl("www.baidu.com");
-//        bloomFilter.addUrl("wwww.163.com");
-
-        System.out.println(bloomFilter.contains("www.baidu.com"));
-        System.out.println(bloomFilter.contains("wwww.163.com"));
-        System.out.println(bloomFilter.contains("www.zhiwenzhu.com"));
-
+        File file = new File("/crawler_bloom_object/bloomFilter");
         try {
-            File file = new File("/crawler_bloom_object/bloomFilter");
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            BloomFilter bloomFilter = (BloomFilter) ois.readObject();
 
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            OutputStream ops = new FileOutputStream(file);
+//            BitSet bitSet = bloomFilter.getBitSet();
+//            int count = 0;
+//
+//            for (int i = 0; i < 2 << 29 ; i++) {
+//                if (bitSet.get(i) == true) {
+//                    count ++;
+//                }
+//            }
 
-            ObjectOutputStream oops = new ObjectOutputStream(ops);
+            System.out.println(bloomFilter.contains("www.baidu.com"));
 
-            oops.writeObject(bloomFilter);
+//            System.out.println(count);
 
-            oops.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-//        File file = new File("/crawler_bloom_object/bloomFilter");
-//        try {
-//            FileInputStream fis = new FileInputStream(file);
-//            ObjectInputStream ois = new ObjectInputStream(fis);
-//            BloomFilter bloomFilter = (BloomFilter) ois.readObject();
-//
-//            System.out.println(bloomFilter.contains("www.baidu.com"));
-//            System.out.println(bloomFilter.contains("wwww.163.com"));
-//            System.out.println(bloomFilter.contains("www.zhiwenzhu.com"));
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
 

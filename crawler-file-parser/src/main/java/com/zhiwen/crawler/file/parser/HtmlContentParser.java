@@ -72,6 +72,8 @@ public class HtmlContentParser extends Thread{
 
         String commonFileName = url.replace("http://", "").replace("/", "_");
 
+
+
         FileStore fs = new FileStore();
         UrlStore us = new UrlStore();
 
@@ -134,7 +136,7 @@ public class HtmlContentParser extends Thread{
     //测试给定url后，页面的爬取，解析和存储
     public static void main(String[] args) {
         HtmlContentParser hp = new HtmlContentParser();
-        hp.setUrl("http://caipiao.163.com/award/qlc/#from=wzy");
+        hp.setUrl("http://www.163.com");
         hp.run();
     }
 
