@@ -20,6 +20,7 @@ import java.util.concurrent.Future;
  */
 public class Crawler {
 
+    public static final int SLEEP_TIME_MILLS = 100;
     private Fetcher fetcher;
 
     private UrlMarket urlMarket;
@@ -30,6 +31,8 @@ public class Crawler {
 
     private ExecutorService es = Executors.newFixedThreadPool(20);
 
+    private volatile boolean stop = false;
+
     public Crawler(Fetcher fetcher, UrlMarket urlMarket, Parser parser, FileStore fileStore) {
         this.fetcher = fetcher;
         this.urlMarket = urlMarket;
@@ -38,22 +41,31 @@ public class Crawler {
     }
 
     public void crawl() {
-        crawl(new String[]{});
-    }
+        while (!stop) {
+            Collection<String> urls = urlMarket.withdraw();
+            if (urls.size() == 0) {
+                sleep();
+            } else {
+                List<Future> results = new ArrayList<Future>(urls.size());
+                for (String url : urls) {
+                    try {
+                        process(url);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-    public void crawl(String... seedUrls) {
-        saveSeed(seedUrls);
-        Collection<String> urls = urlMarket.withdraw();
-        List<Future> results = new ArrayList<Future>(urls.size());
-        for (String url : urls) {
-            try {
-                process(url);
-            } catch (IOException e) {
-                e.printStackTrace();
+                waitAllDone(results);
             }
         }
+    }
 
-        waitAllDone(results);
+    private void sleep() {
+        try {
+            Thread.sleep(SLEEP_TIME_MILLS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void waitAllDone(List<Future> results) {
@@ -78,10 +90,7 @@ public class Crawler {
         });
     }
 
-    private void saveSeed(String... seedUrls) {
-        for (String url : seedUrls) {
-            urlMarket.deposit(url);
-        }
+    public void stop() {
+        this.stop = true;
     }
-
 }
