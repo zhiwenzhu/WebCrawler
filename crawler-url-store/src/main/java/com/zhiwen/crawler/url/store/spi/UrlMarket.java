@@ -1,7 +1,5 @@
 package com.zhiwen.crawler.url.store.spi;
 
-import com.zhiwen.crawler.common.model.CrawlerGroup;
-
 import java.util.Collection;
 
 /**
@@ -13,21 +11,24 @@ public interface UrlMarket {
     /**
      * Store URLs to the store. Crawler get many URLs by parse the downloaded pages. The save the URLs which to be visit by themselves in the local.
      * Those should not be download by themselves will be saved in the bank. Crawlers call this method to save the URL here.
+     *
      * @param urls the URLs found by the crawlers.
-     * @param group The crawlers-group.
      */
-    void deposit(Collection<String> urls, CrawlerGroup group);
+    void deposit(Collection<String> urls);
+
+    void deposit(String url);
 
     /**
      * The crawlers fetch the unvisited URLs from the store. And the store distributes URLs by crawler group.
      * In the other word, crawler in the same crawler group share the same URLs queue.
-     * @param group
+     *
      * @return
      */
-    Collection withdraw(CrawlerGroup group);
+    Collection<String> withdraw();
 
     /**
      * Whether a URL has been visited
+     *
      * @param url
      * @return
      */
