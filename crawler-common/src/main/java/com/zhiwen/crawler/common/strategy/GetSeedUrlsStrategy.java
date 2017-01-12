@@ -42,7 +42,7 @@ public class GetSeedUrlsStrategy implements CrawlerSrategy {
                 sb.append("/").append(dirs[1]).append("/").append(dirs[2]).append("/").append(s);
                 result = sb.toString();
 
-                if (i > 200) {
+                if (i > 50) {
                     reWriteFile(file, i);
                 }
             }
