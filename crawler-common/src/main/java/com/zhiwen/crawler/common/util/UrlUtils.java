@@ -31,4 +31,14 @@ public class UrlUtils {
             return null;
         }
     }
+
+    public static void main(String[] args) {
+        String baseUrl = "http://www.baidu.com";
+
+        String suffix = "www.baidu.com/zhuzhu";
+
+        String result = UrlUtils.combine(baseUrl, suffix);
+
+        System.out.println(result);
+    }
 }
