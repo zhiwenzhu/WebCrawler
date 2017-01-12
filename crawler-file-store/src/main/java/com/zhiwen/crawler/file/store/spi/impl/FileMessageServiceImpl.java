@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by zhiwenzhu on 17/1/5.
  */
+@Deprecated
 @Service("FileMessageService")
 public class FileMessageServiceImpl implements FileMessageService{
     @Autowired

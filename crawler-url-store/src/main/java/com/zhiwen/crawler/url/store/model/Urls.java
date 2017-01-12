@@ -3,6 +3,7 @@ package com.zhiwen.crawler.url.store.model;
 /**
  * Created by zhiwenzhu on 17/1/5.
  */
+@Deprecated
 public class Urls {
     private String url;
 

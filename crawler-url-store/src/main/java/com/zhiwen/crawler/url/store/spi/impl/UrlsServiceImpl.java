@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Created by zhiwenzhu on 17/1/5.
  */
+@Deprecated
 @Service("UrlsService")
 public class UrlsServiceImpl implements UrlsService {
 

@@ -1,11 +1,8 @@
 package com.zhiwen.crawler.file.parser.util;
 
 import com.zhiwen.crawler.file.parser.HtmlContentParser;
-import com.zhiwen.crawler.file.store.file_format_store.FileStore;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
 import com.zhiwen.crawler.url.store.dao.CrawlerIndexDao;
-import com.zhiwen.crawler.url.store.file_format_store.UrlStore;
-import com.zhiwen.crawler.url.store.model.Urls;
 import com.zhiwen.crawler.url.store.spi.UrlsService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

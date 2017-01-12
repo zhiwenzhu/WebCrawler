@@ -5,19 +5,12 @@ import com.zhiwen.crawler.common.strategy.BloomFilter;
 import com.zhiwen.crawler.common.strategy.GetSeedUrlsStrategy;
 import com.zhiwen.crawler.common.strategy.StaticBloomFilter;
 import com.zhiwen.crawler.file.parser.HtmlContentParser;
-import com.zhiwen.crawler.file.parser.util.SpringBeanUtil;
-import com.zhiwen.crawler.file.store.spi.FileMessageService;
-import com.zhiwen.crawler.url.store.dao.CrawlerIndexDao;
-import com.zhiwen.crawler.url.store.spi.UrlsService;
 import org.apache.commons.lang3.StringUtils;
-
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by zhiwenzhu on 17/1/6.
@@ -144,6 +137,10 @@ public class StartCrawler extends Thread {
         Thread threadSeven = new Thread(sc, "seven");
         Thread threadEight = new Thread(sc, "eight");
         Thread threadNine = new Thread(sc, "nine");
+        Thread threadTen = new Thread(sc, "ten");
+        Thread threadEleven = new Thread(sc, "eleven");
+        Thread threadTwelve = new Thread(sc, "twelve");
+        Thread threadThirteen = new Thread(sc, "thirteen");
 
         threadOne.start();
         threadTwo.start();
@@ -154,6 +151,10 @@ public class StartCrawler extends Thread {
         threadSeven.start();
         threadEight.start();
         threadNine.start();
+        threadTen.start();
+        threadEleven.start();
+        threadTwelve.start();
+        threadThirteen.start();
 
     }
 }

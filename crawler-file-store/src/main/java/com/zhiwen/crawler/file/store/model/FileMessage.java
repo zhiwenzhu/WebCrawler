@@ -3,6 +3,7 @@ package com.zhiwen.crawler.file.store.model;
 /**
  * Created by zhiwenzhu on 17/1/5.
  */
+@Deprecated
 public class FileMessage {
     private int id;
 

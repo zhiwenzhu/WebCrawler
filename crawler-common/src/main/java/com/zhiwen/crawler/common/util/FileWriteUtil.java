@@ -10,11 +10,12 @@ import java.io.OutputStream;
  * 将字节流写进文件内
  */
 public class FileWriteUtil {
-    public static void writeToFile(File file, byte[] bytes, boolean append) {
+    public static void writeToFile(File file, String content, boolean append) {
         try {
             if (!file.exists()) {
                 file.createNewFile();
             }
+            byte[] bytes = content.getBytes();
             OutputStream ops = new FileOutputStream(file, append);
             ops.write(bytes);
             ops.close();
@@ -23,10 +24,11 @@ public class FileWriteUtil {
         }
     }
 
-    public static void writeToFileAvoidDuplicat(File file, byte[] bytes, boolean append) {
+    public static void writeToFileAvoidDuplicat(File file, String content, boolean append) {
         try {
             if (!file.exists()) {
                 file.createNewFile();
+                byte[] bytes = content.getBytes();
                 OutputStream ops = new FileOutputStream(file, append);
                 ops.write(bytes);
                 ops.close();

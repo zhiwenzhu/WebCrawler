@@ -7,6 +7,7 @@ import com.zhiwen.crawler.url.store.model.DynamicUrls;
  *
  * 测试$符号在mybatis 的sql语句中应用，无实际用处
  */
+@Deprecated
 public interface DynamicUrlsDao {
     int addUrls(DynamicUrls dynamicUrls);
 }

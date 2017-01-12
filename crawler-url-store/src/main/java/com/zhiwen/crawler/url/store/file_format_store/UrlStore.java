@@ -1,13 +1,9 @@
 package com.zhiwen.crawler.url.store.file_format_store;
 
-import com.sun.media.sound.DirectAudioDeviceProvider;
 import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.model.CrawlerStore;
-import com.zhiwen.crawler.common.strategy.BloomFilter;
-import com.zhiwen.crawler.common.strategy.StaticBloomFilter;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.Date;
@@ -15,6 +11,7 @@ import java.util.Date;
 /**
  * Created by zhiwenzhu on 17/1/8.
  */
+
 public class UrlStore implements CrawlerStore {
     private static String dateString = DirectoryPath.DATE_FORMAT.format(new Date());
 
@@ -27,7 +24,7 @@ public class UrlStore implements CrawlerStore {
         }
     }
 
-    public void storeToFile(String filename, byte[] bytes) {
+    public void storeToFile(String filename, String content) {
         Date currentDate = new Date();
         String currentDateString = DirectoryPath.DATE_FORMAT.format(currentDate);
         if (!StringUtils.equals(dateString, currentDateString)) {
@@ -40,17 +37,21 @@ public class UrlStore implements CrawlerStore {
             }
 
             UrlDateDirStore udds = new UrlDateDirStore();
-            byte[] urlDateDirBytes = (dateString + "\n").getBytes();
-            udds.storeToFile(DirectoryPath.URL_DATE_DIR_STORE_FILE, urlDateDirBytes);
+//            byte[] urlDateDirBytes = (dateString + "\n").getBytes();
+
+            String uddsContent = dateString + "\n";
+            udds.storeToFile(DirectoryPath.URL_DATE_DIR_STORE_FILE, uddsContent);
         }
 
         File file = new File(today_dir + "/" + filename);
         if (!file.exists()) {
-            FileWriteUtil.writeToFileAvoidDuplicat(file, bytes, false);
+            FileWriteUtil.writeToFileAvoidDuplicat(file, content, false);
             UrlFileNameStore ufns = new UrlFileNameStore();
-            byte[] urlFileNameBytes = (filename + "\n").getBytes();
+//            byte[] urlFileNameBytes = (filename + "\n").getBytes();
 
-            ufns.storeToFile(dateString, urlFileNameBytes);
+            String ufnsContent = filename + "\n";
+
+            ufns.storeToFile(dateString, ufnsContent);
         }
     }
 }

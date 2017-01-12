@@ -3,6 +3,7 @@ package com.zhiwen.crawler.url.store.model;
 /**
  * Created by zhiwenzhu on 17/1/7.
  */
+@Deprecated
 public class DynamicUrls {
     private String dbName;
 

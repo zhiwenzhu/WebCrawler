@@ -29,22 +29,12 @@ public class BodyMatchStrategy {
         //匹配body中的url
         Matcher matcher = MatchUtil.getMatcher(body, URLS_REGEX);
 
-        //便于测试
-//        System.out.println(body);
-
         while (matcher.find()) {
             String url = outUslessCharOfUrl(matcher.group());
             if (url.length() < 100) {
                 urlSet.add(url);
             }
         }
-
-//        System.out.println(urlSet.size() + "条url进入待爬取集合");
-
-        //便于测试
-//        for (String url : urlSet) {
-//            System.out.println(url);
-//        }
 
         return urlSet;
 

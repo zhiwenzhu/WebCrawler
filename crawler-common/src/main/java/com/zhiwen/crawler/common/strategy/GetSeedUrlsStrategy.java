@@ -7,7 +7,6 @@ import com.zhiwen.crawler.common.util.ResolveFilePathUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -128,8 +127,9 @@ public class GetSeedUrlsStrategy implements CrawlerSrategy {
 
             String s = "";
             while ((s = reader.readLine()) != null) {
-                byte[] bytes = (s + "\n").getBytes();
-                FileWriteUtil.writeToFile(tempFile, bytes, true);
+//                byte[] bytes = (s + "\n").getBytes();
+                s += "\n";
+                FileWriteUtil.writeToFile(tempFile, s, true);
             }
 
             file.delete();

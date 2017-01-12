@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * Created by zhiwenzhu on 17/1/5.
  */
+@Deprecated
 public interface UrlsService {
     int addUrls(Urls urls);
 

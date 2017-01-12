@@ -4,7 +4,6 @@ import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.model.CrawlerStore;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.Date;
@@ -26,7 +25,7 @@ public class FileStore implements CrawlerStore {
     }
 
 
-    public void storeToFile(String fileName, byte[] bytes) {
+    public void storeToFile(String fileName, String content) {
 
         Date currentDate = new Date();
         String currentDateString = DirectoryPath.DATE_FORMAT.format(currentDate);
@@ -41,7 +40,7 @@ public class FileStore implements CrawlerStore {
         }
 
         File file = new File(today_dir + "/" + fileName);
-        FileWriteUtil.writeToFileAvoidDuplicat(file, bytes, false);
+        FileWriteUtil.writeToFileAvoidDuplicat(file, content, false);
 
     }
 
@@ -60,13 +59,6 @@ public class FileStore implements CrawlerStore {
 
 
     public static void main(String[] args) {
-        FileStore fileStore = new FileStore();
-
-        byte[] bytes = new byte[] {'z', 'h', 'u'};
-
-        String fileName = "test.txt";
-
-        fileStore.storeToFile(fileName, bytes);
 
     }
 }

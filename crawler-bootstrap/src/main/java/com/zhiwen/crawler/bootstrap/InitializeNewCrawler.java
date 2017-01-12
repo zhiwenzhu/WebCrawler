@@ -28,7 +28,7 @@ public class InitializeNewCrawler {
         String fileContent = DirectoryPath.URL_STORE_PATH + DATE_STRING + "/" + START_FILE;
 
         File file = new File(filePath);
-        FileWriteUtil.writeToFile(file, fileContent.getBytes(), false);
+        FileWriteUtil.writeToFile(file, fileContent, false);
     }
 
     private void writeToUrlDateDirFile() {
@@ -36,7 +36,7 @@ public class InitializeNewCrawler {
         String fileContent = DATE_STRING + "\n";
 
         File file = new File(filePath);
-        FileWriteUtil.writeToFile(file, fileContent.getBytes(), false);
+        FileWriteUtil.writeToFile(file, fileContent, false);
     }
 
     private void writeToPerDayUrlDtoreFile() {
@@ -44,7 +44,7 @@ public class InitializeNewCrawler {
         String fileContent = START_FILE;
 
         File file = new File(filePath);
-        FileWriteUtil.writeToFile(file, fileContent.getBytes(), false);
+        FileWriteUtil.writeToFile(file, fileContent, false);
     }
 
     private void writeNewBloomFilter() {

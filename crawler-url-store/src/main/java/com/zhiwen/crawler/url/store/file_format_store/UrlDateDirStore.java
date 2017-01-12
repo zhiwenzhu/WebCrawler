@@ -2,7 +2,6 @@ package com.zhiwen.crawler.url.store.file_format_store;
 
 import com.zhiwen.crawler.common.model.CrawlerStore;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
-
 import java.io.File;
 
 /**
@@ -11,10 +10,10 @@ import java.io.File;
 public class UrlDateDirStore implements CrawlerStore {
 //    private static final String BASE_DIR = DirectoryPath.CONFIG_STORE_PATH;
 
-    public void storeToFile(String filename, byte[] bytes) {
+    public void storeToFile(String filename, String content) {
         File file = new File(filename);
 
-        FileWriteUtil.writeToFile(file, bytes, true);
+        FileWriteUtil.writeToFile(file, content, true);
 
     }
 }
