@@ -33,10 +33,10 @@ public class InitializeNewCrawler {
 
     private void writeToUrlDateDirFile() {
         String filePath = DirectoryPath.URL_DATE_DIR_STORE_FILE;
-        String fileContent = DATE_STRING;
+        String fileContent = DATE_STRING + "\n";
 
         File file = new File(filePath);
-        FileWriteUtil.writeToFile(file, fileContent.getBytes(), true);
+        FileWriteUtil.writeToFile(file, fileContent.getBytes(), false);
     }
 
     private void writeToPerDayUrlDtoreFile() {

@@ -138,22 +138,22 @@ public class StartCrawler extends Thread {
         Thread threadOne = new Thread(sc, "one");
         Thread threadTwo = new Thread(sc, "two");
         Thread threadThree = new Thread(sc, "three");
-//        Thread threadFour = new Thread(sc, "four");
-//        Thread threadFive = new Thread(sc, "five");
-//        Thread threadSix = new Thread(sc, "six");
-//        Thread threadSeven = new Thread(sc, "seven");
-//        Thread threadEight = new Thread(sc, "eight");
-//        Thread threadNine = new Thread(sc, "nine");
+        Thread threadFour = new Thread(sc, "four");
+        Thread threadFive = new Thread(sc, "five");
+        Thread threadSix = new Thread(sc, "six");
+        Thread threadSeven = new Thread(sc, "seven");
+        Thread threadEight = new Thread(sc, "eight");
+        Thread threadNine = new Thread(sc, "nine");
 
         threadOne.start();
         threadTwo.start();
         threadThree.start();
-//        threadFour.start();
-//        threadFive.start();
-//        threadSix.start();
-//        threadSeven.start();
-//        threadEight.start();
-//        threadNine.start();
+        threadFour.start();
+        threadFive.start();
+        threadSix.start();
+        threadSeven.start();
+        threadEight.start();
+        threadNine.start();
 
     }
 }

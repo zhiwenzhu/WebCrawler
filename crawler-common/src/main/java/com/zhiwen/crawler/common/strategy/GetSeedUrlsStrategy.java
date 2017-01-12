@@ -1,11 +1,13 @@
 package com.zhiwen.crawler.common.strategy;
 
 import com.zhiwen.crawler.common.config.DirectoryPath;
+import com.zhiwen.crawler.common.util.FileWriteUtil;
 import com.zhiwen.crawler.common.util.ResolveFilePathUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +29,8 @@ public class GetSeedUrlsStrategy implements CrawlerSrategy {
             BufferedReader reader = new BufferedReader(new FileReader(file));
 
             String s = "";
-            for ( ; ; ) {
+            int i = 0;
+            for ( ; ; i++) {
                 s = reader.readLine();
                 if (s == null || dirs[3].equals(s)) {
                     break;
@@ -38,7 +41,12 @@ public class GetSeedUrlsStrategy implements CrawlerSrategy {
                 StringBuffer sb = new StringBuffer();
                 sb.append("/").append(dirs[1]).append("/").append(dirs[2]).append("/").append(s);
                 result = sb.toString();
-            } else {
+
+                if (i > 200) {
+                    reWriteFile(file, i);
+                }
+            }
+            else {
                 try {
                     File file1 = new File(DirectoryPath.URL_DATE_DIR_STORE_FILE);
                     BufferedReader reader1 = new BufferedReader(new FileReader(file1));
@@ -61,10 +69,9 @@ public class GetSeedUrlsStrategy implements CrawlerSrategy {
                 } catch (Exception e) {
 
                 }
-
-
-
             }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,5 +110,43 @@ public class GetSeedUrlsStrategy implements CrawlerSrategy {
 
 
         return urlList;
+    }
+
+    private void reWriteFile(File file, int removedLine) {
+        File tempFile = new File(DirectoryPath.CONFIG_STORE_PATH + DirectoryPath.DATE_URL_FILE_PATH + "temp");
+
+        try {
+            if (!tempFile.exists()) {
+                tempFile.createNewFile();
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+
+            for (int i = 0; i < removedLine; i++) {
+                reader.readLine();
+            }
+
+            String s = "";
+            while ((s = reader.readLine()) != null) {
+                byte[] bytes = (s + "\n").getBytes();
+                FileWriteUtil.writeToFile(tempFile, bytes, true);
+            }
+
+            file.delete();
+
+            tempFile.renameTo(file);
+
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        File file = new File(DirectoryPath.CONFIG_STORE_PATH + DirectoryPath.DATE_URL_FILE_PATH + "test");
+
+        GetSeedUrlsStrategy getSeedUrlsStrategy = new GetSeedUrlsStrategy();
+
+        getSeedUrlsStrategy.reWriteFile(file, 5);
     }
 }
