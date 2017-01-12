@@ -1,7 +1,6 @@
 package com.zhiwen.crawler.common.strategy;
 
 import com.zhiwen.crawler.common.config.DirectoryPath;
-import org.junit.Assert;
 
 import java.io.*;
 
@@ -12,9 +11,11 @@ public class StaticBloomFilter {
 
     public static BloomFilter bloomFilter;
 
-    public static void writeToFile(String filePath) {
+    private static final String BLOOM_OBJECT_PATH = DirectoryPath.BLOOM_OBJECT_PATH;
+
+    public static void writeToFile() {
         try {
-            File file = new File(filePath);
+            File file = new File(BLOOM_OBJECT_PATH);
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -28,9 +29,9 @@ public class StaticBloomFilter {
         }
     }
 
-    public static BloomFilter getFromFile(String filePath) {
+    public static BloomFilter getFromFile() {
         try {
-            File file = new File(filePath);
+            File file = new File(BLOOM_OBJECT_PATH);
             InputStream ips = new FileInputStream(file);
 
             ObjectInputStream oips = new ObjectInputStream(ips);

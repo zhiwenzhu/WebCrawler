@@ -31,8 +31,6 @@ public class DirectoryPath {
 
     public static final String BLOOM_FILTER_FILE = "/crawler_bloom_object/";
 
-    public static final String PAGE_BLOOM_OBJECT_PATH = BLOOM_FILTER_FILE + "pageBloomFilter";
-
-    public static final String URL_BLOOM_OBJECT_PATH = BLOOM_FILTER_FILE + "urlBloomFilter";
+    public static final String BLOOM_OBJECT_PATH = BLOOM_FILTER_FILE + "bloomFilter";
 
 }

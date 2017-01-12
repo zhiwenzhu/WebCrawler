@@ -2,6 +2,7 @@ package com.zhiwen.crawler.file.parser;
 
 import com.zhiwen.crawler.fetcher.FetcherPageContent;
 import com.zhiwen.crawler.file.parser.match.BodyMatchStrategy;
+import com.zhiwen.crawler.file.parser.util.SpringBeanUtil;
 import com.zhiwen.crawler.file.store.file_format_store.FileStore;
 import com.zhiwen.crawler.file.store.spi.FileMessageService;
 import com.zhiwen.crawler.url.store.file_format_store.UrlStore;
@@ -21,14 +22,18 @@ import java.util.Set;
  */
 
 public class HtmlContentParser extends Thread{
-    //持久层对象
-    private FileMessageService fileMessageService;
-
-    //持久层对象
-    private UrlsService urlsService;
+//    //持久层对象
+//    private FileMessageService fileMessageService;
+//
+//    //持久层对象
+//    private UrlsService urlsService;
 
     //带抓取的url，可通过构造函数和set方法注入；
     private String url;
+
+    private UrlStore urlStore;
+
+    private FileStore fileStore;
 
     //调用FetcherPageContent的静态方法通过给定的url得到网页内容，以字符串形式返回；
     private String fetcherPageContent() {
@@ -72,14 +77,11 @@ public class HtmlContentParser extends Thread{
 
         String commonFileName = url.replace("http://", "").replace("/", "_");
 
-
-
         FileStore fs = new FileStore();
         UrlStore us = new UrlStore();
 
         fs.storeToFile(commonFileName, fileBytes);
         us.storeToFile(commonFileName, urlsBytes);
-
 
 
 //        FileMessage fm = HeadMatchStrategy.getMessageFromPageContent(page);
@@ -113,22 +115,22 @@ public class HtmlContentParser extends Thread{
 //
 //        }
 
-    }
+}
 
-    private List<Urls> genUrls(Set<String> urls, String parentUrl) {
-        List<Urls> urlss = new LinkedList<Urls>();
-        for (String url : urls) {
-            if (fileMessageService.getFileMessageByUrl(url) == null && urlsService.getUrlsByUrl(url) == null
-                    && urlsService.getUrlsByParentUrl(url).size() == 0) {
-                Urls temp = new Urls();
-                temp.setUrl(url);
-                temp.setParentUrl(parentUrl);
-                urlss.add(temp);
-            }
-        }
-
-        return urlss;
-    }
+//    private List<Urls> genUrls(Set<String> urls, String parentUrl) {
+//        List<Urls> urlss = new LinkedList<Urls>();
+//        for (String url : urls) {
+//            if (fileMessageService.getFileMessageByUrl(url) == null && urlsService.getUrlsByUrl(url) == null
+//                    && urlsService.getUrlsByParentUrl(url).size() == 0) {
+//                Urls temp = new Urls();
+//                temp.setUrl(url);
+//                temp.setParentUrl(parentUrl);
+//                urlss.add(temp);
+//            }
+//        }
+//
+//        return urlss;
+//    }
 
 
 

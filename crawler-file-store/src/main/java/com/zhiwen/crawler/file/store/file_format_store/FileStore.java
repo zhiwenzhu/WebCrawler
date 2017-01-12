@@ -4,6 +4,7 @@ import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.model.CrawlerStore;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.Date;
@@ -41,8 +42,6 @@ public class FileStore implements CrawlerStore {
 
         File file = new File(today_dir + "/" + fileName);
         FileWriteUtil.writeToFileAvoidDuplicat(file, bytes, false);
-
-        //// TODO: 17/1/11 把在StartCrawler中的 BloomFilter.add(url) 转到该处，更精确
 
     }
 

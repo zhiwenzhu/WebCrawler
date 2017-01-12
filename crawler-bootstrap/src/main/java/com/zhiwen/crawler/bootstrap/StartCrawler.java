@@ -27,29 +27,17 @@ public class StartCrawler extends Thread {
 
     private int newPage = 0;
 
-    public static int crawlerIndex = 0;
-
-//    private UrlsService urlsService = SpringBeanUtil.getUrlsService();
-
-//    private FileMessageService fileMessageService = SpringBeanUtil.getFileMessageService();
-
-    private CrawlerIndexDao crawlerIndexDao = SpringBeanUtil.getCrawlerIndexDao();
-
     private static long beginTime = System.currentTimeMillis();
 
     private static final int INTERVAL_OF_WRITE_BF = 1000 * 60 * 5;
 
-    private Set<String> urlSet = new HashSet<String>();
-
-    private void getCrawlerIndex() {
-        crawlerIndex = crawlerIndexDao.getCrawlerIndex();
-    }
+//    private Set<String> urlSet = new HashSet<String>();
 
     public void run() {
         System.out.println(Thread.currentThread().getName() + "线程开始执行");
 
 
-//        BloomFilter bloomFilter = getBloomFilter();
+        BloomFilter bloomFilter = getBloomFilter();
 
         String toCrawlerUrlFile = "";
         GetSeedUrlsStrategy gsus = new GetSeedUrlsStrategy();
@@ -75,7 +63,7 @@ public class StartCrawler extends Thread {
                         e.printStackTrace();
                     }
                 } else {
-                    return;
+//                    return;
                 }
             }
         }
@@ -87,26 +75,26 @@ public class StartCrawler extends Thread {
             HtmlContentParser hp = new HtmlContentParser();
             for (String url : toCrawlerUrls) {
                 count++;
-                if (!urlSet.contains(url)) {
-                    hp.setUrl(url);
-                    hp.run();
-                    newPage ++;
-                    System.out.println(Thread.currentThread().getName() + ":" + count + ":" + url + "是新爬取的"
-                                       + "（" + newPage +"）");
-
-                    urlSet.add(url);
-                }
-
-
-//                if (!bloomFilter.contains(url)) {
+//                if (!urlSet.contains(url)) {
 //                    hp.setUrl(url);
 //                    hp.run();
 //                    newPage ++;
 //                    System.out.println(Thread.currentThread().getName() + ":" + count + ":" + url + "是新爬取的"
 //                                       + "（" + newPage +"）");
-//                    bloomFilter.addUrl(url);
 //
+//                    urlSet.add(url);
 //                }
+
+
+                if (!bloomFilter.contains(url)) {
+                    hp.setUrl(url);
+                    hp.run();
+                    newPage ++;
+                    System.out.println(Thread.currentThread().getName() + ":" + count + ":" + url + "是新爬取的"
+                                       + "（" + newPage +"）");
+                    bloomFilter.addUrl(url);
+
+                }
                 else {
                     System.out.println(Thread.currentThread().getName() + ":" + count + url + "已经爬取过");
                 }
@@ -116,11 +104,11 @@ public class StartCrawler extends Thread {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-//                long currentTime = System.currentTimeMillis();
-//                if ((currentTime -beginTime) >= 1000 * 60 * 5) {
-//                    StaticBloomFilter.writeToFile();
-//                    beginTime = currentTime;
-//                }
+                long currentTime = System.currentTimeMillis();
+                if ((currentTime -beginTime) >= INTERVAL_OF_WRITE_BF) {
+                    StaticBloomFilter.writeToFile();
+                    beginTime = currentTime;
+                }
             }
 
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
@@ -139,38 +127,33 @@ public class StartCrawler extends Thread {
         BloomFilter bloomFilter = StaticBloomFilter.bloomFilter;
 
         if (bloomFilter == null) {
-            bloomFilter = StaticBloomFilter.getFromFile(DirectoryPath.PAGE_BLOOM_OBJECT_PATH);
+            bloomFilter = StaticBloomFilter.getFromFile();
         }
-
         return bloomFilter;
     }
 
     public static void main(String[] args) {
-
-
         StartCrawler sc = new StartCrawler();
 
         Thread threadOne = new Thread(sc, "one");
         Thread threadTwo = new Thread(sc, "two");
         Thread threadThree = new Thread(sc, "three");
-        Thread threadFour = new Thread(sc, "four");
-        Thread threadFive = new Thread(sc, "five");
-        Thread threadSix = new Thread(sc, "six");
-        Thread threadSeven = new Thread(sc, "seven");
-        Thread threadEight = new Thread(sc, "eight");
-        Thread threadNine = new Thread(sc, "nine");
-
-//        sc.run();
+//        Thread threadFour = new Thread(sc, "four");
+//        Thread threadFive = new Thread(sc, "five");
+//        Thread threadSix = new Thread(sc, "six");
+//        Thread threadSeven = new Thread(sc, "seven");
+//        Thread threadEight = new Thread(sc, "eight");
+//        Thread threadNine = new Thread(sc, "nine");
 
         threadOne.start();
         threadTwo.start();
         threadThree.start();
-        threadFour.start();
-        threadFive.start();
-        threadSix.start();
-        threadSeven.start();
-        threadEight.start();
-        threadNine.start();
+//        threadFour.start();
+//        threadFive.start();
+//        threadSix.start();
+//        threadSeven.start();
+//        threadEight.start();
+//        threadNine.start();
 
     }
 }

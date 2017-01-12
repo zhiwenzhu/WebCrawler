@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class InitializeNewCrawler {
     private static final String FIRST_URL = "www.163.com";
-    private static final String START_FILE = "startup.txt";
+    private static final String START_FILE = "startup.txt\n";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -47,23 +47,10 @@ public class InitializeNewCrawler {
         FileWriteUtil.writeToFile(file, fileContent.getBytes(), false);
     }
 
-
-    /**
-     * 创建两个BloomFilter对象（写进两个文件），
-     * pageBloomFilter用来判断是否重复爬取某个页面；
-     * urlBloomFilter用来判断页面解析后url的集合是否有重复存储
-     */
     private void writeNewBloomFilter() {
-        BloomFilter pageBloomFilter = new BloomFilter();
-        BloomFilter urlBloomFilter = new BloomFilter();
+        BloomFilter bloomFilter = new BloomFilter();
 
-        pageBloomFilter.addUrl(FIRST_URL);
-        urlBloomFilter.addUrl(START_FILE);
-        urlBloomFilter.addUrl(FIRST_URL);
-
-        writeNewObjectFile(DirectoryPath.PAGE_BLOOM_OBJECT_PATH, pageBloomFilter);
-
-        writeNewObjectFile(DirectoryPath.URL_BLOOM_OBJECT_PATH, urlBloomFilter);
+        writeNewObjectFile(DirectoryPath.BLOOM_OBJECT_PATH, bloomFilter);
 
     }
 

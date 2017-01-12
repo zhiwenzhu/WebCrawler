@@ -1,9 +1,13 @@
 package com.zhiwen.crawler.url.store.file_format_store;
 
+import com.sun.media.sound.DirectAudioDeviceProvider;
 import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.model.CrawlerStore;
+import com.zhiwen.crawler.common.strategy.BloomFilter;
+import com.zhiwen.crawler.common.strategy.StaticBloomFilter;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.Date;
@@ -41,14 +45,12 @@ public class UrlStore implements CrawlerStore {
         }
 
         File file = new File(today_dir + "/" + filename);
+        if (!file.exists()) {
+            FileWriteUtil.writeToFileAvoidDuplicat(file, bytes, false);
+            UrlFileNameStore ufns = new UrlFileNameStore();
+            byte[] urlFileNameBytes = (filename + "\n").getBytes();
 
-        FileWriteUtil.writeToFileAvoidDuplicat(file, bytes, false);
-
-        //// TODO: 17/1/11  加BloomFilter  判断
-
-        UrlFileNameStore ufns = new UrlFileNameStore();
-        byte[] urlFileNameBytes = (filename + "\n").getBytes();
-        ufns.storeToFile(dateString, urlFileNameBytes);
-
+            ufns.storeToFile(dateString, urlFileNameBytes);
+        }
     }
 }
