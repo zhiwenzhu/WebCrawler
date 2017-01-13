@@ -24,7 +24,7 @@ public interface UrlMarket {
      *
      * @return
      */
-    Collection<String> withdraw();
+    Collection<String> withdraw(int batchSize);
 
     /**
      * Whether a URL has been visited

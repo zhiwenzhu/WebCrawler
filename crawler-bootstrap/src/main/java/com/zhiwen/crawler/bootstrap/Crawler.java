@@ -21,6 +21,7 @@ import java.util.concurrent.Future;
 public class Crawler {
 
     public static final int SLEEP_TIME_MILLS = 100;
+    public static final int BATCH_SIZE = 100;
     private Fetcher fetcher;
 
     private UrlMarket urlMarket;
@@ -42,7 +43,7 @@ public class Crawler {
 
     public void crawl() {
         while (!stop) {
-            Collection<String> urls = urlMarket.withdraw();
+            Collection<String> urls = urlMarket.withdraw(BATCH_SIZE);
             if (urls.size() == 0) {
                 sleep();
             } else {

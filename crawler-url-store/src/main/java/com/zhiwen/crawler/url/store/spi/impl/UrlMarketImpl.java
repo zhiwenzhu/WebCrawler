@@ -17,7 +17,7 @@ public class UrlMarketImpl implements UrlMarket {
 
     }
 
-    public Collection<String> withdraw() {
+    public Collection<String> withdraw(int batchSize) {
         return null;
     }
 
