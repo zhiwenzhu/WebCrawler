@@ -92,5 +92,6 @@ public class Crawler {
 
     public void stop() {
         this.stop = true;
+        es.shutdown();
     }
 }
