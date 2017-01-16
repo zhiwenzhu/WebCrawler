@@ -7,6 +7,7 @@ import java.io.File;
 /**
  * Created by zhiwenzhu on 17/1/9.
  */
+@Deprecated
 public class UrlDateDirStore implements CrawlerStore {
 //    private static final String BASE_DIR = DirectoryPath.CONFIG_STORE_PATH;
 

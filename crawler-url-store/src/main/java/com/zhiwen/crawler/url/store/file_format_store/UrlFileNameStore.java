@@ -8,6 +8,7 @@ import java.io.File;
 /**
  * Created by zhiwenzhu on 17/1/9.
  */
+@Deprecated
 public class UrlFileNameStore implements CrawlerStore {
     private static final String BASE_DIR = DirectoryPath.CONFIG_STORE_PATH + DirectoryPath.DATE_URL_FILE_PATH;
 

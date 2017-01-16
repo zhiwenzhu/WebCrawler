@@ -11,6 +11,7 @@ import java.util.Date;
 /**
  * Created by zhiwenzhu on 17/1/8.
  */
+@Deprecated
 public class FileStore implements CrawlerStore {
     private static Date date = new Date();
     private static String dateString = DirectoryPath.DATE_FORMAT.format(date);

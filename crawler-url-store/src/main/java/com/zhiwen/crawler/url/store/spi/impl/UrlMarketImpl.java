@@ -1,16 +1,27 @@
 package com.zhiwen.crawler.url.store.spi.impl;
 
+import com.zhiwen.crawler.common.strategy.BloomFilter;
 import com.zhiwen.crawler.url.store.spi.UrlMarket;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * Created by zhiwenzhu on 17/1/12.
  */
 public class UrlMarketImpl implements UrlMarket {
+    private Set<String> urlSet;
 
-    public void deposit(Collection<String> urls) {
+    private Queue<String> urlQueue;
 
+    public synchronized void deposit(Collection<String> urls) {
+        for (String url : urls) {
+            if (!hasVisited(url)) {
+                urlQueue.add(url);
+            }
+        }
     }
 
     public void deposit(String url) {
@@ -18,20 +29,20 @@ public class UrlMarketImpl implements UrlMarket {
     }
 
     public Collection<String> withdraw(int batchSize) {
-        return null;
+        Set<String> urls = new HashSet<String>(batchSize);
+        for (int i = 0; i < batchSize; i ++) {
+            String url = urlQueue.poll();
+
+            if (url != null) {
+                urls.add(url);
+            }
+        }
+
+        return urls;
     }
 
     public boolean hasVisited(String url) {
-        return false;
+        return urlSet.add(url);
     }
 
-    private String collectionsToDepositContent(Collection<String> urls) {
-        String content = "";
-
-        for (String url : urls) {
-            content += url + "\n";
-        }
-
-        return content;
-    }
 }
