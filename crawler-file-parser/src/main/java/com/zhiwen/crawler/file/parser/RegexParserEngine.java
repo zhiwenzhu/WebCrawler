@@ -1,6 +1,8 @@
 package com.zhiwen.crawler.file.parser;
 
-import java.util.List;
+import com.zhiwen.crawler.file.parser.match.BodyMatchStrategy;
+
+import java.util.Set;
 
 /**
  * Created by zhengwenzhu on 2017/1/12.
@@ -14,19 +16,8 @@ public class RegexParserEngine {
         this.content = html;
     }
 
-
-    //TODO  PARSING
-    public void parse() {
-
+    public Set<String> getUrls() {
+        return BodyMatchStrategy.getUrlFromPageContent(content);
     }
 
-    //TODO extract URLs from HTML page
-    public List<String> getUrls() {
-        return null;
-    }
-
-    //TODO  extract text from HTML page
-    public String getText() {
-        return null;
-    }
 }

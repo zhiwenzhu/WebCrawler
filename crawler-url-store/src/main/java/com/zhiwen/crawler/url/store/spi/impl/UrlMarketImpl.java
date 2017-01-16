@@ -3,10 +3,8 @@ package com.zhiwen.crawler.url.store.spi.impl;
 import com.zhiwen.crawler.common.strategy.BloomFilter;
 import com.zhiwen.crawler.url.store.spi.UrlMarket;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by zhiwenzhu on 17/1/12.
@@ -43,6 +41,14 @@ public class UrlMarketImpl implements UrlMarket {
 
     public boolean hasVisited(String url) {
         return urlSet.add(url);
+    }
+
+    public UrlMarketImpl() {
+        urlSet = new HashSet<String>();
+
+        urlQueue = new LinkedList<String>();
+
+        urlQueue.add("www.163.com");        //seed url
     }
 
 }

@@ -85,7 +85,7 @@ public class Crawler {
                 String content = fetcher.fetch(url);
                 Page page = parser.parse(url, content);
                 urlMarket.deposit(page.getUrls());
-                fileStore.save(url, page);
+                fileStore.save(page);
                 return null;
             }
         });
