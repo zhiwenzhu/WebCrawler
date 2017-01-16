@@ -83,13 +83,26 @@ public class Crawler {
         return es.submit(new Callable<Object>() {
             public Object call() throws Exception {
                 String content = fetcher.fetch(url);
-                Page page = parser.parse(url, content);
-                urlMarket.deposit(page.getUrls());
-                fileStore.save(page);
+                if (content != null) {
+                    Page page = parser.parse(url, content);
+                    urlMarket.deposit(page.getUrls());
+                    fileStore.save(page);
+                }
+
                 return null;
             }
         });
     }
+
+//    private void process(String url) throws IOException{
+//
+//            String content = fetcher.fetch(url);
+//            Page page = parser.parse(url, content);
+//            urlMarket.deposit(page.getUrls());
+//            fileStore.save(page);
+//
+//    }
+
 
     public void stop() {
         this.stop = true;

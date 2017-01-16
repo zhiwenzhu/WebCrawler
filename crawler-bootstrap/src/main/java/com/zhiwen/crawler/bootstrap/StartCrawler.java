@@ -51,6 +51,5 @@ public class StartCrawler {
         for (int i = 0; i < THREAD_POOL_SIZE; i++) {
             es.submit(new CrawlerTask());
         }
-
     }
 }
