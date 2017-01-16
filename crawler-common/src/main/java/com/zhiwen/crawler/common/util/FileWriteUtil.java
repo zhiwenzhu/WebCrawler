@@ -10,7 +10,8 @@ import java.io.OutputStream;
  * 将字节流写进文件内
  */
 public class FileWriteUtil {
-    public static void writeToFile(File file, String content, boolean append) {
+    public static void writeToFile(String filePath, String content, boolean append) {
+        File file = new File(filePath);
         try {
             if (!file.exists()) {
                 file.createNewFile();

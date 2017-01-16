@@ -2,8 +2,6 @@ package com.zhiwen.crawler.file.parser;
 
 import com.zhiwen.crawler.fetcher.FetcherPageContent;
 import com.zhiwen.crawler.file.parser.match.BodyMatchStrategy;
-import com.zhiwen.crawler.file.store.file_format_store.FileStore;
-import com.zhiwen.crawler.url.store.file_format_store.UrlStore;
 
 import java.util.Set;
 
@@ -25,9 +23,9 @@ public class HtmlContentParser extends Thread{
     //带抓取的url，可通过构造函数和set方法注入；
     private String url;
 
-    private UrlStore urlStore;
-
-    private FileStore fileStore;
+//    private UrlStore urlStore;
+//
+//    private FileStore fileStore;
 
     //调用FetcherPageContent的静态方法通过给定的url得到网页内容，以字符串形式返回；
     private String fetcherPageContent() {
@@ -71,11 +69,11 @@ public class HtmlContentParser extends Thread{
 
         String commonFileName = url.replace("http://", "").replace("/", "_");
 
-        FileStore fs = new FileStore();
-        UrlStore us = new UrlStore();
-
-        fs.storeToFile(commonFileName, page);
-        us.storeToFile(commonFileName, urls);
+//        FileStore fs = new FileStore();
+//        UrlStore us = new UrlStore();
+//
+//        fs.storeToFile(commonFileName, page);
+//        us.storeToFile(commonFileName, urls);
 
 
 //        FileMessage fm = HeadMatchStrategy.getMessageFromPageContent(page);

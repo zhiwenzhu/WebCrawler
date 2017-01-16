@@ -14,6 +14,6 @@ public class ResolveFilePathUtil {
 
         for (String s : result) {
             System.out.println(s);
-        
+        }
     }
  }
