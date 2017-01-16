@@ -21,7 +21,7 @@ public class UrlMarketImpl implements UrlMarket {
     }
 
     public void deposit(String url) {
-
+        urlQueue.add(url);
     }
 
     public Collection<String> withdraw(int batchSize) {
@@ -45,8 +45,6 @@ public class UrlMarketImpl implements UrlMarket {
         urlSet = new HashSet<String>();
 
         urlQueue = new LinkedList<String>();
-
-        urlQueue.add("http://www.163.com");        //seed url
     }
 
 }
