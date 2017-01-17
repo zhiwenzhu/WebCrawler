@@ -1,5 +1,8 @@
 package com.zhiwen.crawler.file.parser.match;
 
+import com.zhiwen.crawler.fetcher.SimpleFetcher;
+
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -10,7 +13,7 @@ import java.util.regex.Matcher;
  */
 public class BodyMatchStrategy {
     //匹配url的正则，目前写的还不太好。。。
-    private static final String URLS_REGEX = "href=\"?http://\\S+[^\"]";
+    private static final String URLS_REGEX = "href=\"[^{]\\S+[^\"]";
 
     //匹配<body></body> 标签中的内容；
     private static final String BODY_REGEX = "<body.*</body>";
@@ -48,6 +51,19 @@ public class BodyMatchStrategy {
     private static String outUslessCharOfUrl(String url) {
         url = url.replaceAll("href=|\"|>.*|<.*", "");
         return url;
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        SimpleFetcher fetcher = new SimpleFetcher();
+
+//        String content = fetcher.fetch("http://bbs.nju.edu.cn/");
+        String content = fetcher.fetch("http://www.zhiwenzhu.com/");
+        Set<String> urls = BodyMatchStrategy.getUrlFromPageContent(content);
+        int i = 0;
+        for (String url : urls) {
+            System.out.println(i++ + url);
+        }
     }
 
 

@@ -26,7 +26,7 @@ public class UrlMarketImpl implements UrlMarket {
 
     public Collection<String> withdraw(int batchSize) {
         Set<String> urls = new HashSet<String>(batchSize);
-        for (int i = 0; i < batchSize; i ++) {
+        for (int i = 0; i < batchSize && i < urlQueue.size(); i ++) {
             String url = urlQueue.poll();
 
             if (url != null) {

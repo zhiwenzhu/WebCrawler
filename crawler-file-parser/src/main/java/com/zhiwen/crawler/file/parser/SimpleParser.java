@@ -1,10 +1,7 @@
 package com.zhiwen.crawler.file.parser;
 
 import com.zhiwen.crawler.common.model.Page;
-import com.zhiwen.crawler.common.util.UrlUtils;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**

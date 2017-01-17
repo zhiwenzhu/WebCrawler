@@ -3,6 +3,7 @@ package com.zhiwen.crawler.bootstrap;
 
 import com.zhiwen.crawler.fetcher.Fetcher;
 import com.zhiwen.crawler.fetcher.SimpleFetcher;
+import com.zhiwen.crawler.file.parser.HtmlParser;
 import com.zhiwen.crawler.file.parser.Parser;
 import com.zhiwen.crawler.file.parser.SimpleParser;
 import com.zhiwen.crawler.file.store.spi.FileStore;
@@ -21,7 +22,11 @@ public class StartCrawler {
         Fetcher fetcher = new SimpleFetcher();
         UrlMarket urlMarket = new UrlMarketImpl();
         urlMarket.deposit("http://www.163.com");        //seed url
-        Parser parser = new SimpleParser();
+//        urlMarket.deposit("http://bbs.nju.edu.cn/");
+//        urlMarket.deposit("https://www.douban.com/");
+//        Parser parser = new SimpleParser();
+
+        Parser parser = new HtmlParser();
         FileStore fileStore = new FileStoreImpl();
 
         Crawler crawler = new Crawler(fetcher, urlMarket, parser, fileStore);
