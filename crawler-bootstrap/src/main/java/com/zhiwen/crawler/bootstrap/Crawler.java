@@ -94,16 +94,6 @@ public class Crawler {
         });
     }
 
-//    private void process(String url) throws IOException{
-//
-//            String content = fetcher.fetch(url);
-//            Page page = parser.parse(url, content);
-//            urlMarket.deposit(page.getUrls());
-//            fileStore.save(page);
-//
-//    }
-
-
     public void stop() {
         this.stop = true;
         es.shutdown();
