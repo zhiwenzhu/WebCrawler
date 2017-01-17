@@ -18,7 +18,7 @@ public class HtmlParserUtilTest extends TestCase {
 
         String content = Files.read("/test.html");
         String url = "https://github.com/zhiwenzhu/WebCrawler/commit/ee4551d1a7c6cc05af143e928f6419fae4e2e681";
-        Set<String> urls = HtmlParserUtil.extracLinks(url, content);
+        Set<String> urls = HtmlParserUtil.extractLinks(url, content);
 
         Assert.assertTrue(urls.contains("https://github.com/fluidicon.png"));
         Assert.assertTrue(urls.contains("https://github.com/apple-touch-icon-180x180.png"));
