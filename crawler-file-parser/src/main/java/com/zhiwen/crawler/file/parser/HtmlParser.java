@@ -17,7 +17,7 @@ public class HtmlParser implements com.zhiwen.crawler.file.parser.Parser{
     public Page parse(String url, String content) {
         Page page = new Page();
 
-        Set<String> urls = HtmlParserUtil.extracLinks(url, content);
+        Set<String> urls = HtmlParserUtil.extractLinks(url, content);
 
         page.setUrl(url);
         page.setContent(content);

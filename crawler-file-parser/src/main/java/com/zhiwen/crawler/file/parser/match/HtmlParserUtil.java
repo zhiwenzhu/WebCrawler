@@ -6,7 +6,10 @@ import org.htmlparser.NodeFilter;
 import org.htmlparser.Parser;
 import org.htmlparser.filters.NodeClassFilter;
 import org.htmlparser.filters.OrFilter;
+import org.htmlparser.lexer.Lexer;
+import org.htmlparser.lexer.Page;
 import org.htmlparser.tags.LinkTag;
+import org.htmlparser.util.DefaultParserFeedback;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
@@ -17,11 +20,11 @@ import java.util.Set;
  * Created by zhiwenzhu on 17/1/17.
  */
 public class HtmlParserUtil {
-    public static Set<String> extracLinks(String url, String pageContent) {
+    public static Set<String> extractLinks(String url, String pageContent) {
 
         Set<String> links = new HashSet<String>();
         try {
-            Parser parser = new Parser(pageContent);
+            Parser parser = createParser(pageContent);
 
             // 过滤 <frame >标签的 filter，用来提取 frame 标签里的 src 属性所表示的链接
             NodeFilter frameFilter = new NodeFilter() {
@@ -73,5 +76,10 @@ public class HtmlParserUtil {
     private static String preHandleUrl(String baseUrl, String thisUrl) {
 
         return UrlUtils.combine(baseUrl, thisUrl);
+    }
+
+    private static Parser createParser(String inputHTML) {
+        Lexer mLexer = new Lexer(new Page(inputHTML));
+        return new Parser(mLexer, new DefaultParserFeedback(DefaultParserFeedback.QUIET));
     }
 }
