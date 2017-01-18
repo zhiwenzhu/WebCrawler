@@ -53,9 +53,6 @@ public class HtmlParserUtil {
         try {
             Parser parser = createParser(pageContent);
 
-
-
-
             // OrFilter 接受<a>标签或<frame>标签，注意NodeClassFilter()可用来过滤一类标签，linkTag对应<a>标签
             OrFilter urlFilter = new OrFilter(FILTER_ARRAY);
 

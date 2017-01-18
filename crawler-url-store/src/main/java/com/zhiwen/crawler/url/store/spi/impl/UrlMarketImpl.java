@@ -1,5 +1,6 @@
 package com.zhiwen.crawler.url.store.spi.impl;
 
+import com.zhiwen.crawler.common.strategy.BloomFilter;
 import com.zhiwen.crawler.url.store.spi.UrlMarket;
 
 import java.util.*;
@@ -8,14 +9,18 @@ import java.util.*;
  * Created by zhiwenzhu on 17/1/12.
  */
 public class UrlMarketImpl implements UrlMarket {
-    private Set<String> urlSet;
+//    private Set<String> urlSet;
 
     private Queue<String> urlQueue;
 
-    public synchronized void deposit(Collection<String> urls) {
+    private BloomFilter bloomFilter;
+
+    public void deposit(Collection<String> urls) {
         for (String url : urls) {
-            if (!hasVisited(url)) {
-                urlQueue.add(url);
+            synchronized (urlQueue) {
+                if (!hasVisited(url)) {
+                    urlQueue.add(url);
+                }
             }
         }
     }
@@ -37,14 +42,20 @@ public class UrlMarketImpl implements UrlMarket {
         return urls;
     }
 
+//    public boolean hasVisited(String url) {
+//        return !urlSet.add(url);
+//    }
+
     public boolean hasVisited(String url) {
-        return !urlSet.add(url);
+        return bloomFilter.contains(url);
     }
 
     public UrlMarketImpl() {
-        urlSet = new HashSet<String>();
+//        urlSet = new HashSet<String>();
 
         urlQueue = new LinkedList<String>();
+
+        bloomFilter = new BloomFilter();
     }
 
 }
