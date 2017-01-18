@@ -3,6 +3,7 @@ package com.zhiwen.crawler.url.store.spi.impl;
 import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.strategy.BloomFilter;
 import com.zhiwen.crawler.common.strategy.BloomUtil;
+import com.zhiwen.crawler.common.util.FileWriteUtil;
 import com.zhiwen.crawler.url.store.spi.UrlMarket;
 
 import java.util.*;
@@ -11,12 +12,15 @@ import java.util.*;
  * Created by zhiwenzhu on 17/1/12.
  */
 public class UrlMarketImpl implements UrlMarket {
-//    private Set<String> urlSet;
+    private Set<String> urlSet = new HashSet<String>();
+
     private static final String BLOOM_OBJECT_PATH = DirectoryPath.BLOOM_OBJECT_PATH;
 
     private Queue<String> urlQueue;
 
     private BloomFilter bloomFilter = BloomUtil.getFromFile(BLOOM_OBJECT_PATH);
+
+    private static final String URLS_STORE_PATH = DirectoryPath.URL_STORE_PATH;
 
     private int newUrlNum = 0;
 
@@ -30,13 +34,15 @@ public class UrlMarketImpl implements UrlMarket {
                 newUrlNum++;
                 if (newUrlNum >= 1000) {
                     BloomUtil.writeToFile(bloomFilter, BLOOM_OBJECT_PATH);
+                    writeUrlsToFile(URLS_STORE_PATH, urlSet);
+                    urlSet.clear();
                 }
             }
         }
     }
 
     public void deposit(String url) {
-        urlQueue.add(url);
+        urlSet.add(url);
     }
 
     public Collection<String> withdraw(int batchSize) {
@@ -47,6 +53,10 @@ public class UrlMarketImpl implements UrlMarket {
             if (url != null) {
                 urls.add(url);
             }
+        }
+
+        if (urlQueue.size() == 0) {
+            urlQueue = fetchUrlsFromFileToQueue(1000);
         }
 
         return urls;
@@ -64,5 +74,17 @@ public class UrlMarketImpl implements UrlMarket {
 //        urlSet = new HashSet<String>();
 
         urlQueue = new LinkedList<String>();
+    }
+
+    private void writeUrlsToFile(String filePath, Collection<String> urls) {
+        String content = "";
+        for (String url : urls) {
+            content += url + "\n";
+        }
+
+        FileWriteUtil.writeToFile(filePath, content, true);
+    }
+    private Queue<String> fetchUrlsFromFileToQueue(int batchSize) {
+        return FileWriteUtil.getAndRmUrlsFromFile(URLS_STORE_PATH, batchSize);
     }
 }

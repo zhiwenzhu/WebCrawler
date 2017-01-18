@@ -11,7 +11,7 @@ public class DirectoryPath {
     public static final String FILE_STORE_PATH = "/crawler_file_store/";
 
     //url文件存储的根目录
-    public static final String URL_STORE_PATH = "/crawler_url_store/";
+    public static final String URL_STORE_PATH = "/crawler_url_store/urls";
 
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
