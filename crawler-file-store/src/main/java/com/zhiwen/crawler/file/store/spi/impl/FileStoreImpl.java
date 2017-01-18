@@ -27,7 +27,7 @@ public class FileStoreImpl implements FileStore {
     public synchronized void save(Page page) {
         if (pages.size() < 100) {
             pages.add(page);
-//            System.out.println(Thread.currentThread().getName() + "下载页面数量：" + pages.size());
+            System.out.println(Thread.currentThread().getName() + "下载页面数量：" + pages.size());
         } else {
             save(pages);
 

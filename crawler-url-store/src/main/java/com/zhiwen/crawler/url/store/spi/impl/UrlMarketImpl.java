@@ -6,6 +6,9 @@ import com.zhiwen.crawler.common.strategy.BloomUtil;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
 import com.zhiwen.crawler.url.store.spi.UrlMarket;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.*;
 
 /**
@@ -28,7 +31,8 @@ public class UrlMarketImpl implements UrlMarket {
         for (String url : urls) {
             synchronized (urlQueue) {
                 if (!hasVisited(url)) {
-                    deposit(url);
+//                    deposit(url);
+                    urlSet.add(url);
                     bloomFilter.addUrl(url);
                 }
                 newUrlNum++;
@@ -36,13 +40,29 @@ public class UrlMarketImpl implements UrlMarket {
                     BloomUtil.writeToFile(bloomFilter, BLOOM_OBJECT_PATH);
                     writeUrlsToFile(URLS_STORE_PATH, urlSet);
                     urlSet.clear();
+                    newUrlNum = 0;
                 }
             }
         }
     }
 
     public void deposit(String url) {
-        urlSet.add(url);
+        String content = url + "\n";
+
+        File file = new File(URLS_STORE_PATH);
+        try {
+            if (!file.exists()) {
+                FileWriteUtil.writeToFile(URLS_STORE_PATH, content, false);
+            } else {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+
+                if (reader.readLine() == null) {
+                    FileWriteUtil.writeToFile(URLS_STORE_PATH, content, false);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Collection<String> withdraw(int batchSize) {

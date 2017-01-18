@@ -27,6 +27,12 @@ public class BloomUtil {
         BloomFilter bloomFilter = null;
         try {
             File file = new File(filePath);
+            if (!file.exists()) {
+                bloomFilter = new BloomFilter();
+                writeToFile(bloomFilter, filePath);
+
+                return bloomFilter;
+            }
             InputStream ips = new FileInputStream(file);
 
             ObjectInputStream oips = new ObjectInputStream(ips);
