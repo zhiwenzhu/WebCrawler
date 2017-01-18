@@ -1,6 +1,8 @@
 package com.zhiwen.crawler.url.store.spi.impl;
 
+import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.strategy.BloomFilter;
+import com.zhiwen.crawler.common.strategy.BloomUtil;
 import com.zhiwen.crawler.url.store.spi.UrlMarket;
 
 import java.util.*;
@@ -10,16 +12,24 @@ import java.util.*;
  */
 public class UrlMarketImpl implements UrlMarket {
 //    private Set<String> urlSet;
+    private static final String BLOOM_OBJECT_PATH = DirectoryPath.BLOOM_OBJECT_PATH;
 
     private Queue<String> urlQueue;
 
-    private BloomFilter bloomFilter;
+    private BloomFilter bloomFilter = BloomUtil.getFromFile(BLOOM_OBJECT_PATH);
+
+    private int newUrlNum = 0;
 
     public void deposit(Collection<String> urls) {
         for (String url : urls) {
             synchronized (urlQueue) {
                 if (!hasVisited(url)) {
-                    urlQueue.add(url);
+                    deposit(url);
+                    bloomFilter.addUrl(url);
+                }
+                newUrlNum++;
+                if (newUrlNum >= 1000) {
+                    BloomUtil.writeToFile(bloomFilter, BLOOM_OBJECT_PATH);
                 }
             }
         }
@@ -54,8 +64,5 @@ public class UrlMarketImpl implements UrlMarket {
 //        urlSet = new HashSet<String>();
 
         urlQueue = new LinkedList<String>();
-
-        bloomFilter = new BloomFilter();
     }
-
 }
