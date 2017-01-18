@@ -61,6 +61,7 @@ public class FileWriteUtil {
             String tempFilePath = "/crawler_url_store/temp";
             while ((s = reader.readLine()) != null) {
                 tempFileContent += s + "\n";
+                i ++;   //for test
             }
 
             if (StringUtils.isNotBlank(tempFileContent)) {
@@ -72,6 +73,7 @@ public class FileWriteUtil {
                 tempFile.renameTo(new File(filePath));
             } else {
                 writeToFile(filePath, BLANK_STRING, false);
+                System.out.println("清空urls文件：" + i + "条url");
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -29,7 +29,7 @@ public class BloomUtil {
             File file = new File(filePath);
             if (!file.exists()) {
                 bloomFilter = new BloomFilter();
-                writeToFile(bloomFilter, filePath);
+//                writeToFile(bloomFilter, filePath);
 
                 return bloomFilter;
             }
@@ -38,6 +38,8 @@ public class BloomUtil {
             ObjectInputStream oips = new ObjectInputStream(ips);
 
             bloomFilter = (BloomFilter) oips.readObject();
+
+            oips.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

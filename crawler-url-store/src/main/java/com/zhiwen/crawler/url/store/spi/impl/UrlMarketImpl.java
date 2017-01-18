@@ -27,23 +27,23 @@ public class UrlMarketImpl implements UrlMarket {
 
     private int newUrlNum = 0;
 
-    public void deposit(Collection<String> urls) {
+    public synchronized void deposit(Collection<String> urls) {
         for (String url : urls) {
-            synchronized (urlQueue) {
-                if (!hasVisited(url)) {
-//                    deposit(url);
-                    urlSet.add(url);
-                    bloomFilter.addUrl(url);
-                }
+            if (!hasVisited(url)) {
+                urlSet.add(url);
+                bloomFilter.addUrl(url);
                 newUrlNum++;
-                if (newUrlNum >= 1000) {
-                    BloomUtil.writeToFile(bloomFilter, BLOOM_OBJECT_PATH);
-                    writeUrlsToFile(URLS_STORE_PATH, urlSet);
-                    urlSet.clear();
-                    newUrlNum = 0;
-                }
+            }
+
+            if (newUrlNum >= 1000) {
+                BloomUtil.writeToFile(bloomFilter, BLOOM_OBJECT_PATH);
+                writeUrlsToFile(URLS_STORE_PATH, urlSet);
+                urlSet.clear();
+                newUrlNum = 0;
             }
         }
+
+//        System.out.println("test");
     }
 
     public void deposit(String url) {
@@ -77,6 +77,13 @@ public class UrlMarketImpl implements UrlMarket {
 
         if (urlQueue.size() == 0) {
             urlQueue = fetchUrlsFromFileToQueue(1000);
+            if (urlQueue.size() == 1000) {
+                System.out.println("从文件取一千条url成功");
+            } else if (urlQueue.size() == 0) {
+                System.out.println("从文件取url 0 条");
+            } else {
+                System.out.println("从文件取了：" + urlQueue.size() + "条url");
+            }
         }
 
         return urls;

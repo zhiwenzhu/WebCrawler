@@ -44,6 +44,7 @@ public class Crawler {
     public void crawl() {
         while (!stop) {
             Collection<String> urls = urlMarket.withdraw(BATCH_SIZE);
+            System.out.println("从ｑｕｅｕｅ中取了" + urls.size() + "条url");
             if (urls.size() == 0) {
                 sleep();
             } else {
