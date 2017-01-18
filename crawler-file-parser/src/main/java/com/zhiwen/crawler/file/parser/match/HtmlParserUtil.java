@@ -74,13 +74,8 @@ public class HtmlParserUtil {
     }
 
     private static String preHandleUrl(String baseUrl, String thisUrl) {
-        String result = UrlUtils.combine(baseUrl, thisUrl);
 
-        if (!result.contains("163")) {
-            return null;
-        }
-
-        return result;
+        return UrlUtils.combine(baseUrl, thisUrl);
     }
 
     private static Parser createParser(String inputHTML) {
