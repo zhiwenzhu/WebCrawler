@@ -20,6 +20,7 @@ public class UrlMarketImpl implements UrlMarket {
             synchronized (urlQueue) {
                 if (!hasVisited(url)) {
                     urlQueue.add(url);
+                    bloomFilter.addUrl(url);
                 }
             }
         }
