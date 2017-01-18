@@ -44,8 +44,5 @@ public class HtmlParser implements com.zhiwen.crawler.file.parser.Parser{
         for (String u : urls) {
             System.out.println(i++ + ":" + u);
         }
-
-
-
     }
 }
