@@ -44,8 +44,5 @@ public class HtmlParser implements Parser{
         for (String u : urls) {
             System.out.println(i++ + ":" + u);
         }
-
-
-
     }
 }

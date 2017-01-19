@@ -19,6 +19,7 @@ public class UrlUtils {
             }
 
             if (suffix.startsWith(HTTP_SCHEMA) || suffix.startsWith(HTTPS_SCHEMA)) {
+//            if (suffix.contains("://")) {
                 return suffix;
             }
 
