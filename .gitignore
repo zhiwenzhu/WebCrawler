@@ -4,3 +4,4 @@
 
 #for maven
 target/
+*.log

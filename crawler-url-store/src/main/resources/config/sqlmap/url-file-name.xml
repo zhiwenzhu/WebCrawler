@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhiwen.crawler.url.store.dao.UrlsFileNameDao">
 
-    <select id="getLatestFileName" resultType="String">
+    <select id="getFirstFileName" resultType="String">
         SELECT Name from FileName
-        WHERE Id = (SELECT MAX(Id) FROM FileName)
+        WHERE Id = (SELECT MIN(Id) FROM FileName)
     </select>
 
     <insert id="addFileName" parameterType="com.zhiwen.crawler.url.store.model.UrlsFileName">
@@ -14,5 +14,8 @@
         (#{name})
     </insert>
 
-
+    <delete id="deleteFileName" parameterType="String">
+        DELETE FROM FileName
+        WHERE Name = #{name}
+    </delete>
 </mapper>

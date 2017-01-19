@@ -59,7 +59,7 @@ public class UrlMarketImpl implements UrlMarket {
         }
     }
 
-    public Collection<String> withdraw(int batchSize) {
+    public synchronized Collection<String> withdraw(int batchSize) {
         if (urlQueue.size() == 0) {
             urlQueue = fetchUrlsFromFileToQueue();
             if (urlQueue == null || urlQueue.size() == 0) {
@@ -110,8 +110,10 @@ public class UrlMarketImpl implements UrlMarket {
 
     private String getLatestUrlsFileName() {
 
-        String name = ufs.getLatestFileName();
-
+        String name = ufs.getFirstFileName();
+        if (StringUtils.isNotBlank(name)) {
+            ufs.deleteFirstFileName(name);
+        }
         return name;
     }
 

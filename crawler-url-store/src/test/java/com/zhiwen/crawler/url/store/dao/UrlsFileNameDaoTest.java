@@ -22,7 +22,7 @@ public class UrlsFileNameDaoTest extends TestBase {
     public void getLatestFileName() throws Exception {
         Assert.assertNotNull(urlsFileNameDao);
 
-        String name = urlsFileNameDao.getLatestFileName();
+        String name = urlsFileNameDao.getFirstFileName();
 
         Assert.assertNotNull(name);
 

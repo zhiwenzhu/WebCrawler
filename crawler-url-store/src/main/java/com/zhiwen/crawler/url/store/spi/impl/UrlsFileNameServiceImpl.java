@@ -17,18 +17,22 @@ public class UrlsFileNameServiceImpl implements UrlsFileNameService {
     @Autowired
     private UrlsFileNameDao urlsFileNameDao;
 
-    public String getLatestFileName() {
-        return urlsFileNameDao.getLatestFileName();
+    public String getFirstFileName() {
+        return urlsFileNameDao.getFirstFileName();
     }
 
     public int addFileName(UrlsFileName ufn) {
         return urlsFileNameDao.addFileName(ufn);
     }
 
+    public int deleteFirstFileName(String name) {
+        return urlsFileNameDao.deleteFileName(name);
+    }
+
     public static void main(String[] args) {
         UrlsFileNameService urlsFileNameService = SpringUtil.getFileNameService();
 
-        String name = urlsFileNameService.getLatestFileName();
+        String name = urlsFileNameService.getFirstFileName();
 
         Assert.assertNotNull(name);
 
