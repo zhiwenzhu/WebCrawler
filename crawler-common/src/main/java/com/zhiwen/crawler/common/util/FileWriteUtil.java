@@ -71,6 +71,7 @@ public class FileWriteUtil {
 
                 File tempFile = new File(tempFilePath);
                 tempFile.renameTo(new File(filePath));
+                System.out.print("从urs文件中删除1000条， 不清空");
             } else {
                 writeToFile(filePath, BLANK_STRING, false);
                 System.out.println("清空urls文件：" + i + "条url");

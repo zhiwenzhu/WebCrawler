@@ -66,23 +66,27 @@ public class UrlMarketImpl implements UrlMarket {
     }
 
     public Collection<String> withdraw(int batchSize) {
+        if (urlQueue.size() == 0) {
+            System.out.println("开始从文件中取一千条数据");
+            urlQueue = fetchUrlsFromFileToQueue(1000);
+            if (urlQueue.size() == 1000) {
+                System.out.println("从文件取一千条url成功");
+            } else if (urlQueue.size() == 0) {
+                System.out.println("从文件取url 0 条");
+                urlQueue.addAll(urlSet);
+                System.out.println("从urlSet中取了：" + urlSet.size() + "条，urlSet清空" );
+                urlSet.clear();
+            } else {
+                System.out.println("从文件取了：" + urlQueue.size() + "条url");
+            }
+        }
+
         Set<String> urls = new HashSet<String>(batchSize);
         for (int i = 0; i < batchSize && i < urlQueue.size(); i ++) {
             String url = urlQueue.poll();
 
             if (url != null) {
                 urls.add(url);
-            }
-        }
-
-        if (urlQueue.size() == 0) {
-            urlQueue = fetchUrlsFromFileToQueue(1000);
-            if (urlQueue.size() == 1000) {
-                System.out.println("从文件取一千条url成功");
-            } else if (urlQueue.size() == 0) {
-                System.out.println("从文件取url 0 条");
-            } else {
-                System.out.println("从文件取了：" + urlQueue.size() + "条url");
             }
         }
 
