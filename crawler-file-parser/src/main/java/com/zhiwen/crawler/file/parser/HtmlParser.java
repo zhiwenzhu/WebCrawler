@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Created by zhiwenzhu on 17/1/17.
  */
-public class HtmlParser implements com.zhiwen.crawler.file.parser.Parser{
+public class HtmlParser implements Parser{
 
 
     public Page parse(String url, String content) {
