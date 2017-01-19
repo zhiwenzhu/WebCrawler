@@ -1,4 +1,4 @@
-package com.zhiwen.crawler.file.store.util;
+package com.zhiwen.crawler.common.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

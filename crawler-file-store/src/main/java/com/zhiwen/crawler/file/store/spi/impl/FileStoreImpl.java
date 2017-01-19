@@ -3,7 +3,7 @@ package com.zhiwen.crawler.file.store.spi.impl;
 import com.zhiwen.crawler.common.model.Page;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
 import com.zhiwen.crawler.file.store.spi.FileStore;
-import com.zhiwen.crawler.file.store.util.FileNameGenerator;
+import com.zhiwen.crawler.common.util.FileNameGenerator;
 
 import java.io.File;
 import java.text.DateFormat;

@@ -5,7 +5,6 @@ import com.zhiwen.crawler.fetcher.Fetcher;
 import com.zhiwen.crawler.fetcher.SimpleFetcher;
 import com.zhiwen.crawler.file.parser.HtmlParser;
 import com.zhiwen.crawler.file.parser.Parser;
-import com.zhiwen.crawler.file.parser.SimpleParser;
 import com.zhiwen.crawler.file.store.spi.FileStore;
 import com.zhiwen.crawler.file.store.spi.impl.FileStoreImpl;
 import com.zhiwen.crawler.url.store.spi.UrlMarket;
