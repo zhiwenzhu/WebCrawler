@@ -12,10 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.Queue;
+import java.util.concurrent.*;
 
 /**
  * Created by zhengwenzhu on 2017/1/12.
@@ -47,7 +45,10 @@ public class Crawler {
 
     public void crawl() {
         while (!stop) {
-            if ((withdrawCount - FileStoreImpl.saveCount) <= 4) {
+            ThreadPoolExecutor tpe = (ThreadPoolExecutor) es;
+
+            Queue workQueue = tpe.getQueue();
+            if (workQueue.size() < 200) {
                 Collection<String> urls = urlMarket.withdraw(BATCH_SIZE);
                 System.out.println("第" + withdrawCount++ + "次：从ｑueue中取了" + urls.size() + "条url");
                 if (urls.size() == 0) {
@@ -67,8 +68,8 @@ public class Crawler {
                     waitAllDone(results);
                 }
             } else {
+                System.out.println("sleep" + workQueue.size());
                 sleep(SLEEP_TIME_MILLS * 10);
-                System.out.println("sleep");
             }
         }
     }
