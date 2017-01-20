@@ -30,7 +30,7 @@ public class Crawler {
 
     private Parser parser;
 
-    private ExecutorService es = Executors.newFixedThreadPool(20);
+    private ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
 
     private volatile boolean stop = false;
 
@@ -41,12 +41,11 @@ public class Crawler {
         this.urlMarket = urlMarket;
         this.parser = parser;
         this.fileStore = fileStore;
+        tpe.allowCoreThreadTimeOut(false);
     }
 
     public void crawl() {
         while (!stop) {
-            ThreadPoolExecutor tpe = (ThreadPoolExecutor) es;
-
             Queue workQueue = tpe.getQueue();
             if (workQueue.size() < 200) {
                 Collection<String> urls = urlMarket.withdraw(BATCH_SIZE);
@@ -93,7 +92,7 @@ public class Crawler {
     }
 
     private Future process(final String url) throws IOException {
-        return es.submit(new Callable<Object>() {
+        return tpe.submit(new Callable<Object>() {
             public Object call() throws Exception {
                 String content = fetcher.fetch(url);
                 if (content != null) {
@@ -109,6 +108,6 @@ public class Crawler {
 
     public void stop() {
         this.stop = true;
-        es.shutdown();
+        tpe.shutdown();
     }
 }
