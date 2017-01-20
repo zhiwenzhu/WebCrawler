@@ -1,8 +1,5 @@
 package com.zhiwen.crawler.common.util;
 
-import com.zhiwen.crawler.common.config.DirectoryPath;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.*;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -13,7 +10,6 @@ import java.util.Queue;
  * 将字节流写进文件内
  */
 public class FileWriteUtil {
-    private static final String BLANK_STRING = "";
     public static void writeToFile(String filePath, String content, boolean append) {
         File file = new File(filePath);
         try {

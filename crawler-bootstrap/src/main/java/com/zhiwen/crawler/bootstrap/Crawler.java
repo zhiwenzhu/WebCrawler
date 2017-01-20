@@ -20,7 +20,7 @@ import java.util.concurrent.Future;
  */
 public class Crawler {
 
-    public static final int SLEEP_TIME_MILLS = 100;
+    public static final int SLEEP_TIME_MILLS = 1000;
     public static final int BATCH_SIZE = 100;
     private Fetcher fetcher;
 
