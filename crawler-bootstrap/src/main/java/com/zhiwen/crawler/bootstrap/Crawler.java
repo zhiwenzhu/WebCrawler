@@ -20,7 +20,7 @@ import java.util.concurrent.Future;
  */
 public class Crawler {
 
-    public static final int SLEEP_TIME_MILLS = 1000;
+    public static final int SLEEP_TIME_MILLS = 5000;
     public static final int BATCH_SIZE = 100;
     private Fetcher fetcher;
 
@@ -46,7 +46,7 @@ public class Crawler {
             Collection<String> urls = urlMarket.withdraw(BATCH_SIZE);
             System.out.println("从ｑｕｅｕｅ中取了" + urls.size() + "条url");
             if (urls.size() == 0) {
-                sleep();
+                sleep(SLEEP_TIME_MILLS);
             } else {
                 List<Future> results = new ArrayList<Future>(urls.size());
                 for (String url : urls) {
@@ -57,14 +57,16 @@ public class Crawler {
                     }
                 }
 
+                sleep(SLEEP_TIME_MILLS * 2);
+
                 waitAllDone(results);
             }
         }
     }
 
-    private void sleep() {
+    private void sleep(int times) {
         try {
-            Thread.sleep(SLEEP_TIME_MILLS);
+            Thread.sleep(times);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

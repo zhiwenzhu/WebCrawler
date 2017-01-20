@@ -41,7 +41,7 @@ public class UrlMarketImpl implements UrlMarket {
                     bloomFilter.addUrl(url);
                 }
 
-                if (urlSet.size() >= 1000) {
+                if (urlSet.size() >= 10000) {
                     BloomUtil.writeToFile(bloomFilter, BLOOM_OBJECT_PATH);
                     String fileName = FileNameGenerator.nextId();
                     writeUrlsToFile(URLS_STORE_PATH + fileName, urlSet);
@@ -70,7 +70,8 @@ public class UrlMarketImpl implements UrlMarket {
         }
 
         Set<String> urls = new HashSet<String>(batchSize);
-        for (int i = 0; i < batchSize && i < urlQueue.size(); i ++) {
+        int size = urlQueue.size();
+        for (int i = 0; i < batchSize && i < size; i ++) {
             String url = urlQueue.poll();
 
             if (url != null) {
