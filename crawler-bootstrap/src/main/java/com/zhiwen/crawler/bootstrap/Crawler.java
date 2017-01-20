@@ -41,13 +41,11 @@ public class Crawler {
         this.urlMarket = urlMarket;
         this.parser = parser;
         this.fileStore = fileStore;
-        tpe.allowCoreThreadTimeOut(false);
     }
 
     public void crawl() {
         while (!stop) {
-            Queue workQueue = tpe.getQueue();
-            if (workQueue.size() < 200) {
+            if (tpe.getQueue().size() < 200) {
                 Collection<String> urls = urlMarket.withdraw(BATCH_SIZE);
                 System.out.println("第" + withdrawCount++ + "次：从ｑueue中取了" + urls.size() + "条url");
                 if (urls.size() == 0) {
@@ -67,7 +65,8 @@ public class Crawler {
                     waitAllDone(results);
                 }
             } else {
-                System.out.println("sleep" + workQueue.size());
+                System.out.println("sleep" + tpe.getQueue().size());
+                System.out.println("线程池大小：" + tpe.getCorePoolSize());
                 sleep(SLEEP_TIME_MILLS * 10);
             }
         }
