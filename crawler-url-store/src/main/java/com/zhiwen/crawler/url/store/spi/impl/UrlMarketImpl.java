@@ -24,13 +24,15 @@ public class UrlMarketImpl implements UrlMarket {
 
     private Set<String> urlSet;
 
-    private static final String BLOOM_OBJECT_PATH = DirectoryPath.BLOOM_OBJECT_PATH;
+//    private static final String BLOOM_OBJECT_PATH = DirectoryPath.BLOOM_OBJECT_PATH;
+    private static final String BLOOM_OBJECT_PATH = "/media/chu/My Passport/zhiwen/bloom/bloomFilter";
 
     private Queue<String> urlQueue;
 
     private BloomFilter bloomFilter = BloomUtil.getFromFile(BLOOM_OBJECT_PATH);
 
-    private static final String URLS_STORE_PATH = DirectoryPath.URL_STORE_PATH;
+//    private static final String URLS_STORE_PATH = DirectoryPath.URL_STORE_PATH;
+    private static final String URLS_STORE_PATH = "/media/chu/My Passport/zhiwen/urls/";
 
 
     public synchronized void deposit(Collection<String> urls) {

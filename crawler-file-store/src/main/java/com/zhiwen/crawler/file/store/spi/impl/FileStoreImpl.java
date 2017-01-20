@@ -16,7 +16,9 @@ import java.util.List;
  * Created by zhiwenzhu on 17/1/16.
  */
 public class FileStoreImpl implements FileStore {
-    private static final String FILE_STORE_DIR = "/crawler_file_store/";
+//    private static final String FILE_STORE_DIR = "/crawler_file_store/";
+
+    private static final String FILE_STORE_DIR = "/media/chu/My Passport/zhiwen/crawler/";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddhhmmSS");
 
