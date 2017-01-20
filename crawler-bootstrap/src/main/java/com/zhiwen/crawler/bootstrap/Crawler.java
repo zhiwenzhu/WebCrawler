@@ -4,7 +4,9 @@ import com.zhiwen.crawler.common.model.Page;
 import com.zhiwen.crawler.fetcher.Fetcher;
 import com.zhiwen.crawler.file.parser.Parser;
 import com.zhiwen.crawler.file.store.spi.FileStore;
+import com.zhiwen.crawler.file.store.spi.impl.FileStoreImpl;
 import com.zhiwen.crawler.url.store.spi.UrlMarket;
+import com.zhiwen.crawler.url.store.spi.impl.UrlMarketImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.concurrent.Future;
  */
 public class Crawler {
 
-    public static final int SLEEP_TIME_MILLS = 5000;
+    public static final int SLEEP_TIME_MILLS = 1000;
     public static final int BATCH_SIZE = 100;
     private Fetcher fetcher;
 
@@ -34,6 +36,8 @@ public class Crawler {
 
     private volatile boolean stop = false;
 
+    public static int withdrawCount = 0;
+
     public Crawler(Fetcher fetcher, UrlMarket urlMarket, Parser parser, FileStore fileStore) {
         this.fetcher = fetcher;
         this.urlMarket = urlMarket;
@@ -43,23 +47,28 @@ public class Crawler {
 
     public void crawl() {
         while (!stop) {
-            Collection<String> urls = urlMarket.withdraw(BATCH_SIZE);
-            System.out.println("从ｑｕｅｕｅ中取了" + urls.size() + "条url");
-            if (urls.size() == 0) {
-                sleep(SLEEP_TIME_MILLS);
-            } else {
-                List<Future> results = new ArrayList<Future>(urls.size());
-                for (String url : urls) {
-                    try {
-                        process(url);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            if ((withdrawCount - FileStoreImpl.saveCount) <= 4) {
+                Collection<String> urls = urlMarket.withdraw(BATCH_SIZE);
+                System.out.println("第" + withdrawCount++ + "次：从ｑueue中取了" + urls.size() + "条url");
+                if (urls.size() == 0) {
+                    sleep(SLEEP_TIME_MILLS);
+                } else {
+                    List<Future> results = new ArrayList<Future>(urls.size());
+                    for (String url : urls) {
+                        try {
+                            process(url);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
+
+                    sleep(SLEEP_TIME_MILLS * 10);
+
+                    waitAllDone(results);
                 }
-
-                sleep(SLEEP_TIME_MILLS * 2);
-
-                waitAllDone(results);
+            } else {
+                sleep(SLEEP_TIME_MILLS * 10);
+                System.out.println("sleep");
             }
         }
     }

@@ -24,6 +24,8 @@ public class FileStoreImpl implements FileStore {
 
     private List<Page> pages = new LinkedList<Page>();
 
+    public static int saveCount;
+
     public synchronized void save(Page page) {
         if (pages.size() < 100) {
             pages.add(page);
@@ -31,7 +33,7 @@ public class FileStoreImpl implements FileStore {
         } else {
             save(pages);
 
-            System.out.println(Thread.currentThread().getName() + "储存100个页面完成");
+            System.out.println("第" + saveCount++ + "次：" + Thread.currentThread().getName() + "储存100个页面完成");
             pages.clear();
         }
     }
