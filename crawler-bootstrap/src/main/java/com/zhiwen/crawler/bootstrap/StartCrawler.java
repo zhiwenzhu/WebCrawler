@@ -11,11 +11,37 @@ import com.zhiwen.crawler.url.store.spi.UrlMarket;
 import com.zhiwen.crawler.url.store.spi.impl.UrlMarketImpl;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by zhiwenzhu on 17/1/6.
  */
 public class StartCrawler {
+    private ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
+
+    private Crawler crawler;
+
+    public StartCrawler(Crawler crawler) {
+        this.crawler = crawler;
+    }
+
+    public void startCrawl() {
+
+        while (tpe.getQueue().size() < 1) {
+            tpe.submit(new Runnable() {
+                public void run() {
+                    crawler.crawl();
+                }
+            });
+            try {
+                Thread.sleep(60000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+//        crawler.crawl();
+    }
 
     public static void main(String[] args) throws IOException {
         Fetcher fetcher = new SimpleFetcher();
@@ -29,6 +55,12 @@ public class StartCrawler {
         FileStore fileStore = new FileStoreImpl();
 
         Crawler crawler = new Crawler(fetcher, urlMarket, parser, fileStore);
-        crawler.crawl();
+//        crawler.crawl();
+
+        StartCrawler startCrawler = new StartCrawler(crawler);
+
+        startCrawler.startCrawl();
+
+
     }
 }

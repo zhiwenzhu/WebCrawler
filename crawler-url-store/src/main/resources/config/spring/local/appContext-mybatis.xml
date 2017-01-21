@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <bean id="urlDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="jdbcUrl" value="jdbc:mysql://ahuazhu.com:3306/WebTest?characterEncoding=UTF-8&amp;allowMultiQueries=true"/>
+        <property name="jdbcUrl" value="jdbc:mysql://ahuazhu.com:3306/WebTest?characterEncoding=UTF-8&amp;allowMultiQueries=true&amp;useSSL=false"/>
         <property name="user" value="WebTest"/>
         <property name="password" value="WebTest@0901"/>
 

@@ -23,7 +23,7 @@ public class SimpleFetcher implements Fetcher {
     public String fetch(URL url) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
-        conn.setConnectTimeout(5 * 1000);
+        conn.setConnectTimeout(3 * 1000);
         if (conn.getResponseCode() == 200) {
             InputStream is = conn.getInputStream();
             String charset = "gb2312";
@@ -46,7 +46,8 @@ public class SimpleFetcher implements Fetcher {
             is.close();
             return sb.toString();
         } else {
-            throw new IOException(conn.getResponseCode() + " " + conn.getResponseMessage());
+//            throw new IOException(conn.getResponseCode() + " " + conn.getResponseMessage());
+            return null;
         }
     }
 }

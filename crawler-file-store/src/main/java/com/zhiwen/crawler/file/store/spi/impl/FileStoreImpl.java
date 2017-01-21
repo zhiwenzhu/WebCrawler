@@ -40,7 +40,7 @@ public class FileStoreImpl implements FileStore {
         }
     }
 
-    public void save(List<Page> pages) {
+    public synchronized void save(List<Page> pages) {
         Date date = new Date();
 
         secondDir = DATE_FORMAT.format(date) + "/";

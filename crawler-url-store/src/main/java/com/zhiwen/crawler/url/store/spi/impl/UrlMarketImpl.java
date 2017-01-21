@@ -104,10 +104,12 @@ public class UrlMarketImpl implements UrlMarket {
     }
     private Queue<String> fetchUrlsFromFileToQueue() {
         String name = getLatestUrlsFileName();
+        System.out.println(name);
         Queue<String> urls = null;
         if (StringUtils.isNotBlank(name)) {
             urls = FileWriteUtil.getAndRmUrlsFromFile(URLS_STORE_PATH + name);
         }
+        System.out.println(urls.size());
         return urls;
     }
 
