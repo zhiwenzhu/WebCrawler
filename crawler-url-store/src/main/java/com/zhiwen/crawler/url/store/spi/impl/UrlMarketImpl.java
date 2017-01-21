@@ -34,6 +34,8 @@ public class UrlMarketImpl implements UrlMarket {
 //    private static final String URLS_STORE_PATH = DirectoryPath.URL_STORE_PATH;
     private static final String URLS_STORE_PATH = "/media/chu/My Passport/zhiwen/urls/";
 
+    private int writeNameToFileCount = 0;
+
 
     public synchronized void deposit(Collection<String> urls) {
         synchronized (urlSet) {
@@ -44,11 +46,24 @@ public class UrlMarketImpl implements UrlMarket {
                 }
 
                 if (urlSet.size() >= 10000) {
-                    BloomUtil.writeToFile(bloomFilter, BLOOM_OBJECT_PATH);
+                    writeNameToFileCount ++;
                     String fileName = FileNameGenerator.nextId();
+                    System.out.println("开始写url到文件" + writeNameToFileCount);
                     writeUrlsToFile(URLS_STORE_PATH + fileName, urlSet);
+                    System.out.println("写url到文件完成");
+                    System.out.println("开始写文件名到database");
                     addFileNameToDataBase(fileName);
+                    System.out.println("写文件名到database完成");
                     urlSet.clear();
+
+                }
+
+                //存储十次url(即10万条url),写一次bloomfilter到文件中
+                if (writeNameToFileCount >= 10) {
+                    System.out.println("开始写到bloomFilter");
+                    BloomUtil.writeToFile(bloomFilter, BLOOM_OBJECT_PATH);
+                    System.out.println("写到bloomFilter完成");
+                    writeNameToFileCount = 0;
                 }
             }
         }

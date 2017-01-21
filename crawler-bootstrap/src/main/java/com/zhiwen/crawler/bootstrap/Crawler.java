@@ -11,10 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 /**
  * Created by zhengwenzhu on 2017/1/12.
@@ -31,7 +28,8 @@ public class Crawler {
 
     private Parser parser;
 
-    private ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(30);
+//    private ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(30);
+    private ThreadPoolExecutor tpe = new ThreadPoolExecutor(20, 30, 3L, TimeUnit.MINUTES, new LinkedBlockingDeque<Runnable>());
 
     private volatile boolean stop = false;
 
@@ -46,9 +44,9 @@ public class Crawler {
 
     public void crawl() {
         while (!stop) {
-            if (tpe.getQueue().size() < 150) {
+            if (tpe.getQueue().size() < 200) {
                 System.out.println(Thread.currentThread() + ":" + Thread.currentThread().getState());
-                Collection<String> urls = urlMarket.withdraw(BATCH_SIZE);
+                Collection<String> urls = urlMarket.withdraw(BATCH_SIZE * 2);
                 System.out.println("第" + withdrawCount++ + "次：从ｑueue中取了" + urls.size() + "条url");
                 if (urls.size() == 0) {
                     sleep(SLEEP_TIME_MILLS);
