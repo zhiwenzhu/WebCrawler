@@ -20,7 +20,7 @@ public class FileStoreImpl implements FileStore {
 
     private static final String FILE_STORE_DIR = "/media/chu/My Passport/zhiwen/crawler/";
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddhhmmSS");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmSS");
 
     private String secondDir;
 

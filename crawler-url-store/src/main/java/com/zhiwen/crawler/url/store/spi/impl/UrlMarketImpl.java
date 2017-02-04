@@ -39,13 +39,14 @@ public class UrlMarketImpl implements UrlMarket {
 
     public synchronized void deposit(Collection<String> urls) {
         synchronized (urlSet) {
+//            System.out.println(urlSet.size());
             for (String url : urls) {
                 if (!hasVisited(url)) {
                     urlSet.add(url);
                     bloomFilter.addUrl(url);
                 }
 
-                if (urlSet.size() >= 10000) {
+                if (urlSet.size() >= 1000) {
                     writeNameToFileCount ++;
                     String fileName = FileNameGenerator.nextId();
                     System.out.println("开始写url到文件" + writeNameToFileCount);
@@ -59,7 +60,7 @@ public class UrlMarketImpl implements UrlMarket {
                 }
 
                 //存储十次url(即10万条url),写一次bloomfilter到文件中
-                if (writeNameToFileCount >= 10) {
+                if (writeNameToFileCount >= 100) {
                     System.out.println("开始写到bloomFilter");
                     BloomUtil.writeToFile(bloomFilter, BLOOM_OBJECT_PATH);
                     System.out.println("写到bloomFilter完成");
