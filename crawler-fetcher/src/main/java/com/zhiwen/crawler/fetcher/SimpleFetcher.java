@@ -38,7 +38,8 @@ public class SimpleFetcher implements Fetcher {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, charset));
 
-            StringBuilder sb = new StringBuilder();
+//            StringBuilder sb = new StringBuilder();
+            StringBuffer sb = new StringBuffer();
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);

@@ -28,7 +28,7 @@ public class Crawler {
 
     private Parser parser;
 
-    private ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(30);
+    private ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(200);
 
     private volatile boolean stop = false;
 
@@ -92,6 +92,7 @@ public class Crawler {
     private Future process(final String url) throws IOException {
         return tpe.submit(new Callable<Object>() {
             public Object call() throws IOException {
+                Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
                 String content = fetcher.fetch(url);
                 if (StringUtils.isNotBlank(content)) {
                     Page page = parser.parse(url, content);

@@ -26,6 +26,8 @@ public class StartCrawler {
         Parser parser = new HtmlParser();
         FileStore fileStore = new FileStoreImpl();
 
+        Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+
         Crawler crawler = new Crawler(fetcher, urlMarket, parser, fileStore);
         crawler.crawl();
 
