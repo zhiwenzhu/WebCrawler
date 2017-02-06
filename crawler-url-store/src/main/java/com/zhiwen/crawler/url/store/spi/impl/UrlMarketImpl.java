@@ -77,27 +77,29 @@ public class UrlMarketImpl implements UrlMarket {
         }
     }
 
-    public synchronized Collection<String> withdraw(int batchSize) {
-        if (urlQueue.size() == 0) {
-            urlQueue = fetchUrlsFromFileToQueue();
-            if (urlQueue == null || urlQueue.size() == 0) {
-                urlQueue = new LinkedList<String>();
-                urlQueue.addAll(urlSet);
-                urlSet.clear();
+    public  Collection<String> withdraw(int batchSize) {
+        synchronized (urlQueue) {
+            if (urlQueue.size() == 0) {
+                urlQueue = fetchUrlsFromFileToQueue();
+                if (urlQueue == null || urlQueue.size() == 0) {
+                    urlQueue = new LinkedList<String>();
+                    urlQueue.addAll(urlSet);
+                    urlSet.clear();
+                }
             }
-        }
 
-        Set<String> urls = new HashSet<String>(batchSize);
-        int size = urlQueue.size();
-        for (int i = 0; i < batchSize && i < size; i ++) {
-            String url = urlQueue.poll();
+            Set<String> urls = new HashSet<String>(batchSize);
+            int size = urlQueue.size();
+            for (int i = 0; i < batchSize && i < size; i ++) {
+                String url = urlQueue.poll();
 
-            if (url != null) {
-                urls.add(url);
+                if (url != null) {
+                    urls.add(url);
+                }
             }
-        }
 
-        return urls;
+            return urls;
+        }
     }
 
     public boolean hasVisited(String url) {
