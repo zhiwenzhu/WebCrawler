@@ -1,6 +1,5 @@
 package com.zhiwen.crawler.url.store.spi.impl;
 
-import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.strategy.BloomFilter;
 import com.zhiwen.crawler.common.strategy.BloomUtil;
 import com.zhiwen.crawler.common.util.FileNameGenerator;
@@ -11,10 +10,8 @@ import com.zhiwen.crawler.url.store.spi.UrlsFileNameService;
 import com.zhiwen.crawler.url.store.util.SpringUtil;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.*;
+
 
 /**
  * Created by zhiwenzhu on 17/1/12.
@@ -36,10 +33,8 @@ public class UrlMarketImpl implements UrlMarket {
 
     private int writeNameToFileCount = 0;
 
-
     public synchronized void deposit(Collection<String> urls) {
         synchronized (urlSet) {
-//            System.out.println(urlSet.size());
             for (String url : urls) {
                 if (!hasVisited(url)) {
                     urlSet.add(url);
@@ -53,7 +48,7 @@ public class UrlMarketImpl implements UrlMarket {
                     writeUrlsToFile(URLS_STORE_PATH + fileName, urlSet);
                     System.out.println("写url到文件完成");
                     System.out.println("开始写文件名到database");
-                    addFileNameToDataBase(fileName);
+                    addFileNameToDataBase(fileName);                 //出现bug:写fileName到database会造成除主线程外的所有线程阻塞
                     System.out.println("写文件名到database完成");
                     urlSet.clear();
 
