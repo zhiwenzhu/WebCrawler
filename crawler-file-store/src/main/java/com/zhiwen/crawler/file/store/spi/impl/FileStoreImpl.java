@@ -8,9 +8,7 @@ import com.zhiwen.crawler.common.util.FileNameGenerator;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by zhiwenzhu on 17/1/16.
@@ -18,7 +16,7 @@ import java.util.List;
 public class FileStoreImpl implements FileStore {
 //    private static final String FILE_STORE_DIR = "/crawler_file_store/";
 
-    private static final String FILE_STORE_DIR = "/media/chu/My Passport/zhiwen/crawler3/";
+    private static final String FILE_STORE_DIR = "/media/chu/My Passport/zhiwen/crawler5/";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmSS");
 
@@ -28,19 +26,32 @@ public class FileStoreImpl implements FileStore {
 
     public static int saveCount;
 
-    public synchronized void save(Page page) {
-        if (pages.size() < 100) {
-            pages.add(page);
-            System.out.println(Thread.currentThread().getName() + "下载页面数量：" + pages.size());
-        } else {
-            save(pages);
+    private Map<String, Integer> pageNumOfThread = new HashMap<String, Integer>();
 
-            System.out.println("第" + saveCount++ + "次：" + Thread.currentThread().getName() + "储存100个页面完成");
-            pages.clear();
+    public void save(Page page) {
+        synchronized (pages) {
+            if (pages.size() < 100) {
+                pages.add(page);
+                String currentThread = Thread.currentThread().getName();
+                if (pageNumOfThread.containsKey(currentThread)) {
+                    int num = pageNumOfThread.get(currentThread);
+                    pageNumOfThread.put(currentThread, ++ num);
+                } else {
+                    pageNumOfThread.put(currentThread, 1);
+                }
+
+//                System.out.println(Thread.currentThread().getName() + "下载页面数量：" + pages.size());
+                System.out.println(pageNumOfThread.get(currentThread) + " " + currentThread + "下载页面数量：" + pages.size());
+            } else {
+                save(pages);
+                System.out.println("第" + saveCount++ + "次：" + Thread.currentThread().getName() + "储存100个页面完成");
+                pages.clear();
+            }
         }
+
     }
 
-    public synchronized void save(List<Page> pages) {
+    public void save(List<Page> pages) {
         Date date = new Date();
 
         secondDir = DATE_FORMAT.format(date) + "/";
