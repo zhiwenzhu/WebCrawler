@@ -17,6 +17,7 @@
         <module>crawler-url-store</module>
         <module>crawler-bootstrap</module>
         <module>crawler-common</module>
+        <module>crawler-monitor</module>
     </modules>
 
     <properties>
