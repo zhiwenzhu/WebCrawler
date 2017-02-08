@@ -24,6 +24,13 @@ public class SimpleHandler extends AbstractHandler {
         PrintWriter out = response.getWriter();
         out.println(generateRandomPage());
         baseRequest.setHandled(true);
+
+        //simulate network block for 0-2000ms
+        try {
+            Thread.sleep(new Random().nextInt(2000));
+        } catch (InterruptedException e) {
+            //ignore
+        }
     }
 
     private String generateRandomPage() {
