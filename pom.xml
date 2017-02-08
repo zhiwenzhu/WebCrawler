@@ -144,6 +144,12 @@
                 <version>1.7.22</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>9.4.0.v20161208</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
