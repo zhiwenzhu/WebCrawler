@@ -13,6 +13,11 @@ public class Model {
     private long totalBytes;
     private long totalCount;
 
+    public void acc(long count, long bytes) {
+        totalBytes += bytes;
+        totalCount += count;
+    }
+
     public static class MinuteStatistics {
         private long timestamp;
         private long count;
@@ -28,7 +33,7 @@ public class Model {
         }
 
         public void inc() {
-            count ++;
+            count++;
         }
 
         public long getTimestamp() {
