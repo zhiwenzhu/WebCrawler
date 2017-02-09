@@ -6,11 +6,11 @@ import java.util.Queue;
 
 /**
  * Created by zhiwenzhu on 17/1/8.
- *
+ * <p/>
  * 将字节流写进文件内
  */
 public class FileWriteUtil {
-    public static void writeToFile(String filePath, String content, boolean append) {
+    public static long writeToFile(String filePath, String content, boolean append) {
         File file = new File(filePath);
         try {
             if (!file.exists()) {
@@ -20,8 +20,10 @@ public class FileWriteUtil {
             OutputStream ops = new FileOutputStream(file, append);
             ops.write(bytes);
             ops.close();
+            return bytes.length;
         } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
     }
 

@@ -4,6 +4,7 @@ import com.zhiwen.crawler.common.model.Page;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
 import com.zhiwen.crawler.file.store.spi.FileStore;
 import com.zhiwen.crawler.common.util.FileNameGenerator;
+import com.zhiwen.crawler.monitor.Monitor;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -14,9 +15,8 @@ import java.util.*;
  * Created by zhiwenzhu on 17/1/16.
  */
 public class FileStoreImpl implements FileStore {
-//    private static final String FILE_STORE_DIR = "/crawler_file_store/";
 
-    private static final String FILE_STORE_DIR = "/media/chu/My Passport/zhiwen/crawler5/";
+    private static final String FILE_STORE_DIR = "/tmp";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmSS");
 
@@ -62,7 +62,9 @@ public class FileStoreImpl implements FileStore {
             String content = genContent(page);
             String fileName = FileNameGenerator.nextId();
 
-            FileWriteUtil.writeToFile(path + fileName, content, false);
+            long bytes = FileWriteUtil.writeToFile(path + fileName, content, false);
+
+            Monitor.acc(bytes);
         }
     }
 

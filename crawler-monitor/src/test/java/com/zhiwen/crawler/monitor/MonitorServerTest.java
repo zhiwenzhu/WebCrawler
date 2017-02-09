@@ -14,6 +14,6 @@ public class MonitorServerTest extends TestCase {
 
         server.start();
 
-        System.in.read();
+//        System.in.read();
     }
 }

@@ -23,42 +23,25 @@ public class Monitor {
 
     }
 
-    public static void start() {
+    public static void acc(long size) {
+        acc(1, size);
+    }
+
+    public static void acc(long count, long size) {
         checkAndInit();
-        instance.internalStart();
+        instance.internalAcc(count, size);
     }
 
-    public static void stop() {
-        checkAndInit();
-        instance.internalStop();
+    private void internalAcc(long count, long size) {
+        model.acc(count, size);
     }
 
-    public static void count() {
-        checkAndInit();
-        instance.internalCount(1);
-    }
-
-    public static void count(int num) {
-        checkAndInit();
-        instance.internalCount(num);
-    }
-
-    private void internalCount(int num) {
-
-    }
-
-    private boolean started = false;
-
+    private Model model;
 
     private void internalInit() {
-
-    }
-
-    private void internalStop() {
-
-    }
-
-    private void internalStart() {
+        model = new Model();
+        MonitorServer monitorServer = new MonitorServer(model);
+        monitorServer.start();
 
     }
 
