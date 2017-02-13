@@ -28,7 +28,7 @@ public class Crawler {
 
     private Parser parser;
 
-    private ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(30);
+    private ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 
     private volatile boolean stop = false;
 

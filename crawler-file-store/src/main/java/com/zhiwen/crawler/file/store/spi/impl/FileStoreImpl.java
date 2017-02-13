@@ -1,9 +1,9 @@
 package com.zhiwen.crawler.file.store.spi.impl;
 
 import com.zhiwen.crawler.common.model.Page;
+import com.zhiwen.crawler.common.util.FileNameGenerator;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
 import com.zhiwen.crawler.file.store.spi.FileStore;
-import com.zhiwen.crawler.common.util.FileNameGenerator;
 import com.zhiwen.crawler.monitor.Monitor;
 
 import java.io.File;
@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class FileStoreImpl implements FileStore {
 
-    private static final String FILE_STORE_DIR = "/tmp";
+    private static final String FILE_STORE_DIR = "/media/chu/My Passport/zhiwen/crawler7/";
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmSS");
 
@@ -28,8 +28,26 @@ public class FileStoreImpl implements FileStore {
 
     private Map<String, Integer> pageNumOfThread = new HashMap<String, Integer>();
 
+    private long date = System.currentTimeMillis();
+
+    private Map<String, Integer> prePageNumOfThread = new HashMap<String, Integer>();
+
     public void save(Page page) {
         synchronized (pages) {
+            long current = System.currentTimeMillis();
+            if ((current - date) > 1000 * 60 * 1) {
+                Set<Map.Entry<String, Integer>> entries = pageNumOfThread.entrySet();
+
+                for (Map.Entry<String, Integer> entry : entries) {
+                    System.out.println(entry.getKey() + ":" + entry.getValue() + " " +
+                            (prePageNumOfThread.entrySet().size() != 0 ? prePageNumOfThread.get(entry.getKey()) : ""));
+                }
+                System.out.println("没有进展的线程数量是:" + getNumOfNoProgressThreads());
+                date = current;
+                prePageNumOfThread.clear();
+                prePageNumOfThread.putAll(pageNumOfThread);
+
+            }
             if (pages.size() < 100) {
                 pages.add(page);
                 String currentThread = Thread.currentThread().getName();
@@ -41,7 +59,7 @@ public class FileStoreImpl implements FileStore {
                 }
 
 //                System.out.println(Thread.currentThread().getName() + "下载页面数量：" + pages.size());
-                System.out.println(pageNumOfThread.get(currentThread) + " " + currentThread + "下载页面数量：" + pages.size());
+//                System.out.println(pageNumOfThread.get(currentThread) + " " + currentThread + "下载页面数量：" + pages.size());
             } else {
                 save(pages);
                 System.out.println("第" + saveCount++ + "次：" + Thread.currentThread().getName() + "储存100个页面完成");
@@ -80,5 +98,16 @@ public class FileStoreImpl implements FileStore {
         String content = page.getUrl() + "\n" + page.getContent();
 
         return content;
+    }
+
+    private int getNumOfNoProgressThreads() {
+        int result = 0;
+        for (Map.Entry<String, Integer> entry : pageNumOfThread.entrySet()) {
+            if (entry.getValue() == prePageNumOfThread.get(entry.getKey())) {
+                result ++;
+            }
+        }
+
+        return result;
     }
 }

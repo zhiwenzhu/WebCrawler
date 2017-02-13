@@ -8,6 +8,8 @@ import org.junit.Test;
 import javax.annotation.Resource;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -39,6 +41,17 @@ public class UrlsFileNameDaoTest extends TestBase {
 //        Assert.assertNotNull(result);
 
         //insert operation test success
+    }
+
+    @Test
+    public void getFilesNameForTest() throws Exception {
+        Assert.assertNotNull(urlsFileNameDao);
+
+        LinkedList<String> names = (LinkedList<String>) urlsFileNameDao.getFilesNameForTest();
+
+        for (String name : names) {
+            System.out.println(name);
+        }
     }
 
 }

@@ -33,6 +33,10 @@ public class UrlMarketImpl implements UrlMarket {
 
     private int writeNameToFileCount = 0;
 
+    private Queue<String> urlFileNameQueue = new LinkedList<String>();
+
+    private boolean isOver = false;
+
     public synchronized void deposit(Collection<String> urls) {
         synchronized (urlSet) {
             for (String url : urls) {
@@ -47,9 +51,9 @@ public class UrlMarketImpl implements UrlMarket {
                     System.out.println("开始写url到文件" + writeNameToFileCount);
                     writeUrlsToFile(URLS_STORE_PATH + fileName, urlSet);
                     System.out.println("写url到文件完成");
-                    System.out.println("开始写文件名到database");
-                    addFileNameToDataBase(fileName);                 //出现bug:写fileName到database会造成除主线程外的所有线程阻塞
-                    System.out.println("写文件名到database完成");
+//                    System.out.println("开始写文件名到database");
+//                    addFileNameToDataBase(fileName);                 //出现bug:写fileName到database会造成除主线程外的所有线程阻塞
+//                    System.out.println("写文件名到database完成");
                     urlSet.clear();
 
                 }
@@ -122,17 +126,26 @@ public class UrlMarketImpl implements UrlMarket {
         if (StringUtils.isNotBlank(name)) {
             urls = FileWriteUtil.getAndRmUrlsFromFile(URLS_STORE_PATH + name);
         }
-        System.out.println(urls.size());
+        System.out.println(urls.size() + " urlFileNameQueueSize:" + urlFileNameQueue.size());
         return urls;
     }
 
     private String getLatestUrlsFileName() {
 
-        String name = ufs.getFirstFileName();
-        if (StringUtils.isNotBlank(name)) {
-            ufs.deleteFirstFileName(name);
+//        String name = ufs.getFirstFileName();
+//        if (StringUtils.isNotBlank(name)) {
+//            ufs.deleteFirstFileName(name);
+//        }
+//        return name;
+
+        if (urlFileNameQueue.size() == 0 && !isOver) {
+            urlFileNameQueue = ufs.getFilesNameForTest();
+            isOver = true;
         }
-        return name;
+        if (urlFileNameQueue.size() != 0) {
+            return urlFileNameQueue.poll();
+        }
+        return null;
     }
 
     private void addFileNameToDataBase(String fileName) {

@@ -18,4 +18,9 @@
         DELETE FROM FileName
         WHERE Name = #{name}
     </delete>
+
+    <select id="getFilesNameForTest" resultType="String">
+        SELECT Name FROM FileName
+        WHERE Id &lt; 10000
+    </select>
 </mapper>

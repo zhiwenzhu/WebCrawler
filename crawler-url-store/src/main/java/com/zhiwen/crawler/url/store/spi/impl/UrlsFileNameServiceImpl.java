@@ -8,6 +8,9 @@ import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by chu on 17-1-19.
  */
@@ -37,5 +40,9 @@ public class UrlsFileNameServiceImpl implements UrlsFileNameService {
         Assert.assertNotNull(name);
 
         System.out.println(name);
+    }
+
+    public LinkedList<String> getFilesNameForTest() {
+        return urlsFileNameDao.getFilesNameForTest();
     }
 }
