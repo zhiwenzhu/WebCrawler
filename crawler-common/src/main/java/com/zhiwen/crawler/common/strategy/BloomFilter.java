@@ -76,9 +76,6 @@ public class BloomFilter implements Serializable {
             BloomFilter bloomFilter = (BloomFilter) ois.readObject();
 
             System.out.println(bloomFilter.contains("www.baidu.com"));
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

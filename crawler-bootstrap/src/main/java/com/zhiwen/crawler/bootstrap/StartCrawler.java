@@ -11,8 +11,6 @@ import com.zhiwen.crawler.url.store.spi.UrlMarket;
 import com.zhiwen.crawler.url.store.spi.impl.UrlMarketImpl;
 
 import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by zhiwenzhu on 17/1/6.

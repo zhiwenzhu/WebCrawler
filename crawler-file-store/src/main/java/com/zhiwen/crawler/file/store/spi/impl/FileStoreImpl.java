@@ -1,5 +1,6 @@
 package com.zhiwen.crawler.file.store.spi.impl;
 
+import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.model.Page;
 import com.zhiwen.crawler.common.util.FileNameGenerator;
 import com.zhiwen.crawler.common.util.FileWriteUtil;
@@ -16,7 +17,7 @@ import java.util.*;
  */
 public class FileStoreImpl implements FileStore {
 
-    private static final String FILE_STORE_DIR = "/media/chu/My Passport/zhiwen/crawler7/";
+    private static final String FILE_STORE_DIR = DirectoryPath.FILE_SToRE_PATH;
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmSS");
 
@@ -57,9 +58,6 @@ public class FileStoreImpl implements FileStore {
                 } else {
                     pageNumOfThread.put(currentThread, 1);
                 }
-
-//                System.out.println(Thread.currentThread().getName() + "下载页面数量：" + pages.size());
-//                System.out.println(pageNumOfThread.get(currentThread) + " " + currentThread + "下载页面数量：" + pages.size());
             } else {
                 save(pages);
                 System.out.println("第" + saveCount++ + "次：" + Thread.currentThread().getName() + "储存100个页面完成");

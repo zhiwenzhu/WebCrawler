@@ -28,7 +28,7 @@ public class Crawler {
 
     private Parser parser;
 
-    private ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+    private ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(30);
 
     private volatile boolean stop = false;
 
@@ -44,7 +44,6 @@ public class Crawler {
     public void crawl() {
         while (!stop) {
             if (tpe.getQueue().size() < 200) {
-                System.out.println(Thread.currentThread() + ":" + Thread.currentThread().getState());
                 Collection<String> urls = urlMarket.withdraw(BATCH_SIZE * 2);
                 System.out.println("第" + withdrawCount++ + "次：从ｑueue中取了" + urls.size() + "条url");
                 if (urls.size() == 0) {
@@ -59,14 +58,12 @@ public class Crawler {
                         }
                     }
 
-                    sleep(SLEEP_TIME_MILLS * 10);
+                    sleep(SLEEP_TIME_MILLS * 5);
 
                     waitAllDone(results);
                 }
             } else {
-                System.out.println("sleep" + tpe.getQueue().size());
-                System.out.println("线程池大小：" + tpe.getCorePoolSize());
-                sleep(SLEEP_TIME_MILLS * 3);
+                sleep(SLEEP_TIME_MILLS * 2);
             }
         }
     }
@@ -92,18 +89,12 @@ public class Crawler {
     private Future process(final String url) throws IOException {
         return tpe.submit(new Callable<Object>() {
             public Object call() throws IOException {
-                Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-                String threadName = Thread.currentThread().getName();
-//                System.out.println(threadName + " " + url + " begin");
                 String content = fetcher.fetch(url);
-//                System.out.println(threadName + " " + url + " end");
-                sleep(20);
                 if (StringUtils.isNotBlank(content)) {
                     Page page = parser.parse(url, content);
                     urlMarket.deposit(page.getUrls());
                     fileStore.save(page);
                 }
-
                 return null;
             }
         });

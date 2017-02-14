@@ -1,5 +1,6 @@
 package com.zhiwen.crawler.url.store.spi.impl;
 
+import com.zhiwen.crawler.common.config.DirectoryPath;
 import com.zhiwen.crawler.common.strategy.BloomFilter;
 import com.zhiwen.crawler.common.strategy.BloomUtil;
 import com.zhiwen.crawler.common.util.FileNameGenerator;
@@ -21,21 +22,15 @@ public class UrlMarketImpl implements UrlMarket {
 
     private Set<String> urlSet;
 
-//    private static final String BLOOM_OBJECT_PATH = DirectoryPath.BLOOM_OBJECT_PATH;
-    private static final String BLOOM_OBJECT_PATH = "/media/chu/My Passport/zhiwen/bloom/bloomFilter";
+    private static final String BLOOM_OBJECT_PATH = DirectoryPath.BLOOM_FILTER_STORE_PATH;
 
     private Queue<String> urlQueue;
 
     private BloomFilter bloomFilter = BloomUtil.getFromFile(BLOOM_OBJECT_PATH);
 
-//    private static final String URLS_STORE_PATH = DirectoryPath.URL_STORE_PATH;
-    private static final String URLS_STORE_PATH = "/media/chu/My Passport/zhiwen/urls/";
+    private static final String URL_STORE_PATH = DirectoryPath.URL_STORE_PATH;
 
     private int writeNameToFileCount = 0;
-
-    private Queue<String> urlFileNameQueue = new LinkedList<String>();
-
-    private boolean isOver = false;
 
     public synchronized void deposit(Collection<String> urls) {
         synchronized (urlSet) {
@@ -49,11 +44,11 @@ public class UrlMarketImpl implements UrlMarket {
                     writeNameToFileCount ++;
                     String fileName = FileNameGenerator.nextId();
                     System.out.println("开始写url到文件" + writeNameToFileCount);
-                    writeUrlsToFile(URLS_STORE_PATH + fileName, urlSet);
+                    writeUrlsToFile(URL_STORE_PATH + fileName, urlSet);
                     System.out.println("写url到文件完成");
-//                    System.out.println("开始写文件名到database");
-//                    addFileNameToDataBase(fileName);                 //出现bug:写fileName到database会造成除主线程外的所有线程阻塞
-//                    System.out.println("写文件名到database完成");
+                    System.out.println("开始写文件名到database");
+                    addFileNameToDataBase(fileName);                 //出现bug:写fileName到database会造成除主线程外的所有线程阻塞
+                    System.out.println("写文件名到database完成");
                     urlSet.clear();
 
                 }
@@ -107,7 +102,6 @@ public class UrlMarketImpl implements UrlMarket {
 
     public UrlMarketImpl() {
         urlSet = new HashSet<String>();
-
         urlQueue = new LinkedList<String>();
     }
 
@@ -121,31 +115,20 @@ public class UrlMarketImpl implements UrlMarket {
     }
     private Queue<String> fetchUrlsFromFileToQueue() {
         String name = getLatestUrlsFileName();
-        System.out.println(name);
         Queue<String> urls = null;
         if (StringUtils.isNotBlank(name)) {
-            urls = FileWriteUtil.getAndRmUrlsFromFile(URLS_STORE_PATH + name);
+            urls = FileWriteUtil.getAndRmUrlsFromFile(URL_STORE_PATH + name);
         }
-        System.out.println(urls.size() + " urlFileNameQueueSize:" + urlFileNameQueue.size());
         return urls;
     }
 
     private String getLatestUrlsFileName() {
 
-//        String name = ufs.getFirstFileName();
-//        if (StringUtils.isNotBlank(name)) {
-//            ufs.deleteFirstFileName(name);
-//        }
-//        return name;
-
-        if (urlFileNameQueue.size() == 0 && !isOver) {
-            urlFileNameQueue = ufs.getFilesNameForTest();
-            isOver = true;
+        String name = ufs.getFirstFileName();
+        if (StringUtils.isNotBlank(name)) {
+            ufs.deleteFirstFileName(name);
         }
-        if (urlFileNameQueue.size() != 0) {
-            return urlFileNameQueue.poll();
-        }
-        return null;
+        return name;
     }
 
     private void addFileNameToDataBase(String fileName) {
