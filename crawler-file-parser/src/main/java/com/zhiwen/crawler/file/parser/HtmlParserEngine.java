@@ -114,4 +114,13 @@ public class HtmlParserEngine {
         Lexer mLexer = new Lexer(new Page(inputHTML));
         return new Parser(mLexer, new DefaultParserFeedback(DefaultParserFeedback.QUIET));
     }
+
+    public String getTiltle(String content) {
+
+        return null;
+    }
+
+    public String getText(String content) {
+        return null;
+    }
 }

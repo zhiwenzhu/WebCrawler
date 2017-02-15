@@ -28,6 +28,10 @@ public class Page {
      */
     private Set<String> urls;
 
+    private String title;
+
+    private String text;
+
     public String getContent() {
         return content;
     }
@@ -52,4 +56,19 @@ public class Page {
         this.urls = urls;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }
