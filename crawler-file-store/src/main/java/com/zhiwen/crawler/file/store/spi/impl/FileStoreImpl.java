@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class FileStoreImpl implements FileStore {
 
-    private static final String FILE_STORE_DIR = DirectoryPath.FILE_SToRE_PATH;
+    private static final String FILE_STORE_DIR = DirectoryPath.FILE_STORE_PATH;
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmSS");
 

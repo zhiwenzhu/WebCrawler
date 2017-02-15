@@ -6,7 +6,7 @@ package com.zhiwen.crawler.common.config;
 public class DirectoryPath {
     public static final String URL_STORE_PATH = "/tmp/url/";
 
-    public static final String FILE_SToRE_PATH = "/tmp/file/";
+    public static final String FILE_STORE_PATH = "/tmp/file/";
 
     public static final String BLOOM_FILTER_STORE_PATH = "/tmp/Bloom/bloomfilter";
 }
